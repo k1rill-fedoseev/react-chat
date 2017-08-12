@@ -1,0 +1,904 @@
+[2017-08-09 13:42:06.406] [INFO] main - Running server on 3001 port
+[2017-08-09 13:42:06.440] [INFO] main - Connected to db
+[2017-08-09 13:42:15.842] [TRACE] userModel - Generated new token 507548e4a0579a223909742af4bc6a5ef3d1d9ef for user admin
+[2017-08-09 13:42:15.875] [TRACE] userModel - Generated new token 970cd0b61688790d1145bf4f4bf84ed67c3f0dd4 for user admin
+[2017-08-09 13:50:20.035] [TRACE] userModel - Generated new token 2c07499a00ff80feee3e5c492ff6a6401a219bb2 for user admin
+[2017-08-09 13:50:20.115] [TRACE] userModel - Generated new token 96b87dba958ed23908357aaba43b231be77a26ac for user admin
+[2017-08-09 13:57:00.331] [TRACE] userModel - Generated new token 5dcf9e0c503d2c97b2ebfa175f37734dd1c9dde4 for user admin
+[2017-08-09 13:57:00.345] [TRACE] userModel - Generated new token 5184342a9f3a5cff4427035d949648de89d7a354 for user admin
+[2017-08-09 13:57:44.885] [TRACE] userModel - Generated new token 278acd941de7b312b7cf279dbb5ca6e56b2b23dc for user admin
+[2017-08-09 13:57:44.895] [TRACE] userModel - Generated new token 9f9cd8b99645e58efc87ea47f8462cd2f5bda9f3 for user admin
+[2017-08-09 14:02:46.206] [INFO] main - Running server on 3001 port
+[2017-08-09 14:02:46.251] [INFO] main - Connected to db
+[2017-08-09 14:03:09.731] [TRACE] userModel - Generated new token cdcc13eb3f4d8a90486adad61d180c3cbbb83e2c for user admin
+[2017-08-09 14:04:37.758] [TRACE] userModel - Generated new token afd28b7b16ccb5273e7867661fab31514eeb574c for user admin
+[2017-08-09 14:06:12.980] [TRACE] userModel - Generated new token 71b404e9dc8c4b5345acbf84333b80b793591b12 for user admin
+[2017-08-09 14:07:44.659] [INFO] main - Running server on 3001 port
+[2017-08-09 14:07:44.709] [INFO] main - Connected to db
+[2017-08-09 14:07:54.441] [TRACE] userModel - Generated new token d768d4ea61f2983248ff3bcc28fb42c8168b7f26 for user admin
+[2017-08-09 14:52:53.284] [INFO] main - Running server on 3001 port
+[2017-08-09 14:52:53.323] [INFO] main - Connected to db
+[2017-08-09 14:53:15.972] [INFO] main - Running server on 3001 port
+[2017-08-09 14:53:16.019] [INFO] main - Connected to db
+[2017-08-09 14:53:29.591] [INFO] main - Running server on 3001 port
+[2017-08-09 14:53:29.619] [INFO] main - Connected to db
+[2017-08-09 14:56:38.880] [INFO] main - Running server on 3001 port
+[2017-08-09 14:56:38.904] [INFO] main - Connected to db
+[2017-08-09 16:26:51.626] [INFO] main - Running server on 3001 port
+[2017-08-09 16:26:52.638] [WARN] main - Disconnected from db
+[2017-08-09 16:26:52.640] [ERROR] main - Error with db connection MongoError: failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+[2017-08-09 16:26:57.843] [INFO] main - Running server on 3001 port
+[2017-08-09 16:26:57.867] [INFO] main - Connected to db
+[2017-08-09 16:28:23.781] [INFO] main - Running server on 3001 port
+[2017-08-09 16:28:23.803] [INFO] main - Connected to db
+[2017-08-09 16:30:34.983] [INFO] main - Running server on 3001 port
+[2017-08-09 16:30:35.002] [INFO] main - Connected to db
+[2017-08-09 16:31:19.230] [INFO] main - Running server on 3001 port
+[2017-08-09 16:31:19.255] [INFO] main - Connected to db
+[2017-08-09 16:31:50.089] [ERROR] sockets - { ValidationError: openroom validation failed: owner: Path `owner` is required.
+    at ValidationError.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validation.js:57:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at Object.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:34:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at formatLogData (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:54:22)
+    at basicLayout (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:116:7)
+    at Logger.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\appenders\file.js:63:18)
+    at emitOne (events.js:101:20)
+    at Logger.emit (events.js:191:7)
+    at Logger._log (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:96:8)
+    at Logger.(anonymous function) [as error] (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:89:12)
+    at messageManager.create (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:154:41)
+  errors: 
+   { owner: 
+      { MongooseError: Path `owner` is required.
+          at ValidatorError (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validator.js:24:11)
+          at validate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:758:13)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:805:11
+          at Array.forEach (native)
+          at ObjectId.SchemaType.doValidate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:765:19)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\document.js:1480:9
+          at _combinedTickCallback (internal/process/next_tick.js:73:7)
+          at process._tickCallback (internal/process/next_tick.js:104:9)
+        message: 'Path `owner` is required.',
+        name: 'ValidatorError',
+        properties: [Object],
+        kind: 'required',
+        path: 'owner',
+        value: undefined,
+        reason: undefined,
+        '$isValidatorError': true } },
+  _message: 'openroom validation failed',
+  name: 'ValidationError' }
+[2017-08-09 16:33:41.223] [INFO] main - Running server on 3001 port
+[2017-08-09 16:33:41.244] [INFO] main - Connected to db
+[2017-08-09 16:33:55.807] [INFO] main - Running server on 3001 port
+[2017-08-09 16:33:55.826] [INFO] main - Connected to db
+[2017-08-09 16:34:04.649] [INFO] main - Running server on 3001 port
+[2017-08-09 16:34:04.673] [INFO] main - Connected to db
+[2017-08-09 16:35:48.303] [INFO] main - Running server on 3001 port
+[2017-08-09 16:35:48.323] [INFO] main - Connected to db
+[2017-08-09 16:36:18.471] [TRACE] PASSWORD - admin 123
+[2017-08-09 16:37:58.909] [INFO] main - Running server on 3001 port
+[2017-08-09 16:37:58.930] [INFO] main - Connected to db
+[2017-08-09 16:38:23.565] [TRACE] PASSWORD - admin 123
+[2017-08-09 16:38:23.566] [TRACE] userModel - Generated new token 7491725330c2fd82cfdb572221fe100718499e9d for user admin
+[2017-08-09 16:44:06.050] [INFO] main - Running server on 3001 port
+[2017-08-09 16:44:06.072] [INFO] main - Connected to db
+[2017-08-09 16:44:24.940] [INFO] main - Running server on 3001 port
+[2017-08-09 16:44:24.960] [INFO] main - Connected to db
+[2017-08-09 16:44:39.039] [INFO] main - Running server on 3001 port
+[2017-08-09 16:44:39.064] [INFO] main - Connected to db
+[2017-08-09 16:45:06.561] [TRACE] PASSWORD - admin 123
+[2017-08-09 16:45:06.562] [TRACE] userModel - Generated new token 1aae635930e9f03cef85e86df92a2f6527573616 for user admin
+[2017-08-09 16:48:18.095] [INFO] main - Running server on 3001 port
+[2017-08-09 16:48:18.115] [INFO] main - Connected to db
+[2017-08-09 16:48:40.014] [TRACE] PASSWORD - 3 4
+[2017-08-09 16:48:40.015] [TRACE] userModel - Generated new token 4b96752def38a1d1deeb3b7f10e884feb1647748 for user 3
+[2017-08-09 16:50:03.810] [INFO] main - Running server on 3001 port
+[2017-08-09 16:50:03.827] [INFO] main - Connected to db
+[2017-08-09 16:50:14.555] [INFO] main - Running server on 3001 port
+[2017-08-09 16:50:14.574] [INFO] main - Connected to db
+[2017-08-09 16:50:20.592] [INFO] main - Running server on 3001 port
+[2017-08-09 16:50:20.611] [INFO] main - Connected to db
+[2017-08-09 16:51:49.647] [INFO] main - Running server on 3001 port
+[2017-08-09 16:51:49.687] [INFO] main - Connected to db
+[2017-08-09 16:53:38.765] [INFO] main - Running server on 3001 port
+[2017-08-09 16:53:38.806] [INFO] main - Connected to db
+[2017-08-09 16:54:29.775] [INFO] main - Running server on 3001 port
+[2017-08-09 16:54:29.805] [INFO] main - Connected to db
+[2017-08-09 16:55:08.055] [INFO] main - Running server on 3001 port
+[2017-08-09 16:55:08.085] [INFO] main - Connected to db
+[2017-08-09 16:59:10.192] [INFO] main - Running server on 3001 port
+[2017-08-09 16:59:10.217] [INFO] main - Connected to db
+[2017-08-09 17:00:32.312] [INFO] main - Running server on 3001 port
+[2017-08-09 17:00:32.344] [INFO] main - Connected to db
+[2017-08-09 17:03:03.058] [INFO] main - Running server on 3001 port
+[2017-08-09 17:03:03.094] [INFO] main - Connected to db
+[2017-08-09 17:04:00.087] [INFO] main - Running server on 3001 port
+[2017-08-09 17:04:00.117] [INFO] main - Connected to db
+[2017-08-09 17:06:13.102] [INFO] main - Running server on 3001 port
+[2017-08-09 17:06:13.139] [INFO] main - Connected to db
+[2017-08-09 17:09:28.654] [INFO] main - Running server on 3001 port
+[2017-08-09 17:09:28.672] [INFO] main - Connected to db
+[2017-08-09 17:20:56.024] [INFO] main - Running server on 3001 port
+[2017-08-09 17:20:56.043] [INFO] main - Connected to db
+[2017-08-09 17:23:12.411] [INFO] main - Running server on 3001 port
+[2017-08-09 17:23:12.428] [INFO] main - Connected to db
+[2017-08-09 17:23:37.490] [TRACE] userModel - Generated new token db08893c0dba32149a2ca2055d83716c6d287179 for user 3
+[2017-08-09 17:23:37.494] [TRACE] userModel - Generated new token ac755cfb657950065095f41a08c13e1ff7e36c6f for user 3
+[2017-08-09 17:23:37.495] [TRACE] userModel - Generated new token 8a80728741bc6e9023d3788900c3ad302eb33d7d for user 3
+[2017-08-09 17:23:37.513] [TRACE] userModel - Generated new token aeaaf6096fcfe87d76da7d4ec3c2d8b12aa228d4 for user 3
+[2017-08-09 17:23:37.514] [TRACE] userModel - Generated new token cb0b08c4d2bb523fe232f7ab24243a6ef61e9689 for user 3
+[2017-08-09 17:24:49.478] [INFO] main - Running server on 3001 port
+[2017-08-09 17:24:49.494] [INFO] main - Connected to db
+[2017-08-09 17:26:12.808] [INFO] main - Running server on 3001 port
+[2017-08-09 17:26:12.832] [INFO] main - Connected to db
+[2017-08-09 17:35:58.263] [INFO] main - Running server on 3001 port
+[2017-08-09 17:35:58.284] [INFO] main - Connected to db
+[2017-08-09 17:38:13.594] [INFO] main - Running server on 3001 port
+[2017-08-09 17:38:13.634] [INFO] main - Connected to db
+[2017-08-09 17:51:04.924] [TRACE] PASSWORD - admin 123
+[2017-08-09 17:51:04.925] [TRACE] userModel - Generated new token aef832d2a3360693a8042686dc03a9653e73e212 for user admin
+[2017-08-09 18:06:51.659] [INFO] main - Running server on 3001 port
+[2017-08-09 18:06:51.688] [INFO] main - Connected to db
+[2017-08-09 18:08:42.991] [INFO] main - Running server on 3001 port
+[2017-08-09 18:08:43.011] [INFO] main - Connected to db
+[2017-08-09 18:09:37.090] [INFO] main - Running server on 3001 port
+[2017-08-09 18:09:37.109] [INFO] main - Connected to db
+[2017-08-09 18:10:39.504] [INFO] main - Running server on 3001 port
+[2017-08-09 18:10:39.522] [INFO] main - Connected to db
+[2017-08-09 18:15:11.654] [INFO] main - Running server on 3001 port
+[2017-08-09 18:15:11.677] [INFO] main - Connected to db
+[2017-08-09 18:17:45.269] [INFO] main - Running server on 3001 port
+[2017-08-09 18:17:45.302] [INFO] main - Connected to db
+[2017-08-09 18:24:29.461] [INFO] main - Running server on 3001 port
+[2017-08-09 18:24:29.479] [INFO] main - Connected to db
+[2017-08-09 18:24:58.112] [TRACE] PASSWORD - admin 123
+[2017-08-09 18:24:58.113] [TRACE] userModel - Generated new token 66d18ff5277422d162947c073a9c8807a3d958aa for user admin
+[2017-08-09 18:25:52.498] [INFO] main - Running server on 3001 port
+[2017-08-09 18:25:52.515] [INFO] main - Connected to db
+[2017-08-09 18:27:20.855] [INFO] main - Running server on 3001 port
+[2017-08-09 18:27:20.881] [INFO] main - Connected to db
+[2017-08-09 22:32:53.394] [INFO] main - Running server on 3001 port
+[2017-08-09 22:32:53.412] [INFO] main - Connected to db
+[2017-08-09 22:38:21.975] [INFO] main - Running server on 3001 port
+[2017-08-09 22:38:21.993] [INFO] main - Connected to db
+[2017-08-09 22:41:57.899] [INFO] main - Running server on 3001 port
+[2017-08-09 22:41:57.917] [INFO] main - Connected to db
+[2017-08-09 22:57:10.745] [INFO] main - Running server on 3001 port
+[2017-08-09 22:57:10.769] [INFO] main - Connected to db
+[2017-08-09 22:57:48.982] [INFO] main - Running server on 3001 port
+[2017-08-09 22:57:49.000] [INFO] main - Connected to db
+[2017-08-09 22:58:19.672] [INFO] main - Running server on 3001 port
+[2017-08-09 22:58:19.694] [INFO] main - Connected to db
+[2017-08-09 23:01:50.672] [TRACE] PASSWORD - admin 123
+[2017-08-09 23:01:50.673] [TRACE] userModel - Generated new token bf0e77cc6d90e89d04006b3f6cd4d19536c85074 for user admin
+[2017-08-09 23:11:06.570] [INFO] main - Running server on 3001 port
+[2017-08-09 23:11:06.605] [INFO] main - Connected to db
+[2017-08-09 23:12:26.097] [TRACE] PASSWORD - admin 123
+[2017-08-09 23:12:26.098] [TRACE] userModel - Generated new token d0824a936c7c3597c6387d4baaa9959e04213471 for user admin
+[2017-08-09 23:19:04.640] [INFO] main - Running server on 3001 port
+[2017-08-09 23:19:04.660] [INFO] main - Connected to db
+[2017-08-09 23:19:43.408] [INFO] main - Running server on 3001 port
+[2017-08-09 23:19:43.430] [INFO] main - Connected to db
+[2017-08-09 23:20:50.795] [INFO] main - Running server on 3001 port
+[2017-08-09 23:20:50.814] [INFO] main - Connected to db
+[2017-08-09 23:22:50.067] [INFO] main - Running server on 3001 port
+[2017-08-09 23:22:50.097] [INFO] main - Connected to db
+[2017-08-09 23:27:29.969] [INFO] main - Running server on 3001 port
+[2017-08-09 23:27:29.990] [INFO] main - Connected to db
+[2017-08-10 12:51:43.589] [INFO] main - Running server on 3001 port
+[2017-08-10 12:51:43.607] [INFO] main - Connected to db
+[2017-08-10 12:52:12.534] [TRACE] PASSWORD - admin 123
+[2017-08-10 12:52:12.535] [TRACE] userModel - Generated new token 7e5c3a5c71df66fca20f09cadaa1312caaf0d2ae for user admin
+[2017-08-10 13:19:58.775] [INFO] main - Running server on 3001 port
+[2017-08-10 13:19:58.797] [INFO] main - Connected to db
+[2017-08-10 13:20:38.334] [INFO] main - Running server on 3001 port
+[2017-08-10 13:20:38.354] [INFO] main - Connected to db
+[2017-08-10 14:42:37.041] [TRACE] PASSWORD - qwe qwe
+[2017-08-10 14:42:37.044] [TRACE] userModel - Generated new token 4b57408b76014764cfb5b5b1cb09ae365e951d69 for user qwe
+[2017-08-10 19:20:19.678] [INFO] main - Running server on 3001 port
+[2017-08-10 19:20:20.696] [WARN] main - Disconnected from db
+[2017-08-10 19:20:20.697] [ERROR] main - Error with db connection MongoError: failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+[2017-08-10 19:20:40.381] [INFO] main - Running server on 3001 port
+[2017-08-10 19:20:41.398] [WARN] main - Disconnected from db
+[2017-08-10 19:20:41.399] [ERROR] main - Error with db connection MongoError: failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+[2017-08-10 19:20:46.250] [INFO] main - Running server on 3001 port
+[2017-08-10 19:20:46.298] [INFO] main - Connected to db
+[2017-08-10 19:21:19.331] [TRACE] userModel - Generated new token 07cdc5eaed9c43f4669c9cd2ebbff8efcba1f521 for user admin
+[2017-08-10 20:06:04.807] [INFO] main - Running server on 3001 port
+[2017-08-10 20:06:04.825] [INFO] main - Connected to db
+[2017-08-10 20:06:19.187] [INFO] main - Running server on 3001 port
+[2017-08-10 20:06:19.207] [INFO] main - Connected to db
+[2017-08-10 20:08:25.547] [INFO] main - Running server on 3001 port
+[2017-08-10 20:08:25.568] [INFO] main - Connected to db
+[2017-08-10 20:08:55.615] [TRACE] PASSWORD - admin 123
+[2017-08-10 20:21:09.233] [INFO] main - Running server on 3001 port
+[2017-08-10 20:21:09.253] [INFO] main - Connected to db
+[2017-08-10 20:21:29.166] [INFO] main - Running server on 3001 port
+[2017-08-10 20:21:29.195] [INFO] main - Connected to db
+[2017-08-10 20:22:05.988] [TRACE] PASSWORD - admin 123
+[2017-08-10 20:22:05.989] [TRACE] userModel - Generated new token 1d59d4b2f6db26eb74be29046cbdbd62c236bb99 for user admin
+[2017-08-10 20:25:19.578] [TRACE] PASSWORD - k1rill_fedoseev 123
+[2017-08-10 20:25:19.578] [TRACE] userModel - Generated new token dc2dc63229f3ebc2e27c953bcf8a2c768af30986 for user k1rill_fedoseev
+[2017-08-10 20:31:02.321] [INFO] main - Running server on 3001 port
+[2017-08-10 20:31:02.347] [INFO] main - Connected to db
+[2017-08-10 20:33:12.427] [INFO] main - Running server on 3001 port
+[2017-08-10 20:33:12.446] [INFO] main - Connected to db
+[2017-08-10 20:34:57.477] [INFO] main - Running server on 3001 port
+[2017-08-10 20:34:57.495] [INFO] main - Connected to db
+[2017-08-10 20:37:18.453] [INFO] main - Running server on 3001 port
+[2017-08-10 20:37:18.476] [INFO] main - Connected to db
+[2017-08-10 20:38:56.424] [TRACE] PASSWORD - admin 123
+[2017-08-10 20:38:56.425] [TRACE] userModel - Generated new token b64c8532d87b4b94296f0fb3f70d65f7a4144d2e for user admin
+[2017-08-10 20:39:23.303] [TRACE] PASSWORD - k1rill_fedoseev 123
+[2017-08-10 20:39:23.304] [TRACE] userModel - Generated new token c215ac5b5dba52b6df049427591bb322b0e3490a for user k1rill_fedoseev
+[2017-08-10 20:39:27.990] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 20:39:28.149] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 20:39:28.277] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 20:39:28.356] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 20:39:28.549] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 20:39:28.733] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 20:53:27.708] [INFO] main - Running server on 3001 port
+[2017-08-10 20:53:27.730] [INFO] main - Connected to db
+[2017-08-10 20:55:04.624] [INFO] main - Running server on 3001 port
+[2017-08-10 20:55:04.641] [INFO] main - Connected to db
+[2017-08-10 20:56:02.588] [INFO] main - Running server on 3001 port
+[2017-08-10 20:56:02.609] [INFO] main - Connected to db
+[2017-08-10 20:58:05.384] [INFO] main - Running server on 3001 port
+[2017-08-10 20:58:05.454] [INFO] main - Connected to db
+[2017-08-10 21:04:59.576] [INFO] main - Running server on 3001 port
+[2017-08-10 21:04:59.603] [INFO] main - Connected to db
+[2017-08-10 21:08:19.956] [INFO] main - Running server on 3001 port
+[2017-08-10 21:08:19.976] [INFO] main - Connected to db
+[2017-08-10 21:11:49.300] [INFO] main - Running server on 3001 port
+[2017-08-10 21:11:49.333] [INFO] main - Connected to db
+[2017-08-10 21:13:18.901] [TRACE] PASSWORD - k1rill_fedoseev 123
+[2017-08-10 21:13:18.902] [TRACE] userModel - Generated new token 3d2c67481691c8a348b2d5c43a0a58d9903fd5e0 for user k1rill_fedoseev
+[2017-08-10 21:13:42.188] [TRACE] PASSWORD - admin 123
+[2017-08-10 21:13:42.189] [TRACE] userModel - Generated new token 42dab503e62ce984e6159dfd7c6e718ebe170afe for user admin
+[2017-08-10 21:13:45.755] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:13:45.914] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:13:46.051] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:13:46.098] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:13:46.292] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:13:46.410] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:05.051] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:05.551] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:05.583] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:05.617] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:05.650] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:05.687] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:11.882] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:25.325] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:25.483] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:26.155] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:26.243] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:26.442] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:26.579] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-10 21:14:58.238] [INFO] main - Running server on 3001 port
+[2017-08-10 21:14:58.260] [INFO] main - Connected to db
+[2017-08-10 21:18:16.440] [INFO] main - Running server on 3001 port
+[2017-08-10 21:18:16.476] [INFO] main - Connected to db
+[2017-08-10 21:19:02.320] [TRACE] PASSWORD - admin 123
+[2017-08-10 21:19:02.321] [TRACE] userModel - Generated new token bdf2741df4a0c56caa7466e79cb7e52402c8e8d2 for user admin
+[2017-08-10 21:19:28.371] [TRACE] PASSWORD - k1rill_fedoseev 123
+[2017-08-10 21:19:28.372] [TRACE] userModel - Generated new token a98c73814b1e959aec11db9edb56e10799ff8c5a for user k1rill_fedoseev
+[2017-08-11 14:03:55.996] [INFO] main - Running server on 3001 port
+[2017-08-11 14:03:56.020] [INFO] main - Connected to db
+[2017-08-11 14:17:32.362] [INFO] main - Running server on 3001 port
+[2017-08-11 14:17:32.381] [INFO] main - Connected to db
+[2017-08-11 14:19:15.662] [TRACE] userModel - Generated new token b0610b16445c93e39edd207a39900bd23c3413dc for user admin
+[2017-08-11 14:51:00.087] [INFO] main - Running server on 3001 port
+[2017-08-11 14:51:00.104] [INFO] main - Connected to db
+[2017-08-11 15:08:59.362] [INFO] main - Running server on 3001 port
+[2017-08-11 15:08:59.383] [INFO] main - Connected to db
+[2017-08-11 15:15:07.828] [INFO] main - Running server on 3001 port
+[2017-08-11 15:15:07.851] [INFO] main - Connected to db
+[2017-08-11 15:16:39.932] [INFO] main - Running server on 3001 port
+[2017-08-11 15:16:39.952] [INFO] main - Connected to db
+[2017-08-11 16:32:37.769] [INFO] main - Running server on 3001 port
+[2017-08-11 16:32:37.795] [INFO] main - Connected to db
+[2017-08-11 16:36:12.227] [TRACE] PASSWORD - k1rill_fedoseev 123
+[2017-08-11 16:36:12.228] [TRACE] userModel - Generated new token 1feeca314f0503793f93d0cb90a585661232d8a6 for user k1rill_fedoseev
+[2017-08-11 16:36:55.221] [TRACE] PASSWORD - admin 123
+[2017-08-11 16:36:55.221] [TRACE] userModel - Generated new token c619d71e915b90160f8dddbc025c723cc88c786b for user admin
+[2017-08-11 16:36:59.203] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-11 16:36:59.392] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-11 16:36:59.505] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-11 16:36:59.576] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-11 16:36:59.754] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-11 16:36:59.857] [ERROR] sockets - { MongoError: text index required for $text query
+    at Function.MongoError.create (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\error.js:31:11)
+    at queryCallback (C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\cursor.js:212:36)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\mongodb-core\lib\connection\pool.js:469:18
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  name: 'MongoError',
+  message: 'text index required for $text query',
+  ok: 0,
+  errmsg: 'text index required for $text query',
+  code: 27,
+  codeName: 'IndexNotFound' }
+[2017-08-11 16:37:26.835] [INFO] main - Running server on 3001 port
+[2017-08-11 16:37:26.897] [INFO] main - Connected to db
+[2017-08-11 16:42:22.409] [INFO] main - Running server on 3001 port
+[2017-08-11 16:42:22.426] [INFO] main - Connected to db
+[2017-08-11 16:43:58.524] [INFO] main - Running server on 3001 port
+[2017-08-11 16:43:58.541] [INFO] main - Connected to db
+[2017-08-11 16:49:00.808] [INFO] main - Running server on 3001 port
+[2017-08-11 16:49:00.840] [INFO] main - Connected to db
+[2017-08-11 16:55:40.398] [INFO] main - Running server on 3001 port
+[2017-08-11 16:55:40.426] [INFO] main - Connected to db
+[2017-08-11 16:56:38.766] [INFO] main - Running server on 3001 port
+[2017-08-11 16:56:38.786] [INFO] main - Connected to db
+[2017-08-11 22:30:21.098] [INFO] main - Running server on 3001 port
+[2017-08-11 22:30:21.114] [INFO] main - Connected to db
+[2017-08-11 22:31:42.652] [TRACE] PASSWORD - admin 123
+[2017-08-11 22:31:42.653] [TRACE] userModel - Generated new token e5a44e7dd83ed526c424631d32d12a90dba7580d for user admin
+[2017-08-11 22:34:18.853] [TRACE] userModel - Generated new token ada3c8512326fbd6ae8a97bca00b0c45287123c3 for user admin
+[2017-08-11 22:35:07.934] [TRACE] PASSWORD - k1rill_fedoseev 123
+[2017-08-11 22:35:07.934] [TRACE] userModel - Generated new token b3eb00cc5fd4f743219b36db1eb1b41d026e0cba for user k1rill_fedoseev
+[2017-08-11 22:35:31.623] [INFO] main - Running server on 3001 port
+[2017-08-11 22:35:31.643] [INFO] main - Connected to db
+[2017-08-11 22:36:24.163] [TRACE] PASSWORD - k1rill_fedoseev 123
+[2017-08-11 22:36:24.164] [TRACE] userModel - Generated new token f8e493f9be735515d5723047d5ad65e468a9ea2b for user k1rill_fedoseev
+[2017-08-11 22:36:25.233] [TRACE] PASSWORD - admin 123
+[2017-08-11 22:36:25.233] [TRACE] userModel - Generated new token 228b03ad51fa575b1432c19c07fdb226fc0e41ae for user admin
+[2017-08-11 22:39:15.522] [INFO] main - Running server on 3001 port
+[2017-08-11 22:39:15.541] [INFO] main - Connected to db
+[2017-08-11 22:40:44.005] [INFO] main - Running server on 3001 port
+[2017-08-11 22:40:44.043] [INFO] main - Connected to db
+[2017-08-11 22:43:18.929] [INFO] main - Running server on 3001 port
+[2017-08-11 22:43:18.956] [INFO] main - Connected to db
+[2017-08-11 22:45:04.186] [INFO] main - Running server on 3001 port
+[2017-08-11 22:45:04.203] [INFO] main - Connected to db
+[2017-08-11 22:45:47.203] [INFO] main - Running server on 3001 port
+[2017-08-11 22:45:47.231] [INFO] main - Connected to db
+[2017-08-11 22:46:45.471] [INFO] main - Running server on 3001 port
+[2017-08-11 22:46:45.489] [INFO] main - Connected to db
+[2017-08-11 22:48:44.794] [INFO] main - Running server on 3001 port
+[2017-08-11 22:48:44.812] [INFO] main - Connected to db
+[2017-08-11 22:51:30.286] [INFO] main - Running server on 3001 port
+[2017-08-11 22:51:30.304] [INFO] main - Connected to db
+[2017-08-11 22:52:01.600] [INFO] main - Running server on 3001 port
+[2017-08-11 22:52:01.618] [INFO] main - Connected to db
+[2017-08-11 22:52:16.565] [INFO] main - Running server on 3001 port
+[2017-08-11 22:52:16.593] [INFO] main - Connected to db
+[2017-08-11 22:52:32.795] [INFO] main - Running server on 3001 port
+[2017-08-11 22:52:32.817] [INFO] main - Connected to db
+[2017-08-11 22:52:50.087] [INFO] main - Running server on 3001 port
+[2017-08-11 22:52:50.110] [INFO] main - Connected to db
+[2017-08-11 22:53:34.070] [INFO] main - Running server on 3001 port
+[2017-08-11 22:53:34.103] [INFO] main - Connected to db
+[2017-08-11 22:55:31.258] [INFO] main - Running server on 3001 port
+[2017-08-11 22:55:31.275] [INFO] main - Connected to db
+[2017-08-11 22:58:05.044] [INFO] main - Running server on 3001 port
+[2017-08-11 22:58:05.061] [INFO] main - Connected to db
+[2017-08-11 22:58:13.561] [INFO] main - Running server on 3001 port
+[2017-08-11 22:58:13.578] [INFO] main - Connected to db
+[2017-08-11 22:58:57.380] [INFO] main - Running server on 3001 port
+[2017-08-11 22:58:57.396] [INFO] main - Connected to db
+[2017-08-11 22:59:47.635] [INFO] main - Running server on 3001 port
+[2017-08-11 22:59:47.652] [INFO] main - Connected to db
+[2017-08-11 22:59:59.122] [INFO] main - Running server on 3001 port
+[2017-08-11 22:59:59.139] [INFO] main - Connected to db
+[2017-08-11 23:01:45.072] [INFO] main - Running server on 3001 port
+[2017-08-11 23:01:45.088] [INFO] main - Connected to db
+[2017-08-11 23:04:06.467] [INFO] main - Running server on 3001 port
+[2017-08-11 23:04:06.493] [INFO] main - Connected to db
+[2017-08-11 23:10:51.933] [INFO] main - Running server on 3001 port
+[2017-08-11 23:10:51.949] [INFO] main - Connected to db
+[2017-08-11 23:15:13.604] [INFO] main - Running server on 3001 port
+[2017-08-11 23:15:13.622] [INFO] main - Connected to db
+[2017-08-12 00:25:09.267] [INFO] main - Running server on 3001 port
+[2017-08-12 00:25:09.296] [INFO] main - Connected to db
+[2017-08-12 11:21:34.950] [INFO] main - Running server on 3001 port
+[2017-08-12 11:21:34.967] [INFO] main - Connected to db
+[2017-08-12 11:22:31.121] [INFO] main - Running server on 3001 port
+[2017-08-12 11:22:31.139] [INFO] main - Connected to db
+[2017-08-12 11:25:09.473] [INFO] main - Running server on 3001 port
+[2017-08-12 11:25:09.491] [INFO] main - Connected to db
+[2017-08-12 11:26:14.219] [INFO] main - Running server on 3001 port
+[2017-08-12 11:26:14.237] [INFO] main - Connected to db
+[2017-08-12 11:30:06.622] [INFO] main - Running server on 3001 port
+[2017-08-12 11:30:06.638] [INFO] main - Connected to db
+[2017-08-12 11:30:54.671] [INFO] main - Running server on 3001 port
+[2017-08-12 11:30:54.688] [INFO] main - Connected to db
+[2017-08-12 11:35:15.745] [INFO] main - Running server on 3001 port
+[2017-08-12 11:35:15.762] [INFO] main - Connected to db
+[2017-08-12 11:39:15.787] [INFO] main - Running server on 3001 port
+[2017-08-12 11:39:15.804] [INFO] main - Connected to db
+[2017-08-12 11:39:23.364] [INFO] main - Running server on 3001 port
+[2017-08-12 11:39:23.380] [INFO] main - Connected to db
+[2017-08-12 11:39:26.937] [INFO] main - Running server on 3001 port
+[2017-08-12 11:39:26.956] [INFO] main - Connected to db
+[2017-08-12 11:39:52.182] [INFO] main - Running server on 3001 port
+[2017-08-12 11:39:52.199] [INFO] main - Connected to db
+[2017-08-12 11:40:13.175] [TRACE] PASSWORD - admin 123
+[2017-08-12 11:40:13.175] [TRACE] userModel - Generated new token 73326956fbf3a50d61ae71083bf341696be98036 for user admin
+[2017-08-12 15:09:16.535] [INFO] main - Running server on 3001 port
+[2017-08-12 15:09:16.552] [INFO] main - Connected to db
+[2017-08-12 15:10:58.232] [INFO] main - Running server on 3001 port
+[2017-08-12 15:10:58.249] [INFO] main - Connected to db
+[2017-08-12 15:28:17.189] [INFO] main - Running server on 3001 port
+[2017-08-12 15:28:17.206] [INFO] main - Connected to db
+[2017-08-12 15:29:18.901] [TRACE] PASSWORD - k1rill_fedoseev 123
+[2017-08-12 15:29:18.902] [TRACE] userModel - Generated new token 904af8b34fdc0f30b02fd5f16a1339fe825d6568 for user k1rill_fedoseev
+[2017-08-12 15:30:49.480] [INFO] main - Running server on 3001 port
+[2017-08-12 15:30:49.496] [INFO] main - Connected to db
+[2017-08-12 15:32:24.465] [INFO] main - Running server on 3001 port
+[2017-08-12 15:32:24.482] [INFO] main - Connected to db
+[2017-08-12 15:32:47.409] [ERROR] sockets - { MongooseError: Cast to ObjectId failed for value "{ id: '598ebc5eae13fb2e28876232', username: 'k1rill_fedoseev' }" at path "_id"
+    at CastError (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\cast.js:26:11)
+    at ObjectId.cast (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schema\objectid.js:149:13)
+    at ObjectId.SchemaType._castForQuery (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:1064:15)
+    at ObjectId.castForQuery (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schema\objectid.js:189:15)
+    at ObjectId.SchemaType.castForQueryWrapper (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:1021:15)
+    at cast (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\cast.js:214:34)
+    at model.Query.Query.cast (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\query.js:3103:12)
+    at model.Query.Query._castConditions (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\query.js:1144:10)
+    at model.Query.Query._findOne (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\query.js:1346:8)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:250:8
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:23:7
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+  message: 'Cast to ObjectId failed for value "{ id: \'598ebc5eae13fb2e28876232\', username: \'k1rill_fedoseev\' }" at path "_id" for model "user"',
+  name: 'CastError',
+  stringValue: '"{ id: \'598ebc5eae13fb2e28876232\', username: \'k1rill_fedoseev\' }"',
+  kind: 'ObjectId',
+  value: { id: '598ebc5eae13fb2e28876232', username: 'k1rill_fedoseev' },
+  path: '_id',
+  reason: undefined,
+  model: 
+   { [Function: model]
+     hooks: Kareem { _pres: {}, _posts: {} },
+     base: 
+      Mongoose {
+        connections: [Object],
+        models: [Object],
+        modelSchemas: [Object],
+        options: [Object],
+        plugins: [Object] },
+     modelName: 'user',
+     model: [Function: model],
+     db: 
+      NativeConnection {
+        base: [Object],
+        collections: [Object],
+        models: [Object],
+        config: [Object],
+        replica: false,
+        hosts: null,
+        host: 'localhost',
+        port: 27017,
+        user: undefined,
+        pass: undefined,
+        name: 'chat',
+        options: [Object],
+        otherDbs: [],
+        _readyState: 1,
+        _closeCalled: false,
+        _hasOpened: true,
+        _listening: false,
+        db: [Object],
+        _events: [Object],
+        _eventsCount: 3 },
+     discriminators: undefined,
+     encrypt: [Function: encrypt],
+     '$appliedHooks': true,
+     _events: { init: [Function], save: [Function] },
+     _eventsCount: 2,
+     schema: 
+      Schema {
+        obj: [Object],
+        paths: [Object],
+        aliases: {},
+        subpaths: {},
+        virtuals: [Object],
+        singleNestedPaths: {},
+        nested: {},
+        inherits: {},
+        callQueue: [Object],
+        _indexes: [Object],
+        methods: [Object],
+        statics: [Object],
+        tree: [Object],
+        query: {},
+        childSchemas: [],
+        plugins: [Object],
+        s: [Object],
+        options: [Object],
+        '$globalPluginsApplied': true,
+        _requiredpaths: [Object] },
+     collection: 
+      NativeCollection {
+        collection: [Object],
+        opts: [Object],
+        name: 'users',
+        collectionName: 'users',
+        conn: [Object],
+        queue: [],
+        buffer: false,
+        emitter: [Object] },
+     Query: { [Function] base: [Object] },
+     '$__insertMany': [Function],
+     insertMany: [Function] } }
+[2017-08-12 15:34:35.007] [INFO] main - Running server on 3001 port
+[2017-08-12 15:34:35.029] [INFO] main - Connected to db
+[2017-08-12 15:38:41.249] [INFO] main - Running server on 3001 port
+[2017-08-12 15:38:41.270] [INFO] main - Connected to db
+[2017-08-12 15:39:37.610] [INFO] main - Running server on 3001 port
+[2017-08-12 15:39:37.639] [INFO] main - Connected to db
+[2017-08-12 15:44:50.631] [ERROR] sockets - { ValidationError: message validation failed: message: Path `message` is required.
+    at ValidationError.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validation.js:57:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at Object.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:34:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at formatLogData (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:54:22)
+    at basicLayout (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:116:7)
+    at Logger.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\appenders\file.js:63:18)
+    at emitOne (events.js:101:20)
+    at Logger.emit (events.js:191:7)
+    at Logger._log (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:96:8)
+    at Logger.(anonymous function) [as error] (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:89:12)
+    at messageManager.create (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:265:41)
+  errors: 
+   { message: 
+      { MongooseError: Path `message` is required.
+          at ValidatorError (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validator.js:24:11)
+          at validate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:758:13)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:805:11
+          at Array.forEach (native)
+          at SchemaString.SchemaType.doValidate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:765:19)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\document.js:1480:9
+          at _combinedTickCallback (internal/process/next_tick.js:73:7)
+          at process._tickCallback (internal/process/next_tick.js:104:9)
+        message: 'Path `message` is required.',
+        name: 'ValidatorError',
+        properties: [Object],
+        kind: 'required',
+        path: 'message',
+        value: '',
+        reason: undefined,
+        '$isValidatorError': true } },
+  _message: 'message validation failed',
+  name: 'ValidationError' }

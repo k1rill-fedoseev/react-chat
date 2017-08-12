@@ -1,0 +1,20 @@
+export const NEW_MESSAGE = 200
+
+export const FETCH_CHAT_SUCCESS = 201
+export const FETCH_CHAT_ERROR = 202
+export const SIGN_IN_SUCCESS = 203
+export const SIGN_IN_ERROR = 204
+export const SIGN_UP_SUCCESS = 205
+export const SIGN_UP_ERROR = 206
+export const CREATE_SUCCESS = 207
+export const CREATE_ERROR = 208
+export const SEND_SUCCESS = 209
+export const SEND_ERROR = 210
+export const FETCH_USERS_SUCCESS = 211
+export const FETCH_USERS_ERROR = 212
+export const FETCH_CHATS_SUCCESS = 213
+export const FETCH_CHATS_ERROR = 214
+export const FETCH_MESSAGES_SUCCESS = 215
+export const FETCH_MESSAGES_ERROR = 216
+export const INVITE_USERS_SUCCESS = 217
+export const INVITE_USERS_ERROR = 218
