@@ -10,7 +10,7 @@
 //TODO: Is typing...
 //TODO: Непрочитанные сообщения
 //TODO: 3 панель
-let express = require('express'),
+const express = require('express'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
@@ -46,19 +46,3 @@ app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 //app.use(express.static(__dirname + '/public'));
-
-app.get('/token', (req, res) => {
-    console.log(req.query)
-    res.header('Access-Control-Allow-Origin', '*')
-    userManager.auth(req.query.username, req.query.password,
-        (err, token) => {
-            if (err)
-                log.error(err)
-            else if (token) {
-                res.cookie(config.get('cookie:name'), token)
-                res.end('<i>1</i>')
-            }
-            else
-                res.end('<i>1</i>')
-        })
-})

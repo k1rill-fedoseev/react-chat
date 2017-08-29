@@ -902,3 +902,563 @@
         '$isValidatorError': true } },
   _message: 'message validation failed',
   name: 'ValidationError' }
+[2017-08-13 12:06:42.294] [INFO] main - Running server on 3001 port
+[2017-08-13 12:06:43.356] [WARN] main - Disconnected from db
+[2017-08-13 12:06:43.356] [ERROR] main - Error with db connection MongoError: failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+[2017-08-13 12:06:53.720] [INFO] main - Running server on 3001 port
+[2017-08-13 12:06:53.829] [INFO] main - Connected to db
+[2017-08-13 12:08:23.468] [TRACE] userModel - Generated new token 5104f6f59c2d11b8c095d059672ed5e7501890ae for user admin
+[2017-08-15 02:25:46.893] [INFO] main - Running server on 3001 port
+[2017-08-15 02:25:46.919] [INFO] main - Connected to db
+[2017-08-15 02:25:47.227] [TRACE] userModel - Generated new token 73e762961080ca83d0221f7773d0d38246a6bd5e for user admin
+[2017-08-15 15:10:56.289] [WARN] main - Disconnected from db
+[2017-08-24 19:45:39.196] [INFO] main - Running server on 3001 port
+[2017-08-24 19:45:39.390] [INFO] main - Connected to db
+[2017-08-24 19:49:24.186] [INFO] main - Running server on 3001 port
+[2017-08-24 19:49:24.206] [INFO] main - Connected to db
+[2017-08-24 19:50:27.002] [INFO] main - Running server on 3001 port
+[2017-08-24 19:50:27.024] [INFO] main - Connected to db
+[2017-08-24 19:51:09.306] [INFO] main - Running server on 3001 port
+[2017-08-24 19:51:09.323] [INFO] main - Connected to db
+[2017-08-24 19:52:24.049] [INFO] main - Running server on 3001 port
+[2017-08-24 19:52:24.070] [INFO] main - Connected to db
+[2017-08-24 19:53:06.288] [INFO] main - Running server on 3001 port
+[2017-08-24 19:53:06.313] [INFO] main - Connected to db
+[2017-08-24 19:53:55.472] [INFO] main - Running server on 3001 port
+[2017-08-24 19:53:55.600] [INFO] main - Connected to db
+[2017-08-24 20:00:35.184] [INFO] main - Running server on 3001 port
+[2017-08-24 20:00:35.200] [INFO] main - Connected to db
+[2017-08-24 20:00:46.193] [TRACE] userModel - Generated new token 8346e9b53b455e897abd4a3f7aa89741732fd3e5 for user admin
+[2017-08-24 20:01:19.140] [INFO] main - Running server on 3001 port
+[2017-08-24 20:01:19.159] [INFO] main - Connected to db
+[2017-08-24 20:03:00.410] [INFO] main - Running server on 3001 port
+[2017-08-24 20:03:00.428] [INFO] main - Connected to db
+[2017-08-24 20:03:43.902] [INFO] main - Running server on 3001 port
+[2017-08-24 20:03:43.921] [INFO] main - Connected to db
+[2017-08-24 20:03:56.719] [TRACE] userModel - Generated new token 974889e3eff300ca300392af6eb7b4f0d74eb700 for user admin
+[2017-08-24 20:09:36.164] [TRACE] userModel - Generated new token ee2dec0487095dfbe96b9625c3ded01db3ce745a for user admin
+[2017-08-24 20:09:52.993] [INFO] main - Running server on 3001 port
+[2017-08-24 20:09:53.014] [INFO] main - Connected to db
+[2017-08-24 20:10:06.752] [TRACE] userModel - Generated new token 02bb5f483e49f9db1f2cadbd7d1610e1f0e6c4dc for user admin
+[2017-08-24 22:18:06.692] [INFO] main - Running server on 3001 port
+[2017-08-24 22:18:06.711] [INFO] main - Connected to db
+[2017-08-24 22:18:45.076] [TRACE] userModel - Generated new token 7b0746f2e28c7e0540d6b13cb7a6597ad21f9850 for user admin
+[2017-08-24 22:19:29.348] [INFO] main - Running server on 3001 port
+[2017-08-24 22:19:29.365] [INFO] main - Connected to db
+[2017-08-24 22:24:16.545] [INFO] main - Running server on 3001 port
+[2017-08-24 22:24:16.567] [INFO] main - Connected to db
+[2017-08-24 22:24:30.226] [INFO] main - Running server on 3001 port
+[2017-08-24 22:24:30.245] [INFO] main - Connected to db
+[2017-08-24 22:26:02.538] [INFO] main - Running server on 3001 port
+[2017-08-24 22:26:02.565] [INFO] main - Connected to db
+[2017-08-24 22:30:26.108] [INFO] main - Running server on 3001 port
+[2017-08-24 22:30:26.135] [INFO] main - Connected to db
+[2017-08-24 22:32:19.185] [INFO] main - Running server on 3001 port
+[2017-08-24 22:32:19.240] [INFO] main - Connected to db
+[2017-08-24 22:35:20.013] [INFO] main - Running server on 3001 port
+[2017-08-24 22:35:20.032] [INFO] main - Connected to db
+[2017-08-24 22:35:24.184] [ERROR] sockets - ReferenceError: MyPromise is not defined
+    at then (C:\Users\1\WebstormProjects\react_chat\server\managers\promise.js:49:17)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-24 22:35:53.301] [INFO] main - Running server on 3001 port
+[2017-08-24 22:35:53.323] [INFO] main - Connected to db
+[2017-08-24 22:35:57.708] [TRACE] userModel - Generated new token 3d6f88265d3f8f617d8a53d428d1ee375eb6b947 for user admin
+[2017-08-24 23:27:41.858] [WARN] main - Disconnected from db
+[2017-08-26 02:17:20.911] [INFO] main - Running server on 3001 port
+[2017-08-26 02:17:21.181] [INFO] main - Connected to db
+[2017-08-26 02:18:48.214] [INFO] main - Running server on 3001 port
+[2017-08-26 02:18:48.246] [INFO] main - Connected to db
+[2017-08-26 02:20:09.250] [INFO] main - Running server on 3001 port
+[2017-08-26 02:20:09.268] [INFO] main - Connected to db
+[2017-08-26 14:08:45.676] [INFO] main - Running server on 3001 port
+[2017-08-26 14:08:45.738] [INFO] main - Connected to db
+[2017-08-26 14:11:07.430] [INFO] main - Running server on 3001 port
+[2017-08-26 14:11:07.461] [INFO] main - Connected to db
+[2017-08-26 14:14:24.071] [INFO] main - Running server on 3001 port
+[2017-08-26 14:14:24.098] [INFO] main - Connected to db
+[2017-08-26 14:17:51.204] [INFO] main - Running server on 3001 port
+[2017-08-26 14:17:51.230] [INFO] main - Connected to db
+[2017-08-26 14:21:41.332] [INFO] main - Running server on 3001 port
+[2017-08-26 14:21:41.349] [INFO] main - Connected to db
+[2017-08-26 14:27:37.336] [INFO] main - Running server on 3001 port
+[2017-08-26 14:27:37.353] [INFO] main - Connected to db
+[2017-08-26 14:28:18.433] [INFO] main - Running server on 3001 port
+[2017-08-26 14:28:18.452] [INFO] main - Connected to db
+[2017-08-26 14:29:12.411] [INFO] main - Running server on 3001 port
+[2017-08-26 14:29:12.428] [INFO] main - Connected to db
+[2017-08-26 14:30:56.914] [INFO] main - Running server on 3001 port
+[2017-08-26 14:30:56.934] [INFO] main - Connected to db
+[2017-08-26 17:15:17.995] [INFO] main - Running server on 3001 port
+[2017-08-26 17:15:19.005] [WARN] main - Disconnected from db
+[2017-08-26 17:15:19.007] [ERROR] main - Error with db connection MongoError: failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+[2017-08-26 17:17:16.052] [INFO] main - Running server on 3001 port
+[2017-08-26 17:17:16.069] [INFO] main - Connected to db
+[2017-08-26 17:17:24.994] [TRACE] userModel - Generated new token 294ac610490437b82d2b6e35e31f42960c76216c for user admin
+[2017-08-26 17:18:17.138] [INFO] main - Running server on 3001 port
+[2017-08-26 17:18:17.155] [INFO] main - Connected to db
+[2017-08-26 17:25:09.575] [INFO] main - Running server on 3001 port
+[2017-08-26 17:25:09.591] [INFO] main - Connected to db
+[2017-08-29 01:16:30.641] [INFO] main - Running server on 3001 port
+[2017-08-29 01:16:30.661] [INFO] main - Connected to db
+[2017-08-29 01:19:32.619] [INFO] main - Running server on 3001 port
+[2017-08-29 01:19:32.636] [INFO] main - Connected to db
+[2017-08-29 01:19:37.605] [TRACE] userModel - Generated new token aa7690b8c97226b6eeedd882155506348053c1a9 for user admin
+[2017-08-29 01:23:45.057] [ERROR] sockets - ReferenceError: config is not defined
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:212:57)
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:10:1)
+    at then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:210:13)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 01:24:35.026] [INFO] main - Running server on 3001 port
+[2017-08-29 01:24:35.042] [INFO] main - Connected to db
+[2017-08-29 01:24:35.061] [ERROR] sockets - ReferenceError: config is not defined
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:212:57)
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:10:1)
+    at then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:210:13)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 01:25:22.655] [INFO] main - Running server on 3001 port
+[2017-08-29 01:25:22.683] [INFO] main - Connected to db
+[2017-08-29 01:26:58.889] [INFO] main - Running server on 3001 port
+[2017-08-29 01:26:58.908] [INFO] main - Connected to db
+[2017-08-29 01:27:13.944] [ERROR] sockets - TypeError: Cannot read property 'map' of undefined
+    at then.then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:308:31)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:01:34.780] [INFO] main - Running server on 3001 port
+[2017-08-29 11:01:34.799] [INFO] main - Connected to db
+[2017-08-29 11:02:46.695] [INFO] main - Running server on 3001 port
+[2017-08-29 11:02:46.712] [INFO] main - Connected to db
+[2017-08-29 11:02:46.893] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:355:43)
+    at Array.map (native)
+    at then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:37)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:02:58.075] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:355:43)
+    at Array.map (native)
+    at then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:37)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:03:35.790] [INFO] main - Running server on 3001 port
+[2017-08-29 11:03:35.806] [INFO] main - Connected to db
+[2017-08-29 11:03:36.054] [ERROR] sockets - TypeError: undefined is not a function
+    at MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:37)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:04:42.457] [INFO] main - Running server on 3001 port
+[2017-08-29 11:04:42.474] [INFO] main - Connected to db
+[2017-08-29 11:04:42.550] [ERROR] sockets - TypeError: undefined is not a function
+    at MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:37)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:04:46.951] [ERROR] sockets - TypeError: undefined is not a function
+    at MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:37)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:06:06.397] [INFO] main - Running server on 3001 port
+[2017-08-29 11:06:06.422] [INFO] main - Connected to db
+[2017-08-29 11:06:18.767] [ERROR] sockets - TypeError: undefined is not a function
+    at Promise.openRoomsFilter.then.MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at Promise.openRoomsFilter.then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:37)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:06:23.282] [ERROR] sockets - TypeError: undefined is not a function
+    at Promise.openRoomsFilter.then.MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at Promise.openRoomsFilter.then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:37)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:06:38.929] [ERROR] sockets - TypeError: undefined is not a function
+    at Promise.openRoomsFilter.then.MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at Promise.openRoomsFilter.then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:37)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:06:44.219] [ERROR] sockets - TypeError: undefined is not a function
+    at Promise.openRoomsFilter.then.MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at Promise.openRoomsFilter.then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:37)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:07:50.919] [ERROR] sockets - TypeError: undefined is not a function
+    at Promise.openRoomsFilter.then.MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at Promise.openRoomsFilter.then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:37)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:07:58.615] [INFO] main - Running server on 3001 port
+[2017-08-29 11:07:58.642] [INFO] main - Connected to db
+[2017-08-29 11:08:22.092] [ERROR] sockets - TypeError: undefined is not a function
+    at Promise.openRoomsFilter.then.MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at Promise.openRoomsFilter.then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:37)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:09:03.036] [INFO] main - Running server on 3001 port
+[2017-08-29 11:09:03.053] [INFO] main - Connected to db
+[2017-08-29 11:09:06.636] [ERROR] sockets - TypeError: undefined is not a function
+    at MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:44)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:09:49.828] [INFO] main - Running server on 3001 port
+[2017-08-29 11:09:49.849] [INFO] main - Connected to db
+[2017-08-29 11:09:49.986] [ERROR] sockets - TypeError: undefined is not a function
+    at MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:44)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:11:02.796] [INFO] main - Running server on 3001 port
+[2017-08-29 11:11:02.812] [INFO] main - Connected to db
+[2017-08-29 11:11:02.998] [ERROR] sockets - TypeError: undefined is not a function
+    at console.dir.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:353:18)
+    at Array.map (native)
+    at then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:351:62)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:11:08.100] [ERROR] sockets - TypeError: undefined is not a function
+    at console.dir.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:353:18)
+    at Array.map (native)
+    at then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:351:62)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:11:31.838] [INFO] main - Running server on 3001 port
+[2017-08-29 11:11:31.854] [INFO] main - Connected to db
+[2017-08-29 11:11:32.402] [ERROR] sockets - TypeError: undefined is not a function
+    at MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:44)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:11:44.310] [INFO] main - Running server on 3001 port
+[2017-08-29 11:11:44.325] [INFO] main - Connected to db
+[2017-08-29 11:11:44.392] [ERROR] sockets - TypeError: undefined is not a function
+    at MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:44)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:17:45.754] [INFO] main - Running server on 3001 port
+[2017-08-29 11:17:45.776] [INFO] main - Connected to db
+[2017-08-29 11:18:05.124] [ERROR] sockets - TypeError: undefined is not a function
+    at Promise.openRoomsFilter.then.MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at Promise.openRoomsFilter.then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:44)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:20:07.440] [ERROR] sockets - TypeError: undefined is not a function
+    at Promise.openRoomsFilter.then.MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at Promise.openRoomsFilter.then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:44)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:20:07.473] [ERROR] sockets - TypeError: undefined is not a function
+    at Promise.openRoomsFilter.then.MyPromise.all.openRooms.map.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:354:22)
+    at Array.map (native)
+    at Promise.openRoomsFilter.then.openRooms (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:352:44)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:21:54.318] [INFO] main - Running server on 3001 port
+[2017-08-29 11:21:54.335] [INFO] main - Connected to db
+[2017-08-29 11:21:56.797] [ERROR] sockets - TypeError: Cannot read property 'date' of null
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:137:49)
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:11:1)
+    at MyPromise.then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:132:21)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:21:58.018] [ERROR] sockets - TypeError: Cannot read property 'date' of null
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:137:49)
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:11:1)
+    at MyPromise.then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:132:21)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:22:31.038] [INFO] main - Running server on 3001 port
+[2017-08-29 11:22:31.053] [INFO] main - Connected to db
+[2017-08-29 11:22:31.564] [ERROR] sockets - null
+[2017-08-29 11:22:41.562] [ERROR] sockets - null
+[2017-08-29 11:23:28.853] [INFO] main - Running server on 3001 port
+[2017-08-29 11:23:28.870] [INFO] main - Connected to db
+[2017-08-29 11:23:29.137] [ERROR] sockets - TypeError: Cannot read property 'date' of null
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:139:49)
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:11:1)
+    at MyPromise.then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:134:21)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:24:09.745] [INFO] main - Running server on 3001 port
+[2017-08-29 11:24:09.762] [INFO] main - Connected to db
+[2017-08-29 11:24:10.009] [ERROR] sockets - TypeError: Cannot read property 'date' of null
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:140:49)
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:11:1)
+    at MyPromise.then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:135:21)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:24:48.788] [INFO] main - Running server on 3001 port
+[2017-08-29 11:24:48.804] [INFO] main - Connected to db
+[2017-08-29 11:24:48.997] [ERROR] sockets - TypeError: Cannot read property '0' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:370:43)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:25:09.822] [INFO] main - Running server on 3001 port
+[2017-08-29 11:25:09.840] [INFO] main - Connected to db
+[2017-08-29 11:25:10.058] [ERROR] sockets - TypeError: Cannot read property '0' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:367:43)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:26:28.992] [INFO] main - Running server on 3001 port
+[2017-08-29 11:26:29.016] [INFO] main - Connected to db
+[2017-08-29 11:27:46.493] [ERROR] sockets - TypeError: Cannot read property '0' of undefined
+    at Promise.openRoomsFilter.then.MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:365:43)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:28:10.147] [INFO] main - Running server on 3001 port
+[2017-08-29 11:28:10.163] [INFO] main - Connected to db
+[2017-08-29 11:28:11.252] [ERROR] sockets - TypeError: Cannot read property 'name' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:379:75)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:28:36.269] [INFO] main - Running server on 3001 port
+[2017-08-29 11:28:36.307] [INFO] main - Connected to db
+[2017-08-29 11:30:14.556] [ERROR] sockets - TypeError: Cannot read property 'name' of undefined
+    at Promise.openRoomsFilter.then.MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:379:75)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 11:30:14.606] [ERROR] sockets - TypeError: Cannot read property 'name' of undefined
+    at Promise.openRoomsFilter.then.MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:379:75)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 15:53:45.255] [INFO] main - Running server on 3001 port
+[2017-08-29 15:53:45.274] [INFO] main - Connected to db
+[2017-08-29 15:54:30.403] [ERROR] sockets - TypeError: Cannot read property 'name' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:379:75)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 15:55:30.811] [INFO] main - Running server on 3001 port
+[2017-08-29 15:55:30.828] [INFO] main - Connected to db
+[2017-08-29 15:55:31.069] [ERROR] sockets - TypeError: Cannot read property 'name' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:380:75)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 15:57:13.888] [INFO] main - Running server on 3001 port
+[2017-08-29 15:57:13.916] [INFO] main - Connected to db
+[2017-08-29 16:00:43.206] [INFO] main - Running server on 3001 port
+[2017-08-29 16:00:43.222] [INFO] main - Connected to db
+[2017-08-29 16:03:41.816] [INFO] main - Running server on 3001 port
+[2017-08-29 16:03:41.833] [INFO] main - Connected to db
+[2017-08-29 16:05:30.221] [INFO] main - Running server on 3001 port
+[2017-08-29 16:05:30.236] [INFO] main - Connected to db
+[2017-08-29 16:07:27.415] [INFO] main - Running server on 3001 port
+[2017-08-29 16:07:27.432] [INFO] main - Connected to db
+[2017-08-29 16:08:31.390] [ERROR] sockets - TypeError: Cannot read property 'map' of undefined
+    at then.then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:307:31)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 16:10:40.381] [INFO] main - Running server on 3001 port
+[2017-08-29 16:10:40.397] [INFO] main - Connected to db
+[2017-08-29 16:11:17.090] [ERROR] sockets - TypeError: Cannot read property 'map' of undefined
+    at then.then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:307:31)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 16:12:26.167] [INFO] main - Running server on 3001 port
+[2017-08-29 16:12:26.182] [INFO] main - Connected to db
+[2017-08-29 16:12:31.716] [ERROR] sockets - TypeError: Cannot read property 'map' of undefined
+    at then.then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:307:31)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 16:13:32.142] [INFO] main - Running server on 3001 port
+[2017-08-29 16:13:32.157] [INFO] main - Connected to db
+[2017-08-29 16:13:37.947] [ERROR] sockets - TypeError: Cannot read property 'map' of undefined
+    at then.then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:308:31)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 16:15:03.824] [INFO] main - Running server on 3001 port
+[2017-08-29 16:15:03.858] [INFO] main - Connected to db
+[2017-08-29 16:17:37.914] [ERROR] sockets - TypeError: Cannot read property 'map' of undefined
+    at Promise.createMessage.text.then.then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:308:31)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 16:19:38.826] [INFO] main - Running server on 3001 port
+[2017-08-29 16:19:38.842] [INFO] main - Connected to db
+[2017-08-29 16:19:45.031] [ERROR] sockets - TypeError: Cannot read property 'map' of undefined
+    at then.then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:308:31)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 16:20:09.895] [INFO] main - Running server on 3001 port
+[2017-08-29 16:20:09.912] [INFO] main - Connected to db
+[2017-08-29 16:20:15.677] [ERROR] sockets - TypeError: Cannot read property '0' of undefined
+    at then.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:393:42)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 16:25:58.816] [INFO] main - Running server on 3001 port
+[2017-08-29 16:25:58.832] [INFO] main - Connected to db
+[2017-08-29 16:27:12.059] [INFO] main - Running server on 3001 port
+[2017-08-29 16:27:12.076] [INFO] main - Connected to db
+[2017-08-29 16:29:32.972] [INFO] main - Running server on 3001 port
+[2017-08-29 16:29:32.988] [INFO] main - Connected to db
+[2017-08-29 16:30:49.239] [ERROR] sockets - ReferenceError: user is not defined
+    at Promise.all.newUsers.map.newUser (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:243:125)
+    at Array.map (native)
+    at Promise.resolve.getRoom.checkMember.addUsers.then (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:241:46)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 17:47:33.104] [INFO] main - Running server on 3001 port
+[2017-08-29 17:47:33.120] [INFO] main - Connected to db
+[2017-08-29 17:48:12.350] [INFO] main - Running server on 3001 port
+[2017-08-29 17:48:12.371] [INFO] main - Connected to db
+[2017-08-29 17:49:09.190] [ERROR] sockets - TypeError: Promise resolver undefined is not a function
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:11:1)
+    at MyPromise.all.newUsersArr.map.newUser (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:282:32)
+    at Array.map (native)
+    at then.room (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:281:50)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 17:50:02.884] [INFO] main - Running server on 3001 port
+[2017-08-29 17:50:02.902] [INFO] main - Connected to db
+[2017-08-29 17:50:18.308] [ERROR] sockets - TypeError: Cannot read property 'Symbol(Symbol.iterator)' of undefined
+    at Promise.resolve.getRoom.checkMember.addUsers.then (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:239:35)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 17:52:31.147] [INFO] main - Running server on 3001 port
+[2017-08-29 17:52:31.163] [INFO] main - Connected to db
+[2017-08-29 17:53:04.438] [ERROR] sockets - { ValidationError: openroom validation failed: owner: Path `owner` is required.
+    at ValidationError.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validation.js:57:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at Object.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:34:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at formatLogData (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:54:22)
+    at basicLayout (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:116:7)
+    at Logger.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\appenders\file.js:63:18)
+    at emitOne (events.js:101:20)
+    at Logger.emit (events.js:191:7)
+    at Logger._log (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:96:8)
+    at Logger.(anonymous function) [as error] (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:89:12)
+    at Promise.resolve.createMessage.then.catch.err (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:256:53)
+  errors: 
+   { owner: 
+      { MongooseError: Path `owner` is required.
+          at ValidatorError (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validator.js:24:11)
+          at validate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:758:13)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:805:11
+          at Array.forEach (native)
+          at ObjectId.SchemaType.doValidate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:765:19)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\document.js:1480:9
+          at _combinedTickCallback (internal/process/next_tick.js:73:7)
+          at process._tickCallback (internal/process/next_tick.js:104:9)
+        message: 'Path `owner` is required.',
+        name: 'ValidatorError',
+        properties: [Object],
+        kind: 'required',
+        path: 'owner',
+        value: undefined,
+        reason: undefined,
+        '$isValidatorError': true } },
+  _message: 'openroom validation failed',
+  name: 'ValidationError' }
+[2017-08-29 17:56:21.519] [TRACE] userModel - Generated new token a258407ffcc181efdd80a4ccb78467ec664e9a61 for user k1rill_fedoseev
+[2017-08-29 17:58:01.359] [ERROR] sockets - { ValidationError: openroom validation failed: owner: Path `owner` is required.
+    at ValidationError.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validation.js:57:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at Object.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:34:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at formatLogData (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:54:22)
+    at basicLayout (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:116:7)
+    at Logger.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\appenders\file.js:63:18)
+    at emitOne (events.js:101:20)
+    at Logger.emit (events.js:191:7)
+    at Logger._log (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:96:8)
+    at Logger.(anonymous function) [as error] (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:89:12)
+    at Promise.resolve.getRoom.createMessage.then.catch.err (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:218:37)
+  errors: 
+   { owner: 
+      { MongooseError: Path `owner` is required.
+          at ValidatorError (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validator.js:24:11)
+          at validate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:758:13)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:805:11
+          at Array.forEach (native)
+          at ObjectId.SchemaType.doValidate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:765:19)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\document.js:1480:9
+          at _combinedTickCallback (internal/process/next_tick.js:73:7)
+          at process._tickCallback (internal/process/next_tick.js:104:9)
+        message: 'Path `owner` is required.',
+        name: 'ValidatorError',
+        properties: [Object],
+        kind: 'required',
+        path: 'owner',
+        value: null,
+        reason: undefined,
+        '$isValidatorError': true } },
+  _message: 'openroom validation failed',
+  name: 'ValidationError' }
+[2017-08-29 18:04:29.342] [INFO] main - Running server on 3001 port
+[2017-08-29 18:04:29.364] [INFO] main - Connected to db
+[2017-08-29 18:04:53.365] [ERROR] sockets - { ValidationError: openroom validation failed: owner: Path `owner` is required.
+    at ValidationError.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validation.js:57:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at Object.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:34:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at formatLogData (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:54:22)
+    at basicLayout (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:116:7)
+    at Logger.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\appenders\file.js:63:18)
+    at emitOne (events.js:101:20)
+    at Logger.emit (events.js:191:7)
+    at Logger._log (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:96:8)
+    at Logger.(anonymous function) [as error] (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:89:12)
+    at Promise.resolve.createMessage.then.catch.err (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:256:53)
+  errors: 
+   { owner: 
+      { MongooseError: Path `owner` is required.
+          at ValidatorError (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validator.js:24:11)
+          at validate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:758:13)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:805:11
+          at Array.forEach (native)
+          at ObjectId.SchemaType.doValidate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:765:19)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\document.js:1480:9
+          at _combinedTickCallback (internal/process/next_tick.js:73:7)
+          at process._tickCallback (internal/process/next_tick.js:104:9)
+        message: 'Path `owner` is required.',
+        name: 'ValidatorError',
+        properties: [Object],
+        kind: 'required',
+        path: 'owner',
+        value: undefined,
+        reason: undefined,
+        '$isValidatorError': true } },
+  _message: 'openroom validation failed',
+  name: 'ValidationError' }
+[2017-08-29 18:05:08.246] [INFO] main - Running server on 3001 port
+[2017-08-29 18:05:08.264] [INFO] main - Connected to db
+[2017-08-29 18:05:17.800] [INFO] main - Running server on 3001 port
+[2017-08-29 18:05:17.868] [INFO] main - Connected to db
+[2017-08-29 18:09:06.866] [ERROR] sockets - { ValidationError: openroom validation failed: owner: Path `owner` is required.
+    at ValidationError.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validation.js:57:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at Object.inspect (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:34:23)
+    at formatValue (util.js:353:36)
+    at inspect (util.js:187:10)
+    at Object.exports.format (util.js:69:24)
+    at formatLogData (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:54:22)
+    at basicLayout (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\layouts.js:116:7)
+    at Logger.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\appenders\file.js:63:18)
+    at emitOne (events.js:101:20)
+    at Logger.emit (events.js:191:7)
+    at Logger._log (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:96:8)
+    at Logger.(anonymous function) [as error] (C:\Users\1\WebstormProjects\react_chat\node_modules\log4js\lib\logger.js:89:12)
+    at module.exports.io.on.socket.on.Promise.resolve.getRoom.checkMember.addUsers.then.Promise.all.newUsers.map.Promise.resolve.createMessage.then.catch.err (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:256:53)
+  errors: 
+   { owner: 
+      { MongooseError: Path `owner` is required.
+          at ValidatorError (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\validator.js:24:11)
+          at validate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:758:13)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:805:11
+          at Array.forEach (native)
+          at ObjectId.SchemaType.doValidate (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:765:19)
+          at C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\document.js:1480:9
+          at _combinedTickCallback (internal/process/next_tick.js:73:7)
+          at process._tickCallback (internal/process/next_tick.js:104:9)
+        message: 'Path `owner` is required.',
+        name: 'ValidatorError',
+        properties: [Object],
+        kind: 'required',
+        path: 'owner',
+        value: undefined,
+        reason: undefined,
+        '$isValidatorError': true } },
+  _message: 'openroom validation failed',
+  name: 'ValidationError' }
+[2017-08-29 18:09:19.543] [INFO] main - Running server on 3001 port
+[2017-08-29 18:09:19.559] [INFO] main - Connected to db
+[2017-08-29 18:13:44.945] [ERROR] sockets - ReferenceError: roomId is not defined
+    at userMessages.forEach.userMessage (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:252:60)
+    at Array.forEach (native)
+    at Promise.resolve.createMessage.then.userMessages (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:244:80)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 18:14:28.361] [INFO] main - Running server on 3001 port
+[2017-08-29 18:14:28.375] [INFO] main - Connected to db
+[2017-08-29 18:17:27.719] [INFO] main - Running server on 3001 port
+[2017-08-29 18:17:27.735] [INFO] main - Connected to db
+[2017-08-29 18:17:58.037] [ERROR] sockets - ReferenceError: roomId is not defined
+    at userMessages.forEach.userMessage (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:213:44)
+    at Array.forEach (native)
+    at Promise.resolve.getRoom.createMessage.then.userMessages (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:191:64)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-08-29 18:19:29.464] [INFO] main - Running server on 3001 port
+[2017-08-29 18:19:29.479] [INFO] main - Connected to db

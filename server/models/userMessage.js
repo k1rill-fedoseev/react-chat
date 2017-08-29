@@ -1,5 +1,5 @@
 const mongoose = require('mongoose'),
-    ObjectId = mongoose.Schema.Types.ObjectId;
+    ObjectId = mongoose.Schema.Types.ObjectId
 
 const userMessageSchema = mongoose.Schema({
     message: {
@@ -16,8 +16,8 @@ const userMessageSchema = mongoose.Schema({
         ref: 'user',
         required: true
     }
-});
+})
 
-userMessageSchema.index({owner: 1, room: 1, date: -1});
+userMessageSchema.index({owner: 1, room: 1, date: -1})
 
-module.exports = mongoose.model('userMessage', userMessageSchema);
+module.exports = mongoose.model('userMessage', userMessageSchema)

@@ -517,7 +517,7 @@ sup {
     color: white;
 }
 
-#messages .mes.system .message{
+#messages .mes.system .message {
     margin: 0;
 }
 
@@ -555,6 +555,23 @@ sup {
 #messages .mes.me .message {
     margin-left: 80px;
     margin-right: 0;
+}
+
+.divider {
+    text-align: center;
+    color: #d6d7d8;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.divider:before, .divider:after {
+    content: '';
+    flex-grow: 1;
+    height: 1px;
+    background-color: #d6d7d8;
+    margin: 0 10px;
+
 }
 
 .loading {
@@ -624,7 +641,7 @@ input {
     cursor: pointer;
 }
 
-.card-row{
+.card-row {
     margin-bottom: 5px;
 }
 

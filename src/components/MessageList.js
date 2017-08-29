@@ -3,18 +3,22 @@ import { connect } from 'react-redux'
 import Message from './Message'
 import MessageInput from './MessageInput'
 import LoadMore from './LoadMore'
+import Divider from './Divider'
 import { inviteClick } from '../actions/frontend'
 
 class MessageList extends Component {
 
     render() {
         const {chat, phase, messages, invite} = this.props
-        const {name, online, isRoom} = chat
+        const {name, online, isRoom, newMessages} = chat
         const {isStart} = messages[messages.length - 1]|| false
 
         const arr = []
-        for (let i = messages.length - 1; i >= 0; --i)
+        for (let i = messages.length - 1; i >= 0; --i) {
             arr.push(<Message message={messages[i]} key={i}/>)
+            if(i === newMessages)
+                arr.push(<Divider text={"5 new messages"}/>)
+        }
         return (
             <div id="messages">
                 <div className="up-line">

@@ -3,7 +3,6 @@ const mongoose = require('mongoose'),
     UserMessage = require('../models/userMessage'),
     OpenRoom = require('../models/openRoom'),
     helpers = require('./helpers'),
-    userManager = require('./userManager'),
     config = require('../cfg')
 ObjectId = mongoose.Types.ObjectId
 
@@ -80,7 +79,7 @@ module.exports = {
                                 }))
                                 if (arr.length === config.get('packetSize') + 1)
                                     arr.pop()
-                                if (arr.length <= config.get('packetSize'))
+                                else
                                     arr[arr.length - 1].isStart = true
                                 callback(null, arr)
                             }
