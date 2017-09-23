@@ -1,68 +1,76 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { chatSelect } from '../actions/frontend'
-
-const parseMs = (ms) => {
-    ms /= 1000
-    if (ms < 30)
-        return 'now'
-    else if (ms < 3600)
-        return Math.round(ms / 60) + ' min'
-    else if (ms < 86400)
-        return Math.round(ms / 3600) + ' hrs'
-    else {
-        let days = Math.round(ms / 86400)
-        if (days === 1)
-            return '1 day'
-        return days + ' days'
-    }
-}
+import { chatSelect, markRead } from '../actions/frontend'
+import { parseMs } from '../helpers/index'
+import { subscribe, unsubscribe } from '../helpers/onlineController'
+import Avatar from './Avatar'
 
 class ChatItem extends Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            time: Date.now() - props.time
-        }
+    updateInterval({time}) {
+        clearInterval(this.intervalId)
 
-    }
+        this.setState({
+            time: Date.now() - time
+        })
 
-    componentWillMount() {
         this.intervalId = setInterval(() => {
             this.setState({
-                time: Date.now() - this.props.time
+                time: Date.now() - time
             })
         }, 30000)
     }
 
+    subscribe({to}) {
+        if(to)
+            subscribe(to.id)
+    }
+
+    componentWillMount() {
+        this.updateInterval(this.props)
+        this.subscribe(this.props)
+    }
+
     componentWillUnmount() {
         clearInterval(this.intervalId)
+        clearTimeout(this.timeoutId)
+        unsubscribe(this.props)
     }
 
     componentWillReceiveProps(props) {
-        this.setState({
-            time: Date.now() - props.time
-        })
+        const {isSelected, markRead, chat} = props
+        const {newMessages} = chat
+
+        this.updateInterval(props)
+        this.subscribe(props)
+
+        if(newMessages && isSelected)
+            this.timeoutId = setTimeout(markRead, 2500)
+        else
+            clearTimeout(this.timeoutId)
     }
 
     render() {
-        const {activeChat, chat, onClick, message} = this.props
-        const time = parseMs(this.state.time)
-        const {id, avatar, newMessages, isRoom, online, name} = chat
+        const {isSelected, chat, select, message, to} = this.props
+        if (!chat || !chat.isRoom && !to)
+            return null
+
+        const timeStr = parseMs(this.state.time)
+        const {avatar, newMessages, isRoom, name} = chat
+
         return (
-            <li className={'chat-item' + (id === activeChat.id ? ' active' : '')} id={id} onClick={onClick}>
+            <li className={'chat-item' + (isSelected ? ' active' : '')} onClick={select}>
                 <div className="avatar">
                     {newMessages > 0 && <div className="new-mes">{newMessages}</div>}
-                    <img src={avatar} alt="" width={40} height={40}/>
+                    <Avatar src={isRoom ? avatar : to.avatar}/>
                 </div>
                 <div className="info">
-                    <div className="name">{name}</div>
+                    <div className="name">{isRoom ? name : `${to.name} ${to.surname}`}</div>
                     <div className="mes">{message}</div>
                 </div>
                 <div className="info2">
-                    {!isRoom && <div className={'tmblr ' + (online && 'online')}/>}
-                    <div className="time">{time}</div>
+                    {!isRoom && <div className={'tmblr ' + (to.online && 'online')}/>}
+                    <div className="time">{timeStr}</div>
                 </div>
             </li>
         )
@@ -71,14 +79,22 @@ class ChatItem extends Component {
 
 export default connect(
     (state, ownProps) => {
-        const lastMessage = state.messages[ownProps.chat.id][0]
+        const messagesList = state.ui.messagesLists[ownProps.chatId]
+        if (!messagesList)
+            return {}
+
+        const lastMessage = state.db.messages[messagesList[messagesList.length - 1]]
+        const chat = state.db.chats[ownProps.chatId]
         return {
-            activeChat: state.activeChat,
+            isSelected: ownProps.chatId === state.ui.selectedChat,
+            chat,
             message: lastMessage.message,
-            time: lastMessage.time
+            time: lastMessage.time,
+            to: state.db.users[chat.to]
         }
     },
     (dispatch, ownProps) => ({
-        onClick: () => dispatch(chatSelect(ownProps.chat.id))
+        select: () => dispatch(chatSelect(ownProps.chatId)),
+        markRead: () => dispatch(markRead())
     })
 )(ChatItem)

@@ -5,73 +5,117 @@ import { signUpClick, switchClick } from '../actions/frontend'
 class SignUp extends Component {
 
     constructor(props) {
-        super(props)
-        this.inputs = {
-            nameInput: '',
-            surnameInput: '',
-            usernameInput: '',
-            passwordInput: '',
-            confirmPassInput: '',
-            avatarInput: '',
-            descInput: ''
+        super()
+
+        this.state = {
+            passwordsEqual: true
         }
+
+        this.nameInput = ''
+        this.surnameInput = ''
+        this.usernameInput = ''
+        this.passwordInput = ''
+        this.confirmPassInput = ''
+        this.avatarInput = ''
+        this.descInput = ''
+        this.handleClick = this.handleClick.bind(this)
+        this.handleUsernameChange = this.handleUsernameChange.bind(this)
+        this.handlePasswordChange = this.handlePasswordChange.bind(this)
+        this.handleConfirmPassChange = this.handleConfirmPassChange.bind(this)
+        this.handleNameChange = this.handleNameChange.bind(this)
+        this.handleSurnameChange = this.handleSurnameChange.bind(this)
+        this.handleDescChange = this.handleDescChange.bind(this)
+        this.handleAvatarChange = this.handleAvatarChange.bind(this)
+    }
+
+    handleClick() {
+        const {signUp} = this.props
+
+        if (this.passwordInput === this.confirmPassInput)
+            signUp(
+                this.nameInput,
+                this.surnameInput,
+                this.usernameInput,
+                this.passwordInput,
+                this.avatarInput,
+                this.descInput)
+    }
+
+    handleUsernameChange(e) {
+        this.usernameInput = e.target.value
+    }
+
+    handlePasswordChange(e) {
+        this.passwordInput = e.target.value
+        this.setState({
+            passwordsEqual: this.passwordInput === this.confirmPassInput
+        })
+    }
+
+    handleConfirmPassChange(e) {
+        this.confirmPassInput = e.target.value
+        this.setState({
+            passwordsEqual: this.passwordInput === this.confirmPassInput
+        })
+    }
+
+    handleNameChange(e) {
+        this.nameInput = e.target.value
+    }
+
+    handleSurnameChange(e) {
+        this.surnameInput = e.target.value
+    }
+
+    handleDescChange(e) {
+        this.descInput = e.target.value
+    }
+
+    handleAvatarChange(e) {
+        this.avatarInput = e.target.value
     }
 
     render() {
-        const {signUp, toSignIn} = this.props
-        const {inputs} = this
+        const {toSignIn} = this.props
+
         return (
             <form className="main">
                 <label>
                     Name: <input type="text" autoComplete="off"
-                                 onChange={(e) => inputs.nameInput = e.target.value}/>
+                                 onChange={this.handleNameChange}/>
                 </label>
                 <label>
                     Surname: <input type="text" autoComplete="off"
-                                    onChange={(e) => inputs.surnameInput = e.target.value}/>
+                                    onChange={this.handleSurnameChange}/>
                 </label>
                 <label>
                     Username: <input type="text" autoComplete="off"
-                                     onChange={(e) => inputs.usernameInput = e.target.value}/>
+                                     onChange={this.handleUsernameChange}/>
                 </label>
                 <label>
                     Password: <input type="password" autoComplete="off"
-                                     onChange={(e) => {
-                                         inputs.passwordInput = e.target.value
-                                         e.target.form[4]//ля, как же я люблю костыли, просто обожаю
-                                             .style.boxShadow = inputs.confirmPassInput === inputs.passwordInput ?
-                                             '' : '0px 0px 10px 0px rgba(244, 67, 54, 0.65)'
-                                     }}/>
+                                     onChange={this.handlePasswordChange}/>
                 </label>
                 <label>
-                    Confirm password: <input type="password" autoComplete="off"
-                                             onChange={(e) => {
-                                                 this.inputs.confirmPassInput = e.target.value
-                                                 e.target.style.boxShadow =
-                                                     inputs.confirmPassInput === inputs.passwordInput ?
-                                                         '' : '0px 0px 10px 0px rgba(244, 67, 54, 0.65)'
-                                             }}/>
+                    Confirm password: <input type="password" autoComplete="off" id="confirm"
+                                             style={{
+                                                 boxShadow: this.state.passwordsEqual
+                                                     ? ''
+                                                     : '0 0 10px 0 rgba(244, 67, 54, 0.65)'
+                                             }}
+                                             onChange={this.handleConfirmPassChange}/>
                 </label>
                 <label>
                     Avatar: <input type="url" autoComplete="off"
-                                   onChange={(e) => inputs.avatarInput = e.target.value}/>
+                                   onChange={this.handleAvatarChange}/>
                 </label>
                 <label>
                     Description: <input type="text" autoComplete="off"
-                                        onChange={(e) => inputs.descInput = e.target.value}/>
+                                        onChange={this.handleDescChange}/>
                 </label>
                 <div className="buttons">
                     <div className="btn"
-                         onClick={() => {
-                             if (inputs.passwordInput === inputs.confirmPassInput)
-                                 signUp(
-                                     inputs.nameInput,
-                                     inputs.surnameInput,
-                                     inputs.usernameInput,
-                                     inputs.passwordInput,
-                                     inputs.avatarInput,
-                                     inputs.descInput)
-                         }}>
+                         onClick={this.handleClick}>
                         Sign Up
                     </div>
                     <div className="btn switch-btn" onClick={toSignIn}>

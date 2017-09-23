@@ -5,19 +5,30 @@ import { loadMoreClick } from '../actions/frontend'
 class LoadMore extends Component {
 
     constructor(props) {
-        super(props)
+        super()
+
+        this.handleClick = this.handleClick.bind(this)
         this.state = {
             points: 0
         }
     }
 
-    componentWillMount() {
-        this.componentWillReceiveProps()
+    handleClick() {
+        const {loadMore, isLoading} = this.props
+
+        if(!isLoading)
+            loadMore()
     }
 
-    componentWillReceiveProps(props = this.props) {
+    componentWillMount() {
+        this.componentWillReceiveProps(this.props)
+    }
+
+    componentWillReceiveProps(props) {
         const {isLoading} = props
+
         clearInterval(this.intevalId)
+
         if (isLoading) {
             this.intevalId = setInterval(() => {
                 this.setState((prevState) => ({
@@ -32,11 +43,14 @@ class LoadMore extends Component {
     }
 
     render() {
-        const {isLoading, onClick} = this.props
+        const {isLoading} = this.props
+
         return (
-            <li className="loading" onClick={onClick}>
+            <li className="loading" onClick={this.handleClick}>
                 <span className="load-more">
-                    {isLoading ? 'Loading' : 'Load more'}
+                    {isLoading
+                        ? 'Loading'
+                        : 'Load more'}
                     {isLoading && <i className="points">{'.'.repeat(this.state.points)}</i>}
                 </span>
             </li>
@@ -46,10 +60,10 @@ class LoadMore extends Component {
 
 export default connect(
     state => ({
-        isLoading: state.activeChat.isLoading
+        isLoading: state.db.chats[state.ui.selectedChat].isLoading
     }),
     dispatch => ({
-        onClick: () => {
+        loadMore: () => {
             dispatch(loadMoreClick())
         }
     })

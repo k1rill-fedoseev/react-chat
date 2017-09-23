@@ -1462,3 +1462,416 @@
     at process._tickCallback (internal/process/next_tick.js:109:7)
 [2017-08-29 18:19:29.464] [INFO] main - Running server on 3001 port
 [2017-08-29 18:19:29.479] [INFO] main - Connected to db
+[2017-08-30 17:26:17.696] [INFO] main - Running server on 3001 port
+[2017-08-30 17:26:17.712] [INFO] main - Connected to db
+[2017-08-30 17:26:38.375] [TRACE] userModel - Generated new token eea411e49578f25adb9accb0a0efc5e08f83d120 for user admin
+[2017-08-30 17:37:08.924] [INFO] main - Running server on 3001 port
+[2017-08-30 17:37:08.940] [INFO] main - Connected to db
+[2017-08-30 17:37:41.392] [INFO] main - Running server on 3001 port
+[2017-08-30 17:37:41.408] [INFO] main - Connected to db
+[2017-08-30 17:41:11.103] [INFO] main - Running server on 3001 port
+[2017-08-30 17:41:11.132] [INFO] main - Connected to db
+[2017-08-30 17:51:19.745] [INFO] main - Running server on 3001 port
+[2017-08-30 17:51:19.762] [INFO] main - Connected to db
+[2017-08-30 17:52:18.355] [TRACE] userModel - Generated new token 5554a35d9e5f357ca8ed22f9892309d5a19170d1 for user k1rill_fedoseev
+[2017-09-10 11:20:28.741] [INFO] main - Running server on 3001 port
+[2017-09-10 11:20:28.784] [INFO] main - Connected to db
+[2017-09-10 11:27:43.244] [TRACE] userModel - Generated new token 7ac7dd53345ffe68225a29069ffc508bee6fee1c for user admin
+[2017-09-10 11:29:54.569] [TRACE] userModel - Generated new token 9756b378f261076670e7cdca5944225f158ef31b for user admin
+[2017-09-10 11:43:08.433] [INFO] main - Running server on 3001 port
+[2017-09-10 11:43:08.455] [INFO] main - Connected to db
+[2017-09-10 11:43:17.716] [TRACE] userModel - Generated new token 2230ae45d7a4bbae17b97a769e5237cfde87f02f for user admin
+[2017-09-10 11:43:17.726] [ERROR] sockets - ReferenceError: token is not defined
+    at Promise.resolve.auth.then.tokenUserFilter.then (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:73:65)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 11:44:25.205] [INFO] main - Running server on 3001 port
+[2017-09-10 11:44:25.222] [INFO] main - Connected to db
+[2017-09-10 11:44:30.051] [TRACE] userModel - Generated new token 66233bc7d51068624f4b5fb437937e9967367211 for user admin
+[2017-09-10 11:44:30.059] [ERROR] sockets - ReferenceError: token is not defined
+    at Promise.resolve.auth.then.tokenUserFilter.then (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:73:65)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 11:45:34.999] [INFO] main - Running server on 3001 port
+[2017-09-10 11:45:35.014] [INFO] main - Connected to db
+[2017-09-10 11:45:45.443] [TRACE] userModel - Generated new token df16e03a62028ae1edb5e2bd9a1fde570eba2c49 for user admin
+[2017-09-10 11:46:10.188] [TRACE] userModel - Generated new token 2a1977e29b0124b7ef2ca8437b1a9becf325dcba for user admin
+[2017-09-10 11:47:25.852] [TRACE] userModel - Generated new token 3db3afc7c81c4b80c9ed18fe87a11f4ef305a02a for user admin
+[2017-09-10 11:47:27.012] [ERROR] sockets - TypeError: undefined is not a function
+    at then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:414:26)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 11:48:06.261] [ERROR] sockets - TypeError: undefined is not a function
+    at then (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:414:26)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 11:50:03.371] [INFO] main - Running server on 3001 port
+[2017-09-10 11:50:03.391] [INFO] main - Connected to db
+[2017-09-10 13:31:40.919] [INFO] main - Running server on 3001 port
+[2017-09-10 13:31:40.935] [INFO] main - Connected to db
+[2017-09-10 13:31:41.539] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:441:41)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 13:31:43.239] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:441:41)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 13:33:29.997] [INFO] main - Running server on 3001 port
+[2017-09-10 13:33:30.012] [INFO] main - Connected to db
+[2017-09-10 13:33:30.505] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:440:41)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 13:33:36.111] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:440:41)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 13:34:37.253] [INFO] main - Running server on 3001 port
+[2017-09-10 13:34:37.269] [INFO] main - Connected to db
+[2017-09-10 13:34:37.465] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:441:41)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 13:35:04.489] [INFO] main - Running server on 3001 port
+[2017-09-10 13:35:04.510] [INFO] main - Connected to db
+[2017-09-10 13:35:05.106] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:441:41)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 13:37:26.370] [INFO] main - Running server on 3001 port
+[2017-09-10 13:37:26.387] [INFO] main - Connected to db
+[2017-09-10 13:37:26.629] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:441:41)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 13:38:14.276] [INFO] main - Running server on 3001 port
+[2017-09-10 13:38:14.298] [INFO] main - Connected to db
+[2017-09-10 13:38:14.399] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:441:41)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 13:38:49.041] [INFO] main - Running server on 3001 port
+[2017-09-10 13:38:49.056] [INFO] main - Connected to db
+[2017-09-10 13:38:49.240] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:441:41)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 13:39:31.114] [INFO] main - Running server on 3001 port
+[2017-09-10 13:39:31.129] [INFO] main - Connected to db
+[2017-09-10 13:39:31.699] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at MyPromise.all.then.data (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:442:41)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 13:41:01.568] [INFO] main - Running server on 3001 port
+[2017-09-10 13:41:01.587] [INFO] main - Connected to db
+[2017-09-10 18:26:36.938] [INFO] main - Running server on 3001 port
+[2017-09-10 18:26:36.958] [INFO] main - Connected to db
+[2017-09-10 18:44:28.899] [ERROR] sockets - TypeError: Cannot read property 'forEach' of undefined
+    at then.room (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:335:24)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 18:48:18.038] [INFO] main - Running server on 3001 port
+[2017-09-10 18:48:18.066] [INFO] main - Connected to db
+[2017-09-10 18:48:24.670] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at then.openRoom (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:470:54)
+    at process._tickCallback (internal/process/next_tick.js:109:7)
+[2017-09-10 18:49:02.978] [INFO] main - Running server on 3001 port
+[2017-09-10 18:49:02.998] [INFO] main - Connected to db
+[2017-09-11 21:41:11.994] [INFO] main - Running server on 3001 port
+[2017-09-11 21:41:12.055] [INFO] main - Connected to db
+[2017-09-11 21:41:33.400] [TRACE] userModel - Generated new token d5e1375c8bbdfd909f995de0e12114a8f9eddb7d for user admin
+[2017-09-11 22:01:19.095] [INFO] main - Running server on 3001 port
+[2017-09-11 22:01:19.109] [INFO] main - Connected to db
+[2017-09-11 22:04:05.722] [INFO] main - Running server on 3001 port
+[2017-09-11 22:04:05.747] [INFO] main - Connected to db
+[2017-09-11 22:05:16.933] [INFO] main - Running server on 3001 port
+[2017-09-11 22:05:16.947] [INFO] main - Connected to db
+[2017-09-11 22:07:49.753] [TRACE] userModel - Generated new token eaf92495b37bf867b75f57d4ac858bd4784babc8 for user k1rill_fedoseev
+[2017-09-11 22:31:21.402] [INFO] main - Running server on 3001 port
+[2017-09-11 22:31:21.418] [INFO] main - Connected to db
+[2017-09-11 22:35:53.899] [INFO] main - Running server on 3001 port
+[2017-09-11 22:35:53.914] [INFO] main - Connected to db
+[2017-09-11 22:36:31.981] [INFO] main - Running server on 3001 port
+[2017-09-11 22:36:31.995] [INFO] main - Connected to db
+[2017-09-11 22:37:54.795] [INFO] main - Running server on 3001 port
+[2017-09-11 22:37:54.812] [INFO] main - Connected to db
+[2017-09-11 22:38:41.470] [INFO] main - Running server on 3001 port
+[2017-09-11 22:38:41.489] [INFO] main - Connected to db
+[2017-09-11 22:43:59.768] [INFO] main - Running server on 3001 port
+[2017-09-11 22:43:59.786] [INFO] main - Connected to db
+[2017-09-11 22:44:10.201] [INFO] main - Running server on 3001 port
+[2017-09-11 22:44:10.216] [INFO] main - Connected to db
+[2017-09-11 22:46:06.115] [INFO] main - Running server on 3001 port
+[2017-09-11 22:46:06.132] [INFO] main - Connected to db
+[2017-09-11 22:47:19.399] [INFO] main - Running server on 3001 port
+[2017-09-11 22:47:19.413] [INFO] main - Connected to db
+[2017-09-11 22:49:21.462] [INFO] main - Running server on 3001 port
+[2017-09-11 22:49:21.479] [INFO] main - Connected to db
+[2017-09-12 17:13:36.040] [INFO] main - Running server on 3001 port
+[2017-09-12 17:13:36.054] [INFO] main - Connected to db
+[2017-09-12 17:14:08.591] [TRACE] userModel - Generated new token f544e90413dbc7a14cc692c20d9bc1f9ae758169 for user admin
+[2017-09-12 19:39:29.866] [ERROR] sockets - TypeError: Cannot read property 'toString' of undefined
+    at messages.map (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:495:43)
+    at Array.map (<anonymous>)
+    at then.messages (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:492:34)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2017-09-12 21:05:25.866] [INFO] main - Running server on 3001 port
+[2017-09-12 21:05:25.885] [INFO] main - Connected to db
+[2017-09-12 21:06:19.243] [ERROR] sockets - TypeError: Cannot set property 'isStart' of undefined
+    at then.messages (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:490:45)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2017-09-12 21:07:34.329] [INFO] main - Running server on 3001 port
+[2017-09-12 21:07:34.356] [INFO] main - Connected to db
+[2017-09-12 21:09:15.637] [INFO] main - Running server on 3001 port
+[2017-09-12 21:09:15.664] [INFO] main - Connected to db
+[2017-09-12 21:10:41.986] [INFO] main - Running server on 3001 port
+[2017-09-12 21:10:42.005] [INFO] main - Connected to db
+[2017-09-12 21:12:52.566] [INFO] main - Running server on 3001 port
+[2017-09-12 21:12:52.592] [INFO] main - Connected to db
+[2017-09-12 21:41:53.875] [INFO] main - Running server on 3001 port
+[2017-09-12 21:41:53.894] [INFO] main - Connected to db
+[2017-09-12 21:44:13.901] [INFO] main - Running server on 3001 port
+[2017-09-12 21:44:13.915] [INFO] main - Connected to db
+[2017-09-12 21:46:35.939] [INFO] main - Running server on 3001 port
+[2017-09-12 21:46:35.952] [INFO] main - Connected to db
+[2017-09-12 21:46:57.219] [ERROR] sockets - TypeError: Cannot read property 'forEach' of undefined
+    at then.room (C:\Users\1\WebstormProjects\react_chat\server\managers\index.js:334:24)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2017-09-12 21:49:21.667] [INFO] main - Running server on 3001 port
+[2017-09-12 21:49:21.685] [INFO] main - Connected to db
+[2017-09-14 17:44:14.381] [INFO] main - Running server on 3001 port
+[2017-09-14 17:44:14.449] [INFO] main - Connected to db
+[2017-09-14 17:44:39.986] [TRACE] userModel - Generated new token 320680932234835408e9ece01d99f645609493fb for user admin
+[2017-09-14 17:44:39.992] [TRACE] userModel - Generated new token 3ec82013933c4ea76395a9dba49116024a9470a7 for user admin
+[2017-09-14 17:48:05.749] [INFO] main - Running server on 3001 port
+[2017-09-14 17:48:05.770] [INFO] main - Connected to db
+[2017-09-14 17:56:36.268] [TRACE] userModel - Generated new token 306f3461d634d8931b8d8b562090b6ee37036b54 for user k1rill_fedoseev
+[2017-09-14 21:25:57.162] [INFO] main - Running server on 3001 port
+[2017-09-14 21:25:57.182] [INFO] main - Connected to db
+[2017-09-18 21:05:16.388] [INFO] main - Running server on 3001 port
+[2017-09-18 21:05:16.406] [INFO] main - Connected to db
+[2017-09-18 21:06:45.291] [INFO] main - Running server on 3001 port
+[2017-09-18 21:06:45.310] [INFO] main - Connected to db
+[2017-09-18 21:07:12.102] [INFO] main - Running server on 3001 port
+[2017-09-18 21:07:12.134] [INFO] main - Connected to db
+[2017-09-18 21:07:28.431] [TRACE] userModel - Generated new token f817a153c9e17f8c8f71c5d195d82fd3170004c1 for user k1rill_fedoseev
+[2017-09-18 21:07:28.444] [ERROR] sockets - { MongooseError: Cast to ObjectId failed for value "" at path "owner"
+    at CastError (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\cast.js:26:11)
+    at ObjectId.cast (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schema\objectid.js:149:13)
+    at ObjectId.SchemaType._castForQuery (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:1064:15)
+    at ObjectId.castForQuery (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schema\objectid.js:189:15)
+    at ObjectId.SchemaType.castForQueryWrapper (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:1021:15)
+    at cast (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\cast.js:269:32)
+    at model.Query.Query.cast (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\query.js:3103:12)
+    at model.Query.Query._castConditions (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\query.js:1144:10)
+    at model.Query.Query._find (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\query.js:1159:8)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:250:8
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:23:7
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+  message: 'Cast to ObjectId failed for value "" at path "owner" for model "openroom"',
+  name: 'CastError',
+  stringValue: '""',
+  kind: 'ObjectId',
+  value: '',
+  path: 'owner',
+  reason: undefined,
+  model: 
+   { [Function: model]
+     hooks: Kareem { _pres: {}, _posts: {} },
+     base: 
+      Mongoose {
+        connections: [Array],
+        models: [Object],
+        modelSchemas: [Object],
+        options: [Object],
+        plugins: [Array] },
+     modelName: 'openroom',
+     model: [Function: model],
+     db: 
+      NativeConnection {
+        base: [Object],
+        collections: [Object],
+        models: [Object],
+        config: [Object],
+        replica: false,
+        hosts: null,
+        host: 'localhost',
+        port: 27017,
+        user: undefined,
+        pass: undefined,
+        name: 'chat',
+        options: [Object],
+        otherDbs: [],
+        _readyState: 1,
+        _closeCalled: false,
+        _hasOpened: true,
+        _listening: false,
+        db: [Object],
+        _events: [Object],
+        _eventsCount: 3 },
+     discriminators: undefined,
+     findOneOrCreate: [Function],
+     '$appliedHooks': true,
+     _events: { init: [Function], save: [Function] },
+     _eventsCount: 2,
+     schema: 
+      Schema {
+        obj: [Object],
+        paths: [Object],
+        aliases: {},
+        subpaths: {},
+        virtuals: [Object],
+        singleNestedPaths: {},
+        nested: {},
+        inherits: {},
+        callQueue: [Array],
+        _indexes: [Array],
+        methods: {},
+        statics: [Object],
+        tree: [Object],
+        query: {},
+        childSchemas: [],
+        plugins: [Array],
+        s: [Object],
+        options: [Object],
+        '$globalPluginsApplied': true,
+        _requiredpaths: [Array] },
+     collection: 
+      NativeCollection {
+        collection: [Object],
+        opts: [Object],
+        name: 'openrooms',
+        collectionName: 'openrooms',
+        conn: [Object],
+        queue: [],
+        buffer: false,
+        emitter: [Object] },
+     Query: { [Function] base: [Object] },
+     '$__insertMany': [Function],
+     insertMany: [Function] } }
+[2017-09-18 21:10:47.164] [INFO] main - Running server on 3001 port
+[2017-09-18 21:10:47.182] [INFO] main - Connected to db
+[2017-09-18 21:12:26.507] [INFO] main - Running server on 3001 port
+[2017-09-18 21:12:26.526] [INFO] main - Connected to db
+[2017-09-18 21:14:01.326] [TRACE] userModel - Generated new token 2672a3557c0b75fe4bf667f9214837330bc03839 for user k1rill_fedoseev
+[2017-09-18 21:14:01.337] [ERROR] sockets - { MongooseError: Cast to ObjectId failed for value "" at path "owner"
+    at CastError (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\error\cast.js:26:11)
+    at ObjectId.cast (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schema\objectid.js:149:13)
+    at ObjectId.SchemaType._castForQuery (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:1064:15)
+    at ObjectId.castForQuery (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schema\objectid.js:189:15)
+    at ObjectId.SchemaType.castForQueryWrapper (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\schematype.js:1021:15)
+    at cast (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\cast.js:269:32)
+    at model.Query.Query.cast (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\query.js:3103:12)
+    at model.Query.Query._castConditions (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\query.js:1144:10)
+    at model.Query.Query._find (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\query.js:1159:8)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:250:8
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:23:7
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+  message: 'Cast to ObjectId failed for value "" at path "owner" for model "openroom"',
+  name: 'CastError',
+  stringValue: '""',
+  kind: 'ObjectId',
+  value: '',
+  path: 'owner',
+  reason: undefined,
+  model: 
+   { [Function: model]
+     hooks: Kareem { _pres: {}, _posts: {} },
+     base: 
+      Mongoose {
+        connections: [Array],
+        models: [Object],
+        modelSchemas: [Object],
+        options: [Object],
+        plugins: [Array] },
+     modelName: 'openroom',
+     model: [Function: model],
+     db: 
+      NativeConnection {
+        base: [Object],
+        collections: [Object],
+        models: [Object],
+        config: [Object],
+        replica: false,
+        hosts: null,
+        host: 'localhost',
+        port: 27017,
+        user: undefined,
+        pass: undefined,
+        name: 'chat',
+        options: [Object],
+        otherDbs: [],
+        _readyState: 1,
+        _closeCalled: false,
+        _hasOpened: true,
+        _listening: false,
+        db: [Object],
+        _events: [Object],
+        _eventsCount: 3 },
+     discriminators: undefined,
+     findOneOrCreate: [Function],
+     '$appliedHooks': true,
+     _events: { init: [Function], save: [Function] },
+     _eventsCount: 2,
+     schema: 
+      Schema {
+        obj: [Object],
+        paths: [Object],
+        aliases: {},
+        subpaths: {},
+        virtuals: [Object],
+        singleNestedPaths: {},
+        nested: {},
+        inherits: {},
+        callQueue: [Array],
+        _indexes: [Array],
+        methods: {},
+        statics: [Object],
+        tree: [Object],
+        query: {},
+        childSchemas: [],
+        plugins: [Array],
+        s: [Object],
+        options: [Object],
+        '$globalPluginsApplied': true,
+        _requiredpaths: [Array] },
+     collection: 
+      NativeCollection {
+        collection: [Object],
+        opts: [Object],
+        name: 'openrooms',
+        collectionName: 'openrooms',
+        conn: [Object],
+        queue: [],
+        buffer: false,
+        emitter: [Object] },
+     Query: { [Function] base: [Object] },
+     '$__insertMany': [Function],
+     insertMany: [Function] } }
+[2017-09-18 21:17:23.768] [INFO] main - Running server on 3001 port
+[2017-09-18 21:17:23.786] [INFO] main - Connected to db
+[2017-09-18 21:17:42.342] [ERROR] sockets - null
+[2017-09-18 21:17:50.247] [TRACE] userModel - Generated new token ff578ce71412b1a34d673b874ac4a2e74b65777b for user k1rill_fedoseev
+[2017-09-18 21:24:57.403] [ERROR] sockets - null
+[2017-09-18 21:25:49.718] [TRACE] userModel - Generated new token 678d1579b03713fa5f7147b6d135d37531325616 for user k1rill_fedoseev
+[2017-09-18 21:26:06.087] [ERROR] sockets - null
+[2017-09-18 21:26:42.031] [INFO] main - Running server on 3001 port
+[2017-09-18 21:26:42.050] [INFO] main - Connected to db
+[2017-09-18 21:26:43.513] [ERROR] sockets - null
+[2017-09-18 21:26:44.513] [ERROR] sockets - null
+[2017-09-18 21:26:48.738] [ERROR] sockets - null
+[2017-09-18 21:27:11.856] [ERROR] sockets - null
+[2017-09-18 21:28:11.001] [INFO] main - Running server on 3001 port
+[2017-09-18 21:28:11.020] [INFO] main - Connected to db
+[2017-09-18 21:28:11.065] [ERROR] sockets - null
+[2017-09-18 21:28:21.545] [TRACE] userModel - Generated new token 6de071c611610d61237341f740ca04902b45c873 for user k1rill_fedoseev
+[2017-09-18 21:48:54.245] [INFO] main - Running server on 3001 port
+[2017-09-18 21:48:54.266] [INFO] main - Connected to db
+[2017-09-18 23:56:34.551] [TRACE] userModel - Generated new token 35f9fe81c943620a0f4b26b0af42fbab40399c03 for user k1rill_fedoseev
+[2017-09-19 20:00:04.075] [INFO] main - Running server on 3001 port
+[2017-09-19 20:00:04.090] [INFO] main - Connected to db
+[2017-09-19 20:00:55.934] [INFO] main - Running server on 3001 port
+[2017-09-19 20:00:55.947] [INFO] main - Connected to db
+[2017-09-19 21:34:57.245] [INFO] main - Running server on 3001 port
+[2017-09-19 21:34:57.266] [INFO] main - Connected to db
+[2017-09-19 21:35:53.981] [INFO] main - Running server on 3001 port
+[2017-09-19 21:35:53.998] [INFO] main - Connected to db
+[2017-09-19 23:13:53.247] [INFO] main - Running server on 3001 port
+[2017-09-19 23:13:53.265] [INFO] main - Connected to db
+[2017-09-19 23:16:11.870] [TRACE] userModel - Generated new token f6f6d3d8646d6b7ca0037ccf91c0ba733560bd30 for user k1rill_fedoseev
+[2017-09-19 23:17:59.816] [INFO] main - Running server on 3001 port
+[2017-09-19 23:17:59.829] [INFO] main - Connected to db
+[2017-09-19 23:20:48.659] [INFO] main - Running server on 3001 port
+[2017-09-19 23:20:48.678] [INFO] main - Connected to db
+[2017-09-20 17:49:27.409] [TRACE] userModel - Generated new token ad067c56455dde40c9ceb79932e8c64a32df8b19 for user k1rill_fedoseev

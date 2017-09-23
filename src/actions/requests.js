@@ -3,11 +3,14 @@ export const TRY_SIGN_UP = 101
 export const TRY_CREATE_ROOM = 102
 export const TRY_CREATE_1_TO_1 = 103
 export const TRY_SEND = 104
-export const FETCH_USERS = 105
-export const FETCH_CHATS = 106
-export const FETCH_MESSAGES = 107
-export const TRY_INVITE_USERS = 108
-export const FETCH_CHAT = 109
+export const TRY_SEARCH_USERS = 105
+export const FETCH_USERS = 106
+export const FETCH_CHATS = 107
+export const FETCH_MESSAGES = 108
+export const TRY_INVITE_USERS = 109
+export const FETCH_CHAT = 110
+export const TRY_MARK_READ = 111
+export const FETCH_ONLINE_USERS = 112
 
 export const trySignIn = (username, password) => ({
     type: TRY_SIGN_IN,
@@ -19,14 +22,14 @@ export const trySignUp = (name, surname, username, password, avatar, desc) => ({
     name, surname, username, password, avatar, desc
 })
 
-export const tryCreateRoom = (name, desc, avatar, users) => ({
+export const tryCreateRoom = (name, desc, avatar, userIds) => ({
     type: TRY_CREATE_ROOM,
-    name, desc, avatar, users
+    name, desc, avatar, userIds
 })
 
-export const tryCreate1To1 = (user) => ({
+export const tryCreate1To1 = userId => ({
     type: TRY_CREATE_1_TO_1,
-    user
+    userId
 })
 
 export const trySend = (tempId, chatId, message) => ({
@@ -34,9 +37,14 @@ export const trySend = (tempId, chatId, message) => ({
     tempId, chatId, message
 })
 
-export const fetchUsers = (search) => ({
-    type: FETCH_USERS,
+export const trySearchUsers = search => ({
+    type: TRY_SEARCH_USERS,
     search
+})
+
+export const fetchUsers = userIds => ({
+    type: FETCH_USERS,
+    userIds
 })
 
 export const fetchChats = () => ({
@@ -48,12 +56,22 @@ export const fetchMessages = (chatId, lastMessageId) => ({
     chatId, lastMessageId
 })
 
-export const tryInviteUsers = (chatId, users) => ({
+export const tryInviteUsers = (chatId, userIds) => ({
     type: TRY_INVITE_USERS,
-    chatId, users
+    chatId, userIds
 })
 
-export const fetchChat = (chatId) => ({
+export const fetchChat = chatId => ({
     type: FETCH_CHAT,
     chatId
+})
+
+export const tryMarkRead = chatId => ({
+    type: TRY_MARK_READ,
+    chatId
+})
+
+export const fetchOnlineUsers = userIds => ({
+    type: FETCH_ONLINE_USERS,
+    userIds
 })

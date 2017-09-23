@@ -6,51 +6,84 @@ import UserCard from './UserCard'
 class NewChatTab extends Component {
 
     constructor(props) {
-        super(props)
+        super()
+
         this.nameInput = ''
         this.descInput = ''
         this.avatarInput = ''
+        this.handleClick = this.handleClick.bind(this)
+        this.handleNameChange = this.handleNameChange.bind(this)
+        this.handleDescChange = this.handleDescChange.bind(this)
+        this.handleAvatarChange = this.handleAvatarChange.bind(this)
+    }
+
+    handleClick() {
+        const {create} = this.props
+
+        create(this.nameInput, this.descInput, this.avatarInput)
+    }
+
+    handleNameChange(e) {
+        this.nameInput = e.target.value
+    }
+
+    handleDescChange(e) {
+        this.descInput = e.target.value
+    }
+
+    handleAvatarChange(e) {
+        this.avatarInput = e.target.value
+    }
+
+    userCardsList() {
+        const {selectedUsers} = this.props
+
+        return selectedUsers.map((
+            userId => <UserCard key={userId} userId={userId}/>
+        ))
     }
 
     render() {
-        const {phase, createChat, swap, usersSelected} = this.props
+        const {isRoomCreateTab, swap, selectedUsers} = this.props
+
         return (
             <div id="new-chat">
                 <div className="up-line">
                     <div className="title">
-                        Create new {phase === 5 ? 'room' : '1-to-1 chat'} <span className="quot">(</span>
+                        Create new {isRoomCreateTab
+                        ? 'room'
+                        : '1-to-1 chat'
+                    }
+                        <span className="quot">(</span>
                         <span id="next" onClick={swap}>
-                            {phase === 6 ? 'room' : '1-to-1 chat'}
+                            {isRoomCreateTab
+                                ? '1-to-1 chat'
+                                : 'room'}
                         </span>
                         <span className="quot">)</span>
                     </div>
                 </div>
                 <form className="main">
-                    {phase === 5 &&
+                    {isRoomCreateTab &&
                     <label>
                         Name: <input type="text" autoComplete="off"
-                                     onChange={(e) => this.nameInput = e.target.value}/>
+                                     onChange={this.handleNameChange}/>
                     </label>}
-                    {phase === 5 &&
+                    {isRoomCreateTab &&
                     <label>
                         Description: <input type="text" autoComplete="off"
-                                            onChange={(e) => this.descInput = e.target.value}/>
+                                            onChange={this.handleDescChange}/>
                     </label>}
-                    {phase === 5 &&
-                    <label>
+                    {isRoomCreateTab && <label>
                         Photo: <input type="url" autoComplete="off"
-                                      onChange={(e) => this.avatarInput = e.target.value}/>
-                    </label>
-                    }
-                    {!!usersSelected.length &&
-                    <label className="card-row">
-                        Users: {usersSelected.map((
-                        user => (<UserCard key={user.id} user={user}/>)
-                    ))}
+                                      onChange={this.handleAvatarChange}/>
                     </label>}
-                    <div className="btn" onClick={phase === 7 ?
-                        createChat :
-                        () => createChat(this.nameInput, this.descInput, this.avatarInput)}>
+
+                    {!!selectedUsers.length &&
+                    <label className="card-row">
+                        Users: {this.userCardsList()}
+                    </label>}
+                    <div className="btn" onClick={this.handleClick}>
                         Create
                     </div>
                 </form>
@@ -61,11 +94,11 @@ class NewChatTab extends Component {
 
 export default connect(
     state => ({
-        phase: state.phase,
-        usersSelected: state.usersSelected
+        isRoomCreateTab: state.ui.isRoomCreateTab,
+        selectedUsers: state.ui.selectedUsers
     }),
     dispatch => ({
-        createChat: (name, desc, avatar) => dispatch(createClick(name, desc, avatar)),
+        create: (name, desc, avatar) => dispatch(createClick(name, desc, avatar)),
         swap: () => dispatch(swapClick())
     })
 )(NewChatTab)

@@ -5,25 +5,44 @@ import { signInClick, switchClick } from '../actions/frontend'
 class SignIn extends Component {
 
     constructor(props) {
-        super(props)
+        super()
+
         this.usernameInput = ''
         this.passwordInput = ''
+        this.handleClick = this.handleClick.bind(this)
+        this.handleUsernameChange = this.handleUsernameChange.bind(this)
+        this.handlePasswordChange = this.handlePasswordChange.bind(this)
+    }
+
+    handleClick() {
+        const {signIn} = this.props
+
+        signIn(this.usernameInput, this.passwordInput)
+    }
+
+    handleUsernameChange(e) {
+        this.usernameInput = e.target.value
+    }
+
+    handlePasswordChange(e) {
+        this.passwordInput = e.target.value
     }
 
     render() {
-        const {toSignUp, signIn} = this.props
+        const {toSignUp} = this.props
+
         return (
             <form className="main">
                 <label>
                     Username: <input type="text" autoComplete="off"
-                                     onChange={(e) => this.usernameInput = e.target.value}/>
+                                     onChange={this.handleUsernameChange}/>
                 </label>
                 <label>
                     Password: <input type="password" autoComplete="off"
-                                     onChange={(e) => this.passwordInput = e.target.value}/>
+                                     onChange={this.handlePasswordChange}/>
                 </label>
                 <div className="buttons">
-                    <div className="btn" onClick={() => signIn(this.usernameInput, this.passwordInput)}>
+                    <div className="btn" onClick={this.handleClick}>
                         Sign In
                     </div>
                     <div className="btn switch-btn" onClick={toSignUp}>
@@ -36,9 +55,7 @@ class SignIn extends Component {
 }
 
 export default connect(
-    state => ({
-        phase: state.phase
-    }),
+    state => ({}),
     dispatch => ({
         toSignUp: () => dispatch(switchClick()),
         signIn: (username, password) => dispatch(signInClick(username, password))

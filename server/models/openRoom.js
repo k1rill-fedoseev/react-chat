@@ -10,22 +10,12 @@ const openRoomSchema = mongoose.Schema({
     room: {
         type: ObjectId,
         ref: 'room'
+    },
+    newMessages: {
+        type: Number,
+        default: 0
     }
 })
-
-openRoomSchema.statics.findOneOrCreate = function (query, callback) {
-    const self = this
-
-    self.findOne(query,
-        (err, openRoom) => {
-            if (err || openRoom)
-                callback(err, openRoom)
-            else {
-                self.create(query, callback)
-            }
-        }
-    )
-}
 
 openRoomSchema.index({owner: 1, room: 1})
 

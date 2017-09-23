@@ -5,10 +5,13 @@ import { newClick } from '../actions/frontend'
 class NewChatBtn extends Component {
 
     render() {
-        const {phase, onClick} = this.props
+        const {newChatTab, newBtnClick} = this.props
+
         return (
-            <div className="btn" onClick={onClick}>
-                {phase > 4 ? 'Back' : 'New'}
+            <div className="btn" onClick={newBtnClick}>
+                {newChatTab
+                    ? 'Back'
+                    : 'New'}
             </div>
         )
     }
@@ -16,9 +19,9 @@ class NewChatBtn extends Component {
 
 export default connect(
     state => ({
-        phase: state.phase
+        newChatTab: state.ui.newChatTab
     }),
     dispatch => ({
-        onClick: () => dispatch(newClick())
+        newBtnClick: () => dispatch(newClick())
     })
 )(NewChatBtn)

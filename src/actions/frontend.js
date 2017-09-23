@@ -12,6 +12,8 @@ export const SIGN_UP_CLICK = 10
 export const LOAD_MORE_CLICK = 11
 export const CLEAR_ERROR = 12
 export const SEARCH_CHANGE = 13
+export const MARK_READ = 14
+export const SORT_CHATS_LIST = 15
 
 export const switchClick = () => ({
     type: SWITCH_CLICK
@@ -25,9 +27,9 @@ export const swapClick = () => ({
     type: SWAP_CLICK
 })
 
-export const chatSelect = (id) => ({
+export const chatSelect = (chatId) => ({
     type: CHAT_SELECT,
-    id
+    chatId
 })
 
 export const inviteClick = () => ({
@@ -38,9 +40,9 @@ export const inviteAcceptClick = () => ({
     type: INVITE_ACCEPT_CLICK
 })
 
-export const userSelect = (id, username) => ({
+export const userSelect = (userId) => ({
     type: USER_SELECT,
-    id, username
+    userId
 })
 
 export const sendClick = (message) => ({
@@ -74,4 +76,13 @@ export const clearError = () => ({
 export const searchChange = (search) => ({
     type: SEARCH_CHANGE,
     search
+})
+
+export const markRead = () => ({
+    type: MARK_READ
+})
+
+export const sortChatsList = (chatsList) => ({
+    type: SORT_CHATS_LIST,
+    chatsList
 })

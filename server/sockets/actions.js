@@ -3,11 +3,15 @@ const TRY_SIGN_UP = 101
 const TRY_CREATE_ROOM = 102
 const TRY_CREATE_1_TO_1 = 103
 const TRY_SEND = 104
-const FETCH_USERS = 105
-const FETCH_CHATS = 106
-const FETCH_MESSAGES = 107
-const TRY_INVITE_USERS = 108
-const FETCH_CHAT = 109
+const TRY_SEARCH_USERS = 105
+const FETCH_USERS = 106
+const FETCH_CHATS = 107
+const FETCH_MESSAGES = 108
+const TRY_INVITE_USERS = 109
+const FETCH_CHAT = 110
+const TRY_MARK_READ = 111
+const FETCH_ONLINE_USERS = 112
+
 const NEW_MESSAGE = 200
 const FETCH_CHAT_SUCCESS = 201
 const FETCH_CHAT_ERROR = 202
@@ -27,6 +31,10 @@ const FETCH_MESSAGES_SUCCESS = 215
 const FETCH_MESSAGES_ERROR = 216
 const INVITE_USERS_SUCCESS = 217
 const INVITE_USERS_ERROR = 218
+const SEARCH_USERS_SUCCESS = 219
+const SEARCH_USERS_ERROR = 220
+const FETCH_ONLINE_USERS_SUCCESS = 221
+const FETCH_ONLINE_USERS_ERROR = 222
 
 module.exports = {
     TRY_SIGN_IN,
@@ -34,11 +42,14 @@ module.exports = {
     TRY_CREATE_ROOM,
     TRY_CREATE_1_TO_1,
     TRY_SEND,
+    TRY_SEARCH_USERS,
     FETCH_USERS,
     FETCH_CHATS,
     FETCH_MESSAGES,
     TRY_INVITE_USERS,
     FETCH_CHAT,
+    TRY_MARK_READ,
+    FETCH_ONLINE_USERS,
 
     NEW_MESSAGE,
     FETCH_CHAT_SUCCESS,
@@ -59,45 +70,49 @@ module.exports = {
     FETCH_MESSAGES_ERROR,
     INVITE_USERS_SUCCESS,
     INVITE_USERS_ERROR,
+    SEARCH_USERS_SUCCESS,
+    SEARCH_USERS_ERROR,
+    FETCH_ONLINE_USERS_SUCCESS,
+    FETCH_ONLINE_USERS_ERROR,
 
     newMessage: (message, chatId) => ({
         type: NEW_MESSAGE,
         message, chatId
     }),
 
-    fetchChatSuccess: (chat) => ({
+    fetchChatSuccess: chat => ({
         type: FETCH_CHAT_SUCCESS,
         chat
     }),
 
-    fetchChatError: (error) => ({
+    fetchChatError: error => ({
         type: FETCH_CHAT_ERROR,
         error
     }),
 
-    signInSuccess: (name, surname, avatar, token) => ({
+    signInSuccess: (user, token) => ({
         type: SIGN_IN_SUCCESS,
-        account: {name, surname, avatar},
+        account: user,
         token
     }),
 
-    signInError: (error) => ({
+    signInError: error => ({
         type: SIGN_IN_ERROR,
         error
     }),
 
-    signUpSuccess: (name, surname, avatar, token) => ({
+    signUpSuccess: (user, token) => ({
         type: SIGN_UP_SUCCESS,
-        account: {name, surname, avatar},
+        account: user,
         token
     }),
 
-    signUpError: (error) => ({
+    signUpError: error => ({
         type: SIGN_UP_ERROR,
         error
     }),
 
-    createError: (error) => ({
+    createError: error => ({
         type: CREATE_ERROR,
         error
     }),
@@ -107,27 +122,27 @@ module.exports = {
         chats, messages
     }),
 
-    fetchChatsError: (error) => ({
+    fetchChatsError: error => ({
         type: FETCH_CHATS_ERROR,
         error
     }),
 
-    fetchUsersSuccess: (users) => ({
+    fetchUsersSuccess: users => ({
         type: FETCH_USERS_SUCCESS,
         users
     }),
 
-    fetchUsersError: (error) => ({
+    fetchUsersError: error => ({
         type: FETCH_USERS_ERROR,
         error
     }),
 
-    fetchMessagesSuccess: (chatId, messages) => ({
+    fetchMessagesSuccess: (chatId, messages, isFullLoaded) => ({
         type: FETCH_MESSAGES_SUCCESS,
-        chatId, messages
+        chatId, messages, isFullLoaded
     }),
 
-    fetchMessagesError: (error) => ({
+    fetchMessagesError: error => ({
         type: FETCH_MESSAGES_ERROR,
         error
     }),
@@ -142,8 +157,28 @@ module.exports = {
         error, tempId
     }),
 
-    inviteUsersError: (error) => ({
+    inviteUsersError: error => ({
         type: INVITE_USERS_ERROR,
+        error
+    }),
+
+    searchUsersSuccess: userIds => ({
+        type: SEARCH_USERS_SUCCESS,
+        userIds
+    }),
+
+    searchUsersError: error => ({
+        type: SEARCH_USERS_ERROR,
+        error
+    }),
+
+    fetchOnlineUsersSuccess: users => ({
+        type: FETCH_ONLINE_USERS_SUCCESS,
+        users
+    }),
+
+    fetchOnlineUsersError: error => ({
+        type: FETCH_ONLINE_USERS_ERROR,
         error
     })
 }

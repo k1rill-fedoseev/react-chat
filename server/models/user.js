@@ -36,6 +36,10 @@ const userSchema = mongoose.Schema({
     avatar: {
         type: String,
         default: 'http://kiratty.com/uploads/posts/2015-01/1420306955_39.latte-art.jpg'
+    },
+    lastOnline: {
+        type: Date,
+        default: Date.now()
     }
 })
 

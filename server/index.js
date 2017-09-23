@@ -1,27 +1,18 @@
 //TODO: Изменение инфы о комнатах и юзере
 //TODO: Удаление сообщений
 //TODO: Удаление юзеров из комнаты
-//TODO: Создание ЛС
-//TODO: Подзагрузка сообщений
-//TODO: ???Локальное хранилище???
 //TODO: Удаление чата
-//TODO: Страничка регистрации красивая
-//TODO: Онлайн
 //TODO: Is typing...
-//TODO: Непрочитанные сообщения
-//TODO: 3 панель
-const express = require('express'),
-    mongoose = require('mongoose'),
-    bodyParser = require('body-parser'),
-    cookieParser = require('cookie-parser'),
-    config = require('./cfg'),
-    log = require('./log')('main'),
-    app = express(),
-    server = require('http').Server(app),
-    userManager = require('./managers/userManager'),
-    roomManager = require('./managers/roomManager'),
-    messageManager = require('./managers/messageManager'),
-    helpers = require('./managers/helpers')
+//TODO: Autoscroll
+
+const express = require('express')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const config = require('./cfg')
+const log = require('./log')('main')
+const app = express()
+const server = require('http').Server(app)
 
 //favicon = require('serve-favicon');
 

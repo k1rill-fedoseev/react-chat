@@ -1,21 +1,19 @@
 const socketIo = require('socket.io'),
     config = require('../cfg'),
     log = require('../log')('sockets'),
-    userManager = require('../managers/userManager'),
-    roomManager = require('../managers/roomManager'),
-    messageManager = require('../managers/messageManager'),
-    helpers = require('../managers/helpers'),
     stripTags = require('striptags'),
     sockets = {}
 
 const {
     TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHATS, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
-    FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, TRY_SEND, TRY_INVITE_USERS,
+    FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, TRY_SEND, TRY_INVITE_USERS, TRY_MARK_READ,
+    TRY_SEARCH_USERS, FETCH_ONLINE_USERS,
     newMessage,
     signInSuccess, signInError, signUpSuccess, signUpError,
     fetchChatsSuccess, fetchChatsError, fetchChatSuccess, fetchChatError,
     createError, sendSuccess, sendError, inviteUsersError,
-    fetchUsersSuccess, fetchUsersError, fetchMessagesSuccess, fetchMessagesError
+    fetchUsersSuccess, fetchUsersError, fetchMessagesSuccess, fetchMessagesError,
+    searchUsersError, searchUsersSuccess, fetchOnlineUsersSuccess
 } = require('./actions')
 
 const startMessage = (userMessage, chatId) => newMessage({
@@ -25,7 +23,7 @@ const startMessage = (userMessage, chatId) => newMessage({
     time: userMessage.date.valueOf()
 }, chatId)
 
-const Promise = require('../managers')
+const Promise = require('../promise')
 
 module.exports = function (server) {
     const io = socketIo(server)
@@ -40,8 +38,12 @@ module.exports = function (server) {
                     .tokenCheck(socket.token)
                     .then(user => {
                         socket.user = user
-                        sockets[socket.user._id] = socket
-                        socket.send(signInSuccess(user.name, user.surname, user.avatar))
+                        sockets[user._id.toString()] = socket
+                        return [user]
+                    })
+                    .usersFilter()
+                    .then(([user]) => {
+                        socket.send(signInSuccess(user))
                         next()
                     })
                     .catch(err => {
@@ -54,7 +56,9 @@ module.exports = function (server) {
         })
 
     io.on('connection',
-        (socket) => {
+        socket => {
+            let roomId
+
             socket.on('message', (action) => {
                 switch (action.type) {
                     case TRY_SIGN_IN:
@@ -62,8 +66,12 @@ module.exports = function (server) {
                             .auth(action.username, action.password)
                             .then(([token, user]) => {
                                 socket.user = user
-                                sockets[socket.user._id] = socket
-                                socket.send(signInSuccess(user.name, user.surname, user.avatar, token))
+                                sockets[user._id.toString()] = socket
+                                return [token, user]
+                            })
+                            .tokenUserFilter()
+                            .then(([token, user]) => {
+                                socket.send(signInSuccess(user, token))
                             })
                             .catch(err => {
                                 if (err) {
@@ -80,8 +88,12 @@ module.exports = function (server) {
                             .register(name, surname, username, password, avatar, desc)
                             .then(([token, user]) => {
                                 socket.user = user
-                                sockets[socket.user._id] = socket
-                                socket.send(signUpSuccess(user.name, user.surname, user.avatar, token))
+                                sockets[user._id.toString()] = socket
+                                return [token, user]
+                            })
+                            .tokenUserFilter()
+                            .then(([token, user]) => {
+                                socket.send(signUpSuccess(user, token))
                             })
                             .catch(err => {
                                 log.error(err)
@@ -113,14 +125,13 @@ module.exports = function (server) {
                             })
                         break
                     case TRY_CREATE_ROOM:
-                        let roomId
                         Promise.resolve()
-                            .createRoom(true, action.name, action.desc, socket.user._id, action.avatar)
+                            .createRoom(true, action.name, action.desc, socket.user._id.toString(), action.avatar)
                             .then(room => {
                                 roomId = room._id.toString()
                                 return room
                             })
-                            .addUsers(action.users)
+                            .addUsers(action.userIds)
                             .then(args => args[0])
                             .createMessage(undefined, config.get('startMessage'))
                             .then(userMessages => userMessages.forEach(
@@ -129,7 +140,6 @@ module.exports = function (server) {
                                         sockets[userMessage.owner.toString()].send(newMessage({
                                             message: config.get('startMessage'),
                                             id: userMessage._id,
-                                            system: true,
                                             time: userMessage.date.valueOf()
                                         }, roomId))
                                 }
@@ -140,45 +150,29 @@ module.exports = function (server) {
                             })
                         break
                     case TRY_CREATE_1_TO_1:
-                        if (action.user) {
-                            let roomId
-                            Promise.resolve()
-                                .createRoom(false, action.name, action.desc, socket.user._id, action.avatar)
-                                .then(room => {
-                                    roomId = room._id.toString()
-                                    return room
-                                })
-                                .addUsers([action.user])
-                                .then(args => args[0])
-                                .createMessage(undefined, config.get('startMessage'))
-                                .then(userMessages => userMessages.forEach(
-                                    userMessage => {
-                                        if (sockets[userMessage.owner.toString()]) {
-                                            sockets[userMessage.owner.toString()].send(newMessage({
-                                                message: config.get('startMessage'),
-                                                id: userMessage._id.toString(),
-                                                system: true,
-                                                time: userMessage.date.valueOf()
-                                            }, roomId))
-                                        }
-                                    }
-                                ))
-                                .catch(err => {
-                                    log.error(err)
-                                    socket.send(createError('Server Error'))
-                                })
-                        }
-                        break
-                    case FETCH_USERS:
                         Promise.resolve()
-                            .searchUsers(action.search)
-                            .usersFilter()
-                            .then(users => {
-                                socket.send(fetchUsersSuccess(users))
+                            .createRoom(false, null, null, socket.user._id.toString())
+                            .then(room => {
+                                roomId = room._id.toString()
+                                return room
                             })
+                            .addUsers([action.userId])
+                            .then(args => args[0])
+                            .createMessage(undefined, config.get('startMessage'))
+                            .then(userMessages => userMessages.forEach(
+                                userMessage => {
+                                    if (sockets[userMessage.owner.toString()]) {
+                                        sockets[userMessage.owner.toString()].send(newMessage({
+                                            message: config.get('startMessage'),
+                                            id: userMessage._id.toString(),
+                                            time: userMessage.date.valueOf()
+                                        }, roomId))
+                                    }
+                                }
+                            ))
                             .catch(err => {
                                 log.error(err)
-                                socket.send(fetchUsersError('Server Error'))
+                                socket.send(createError('Server Error'))
                             })
                         break
                     case TRY_SEND:
@@ -190,27 +184,23 @@ module.exports = function (server) {
                             .createMessage(socket.user._id.toString(), strippedMessage)
                             .then(userMessages => userMessages.forEach(
                                 userMessage => {
-                                    if (sockets[userMessage.owner.toString()] === socket) {
+                                    const ownerId = userMessage.owner.toString()
+                                    const msg = {
+                                        message: strippedMessage,
+                                        id: userMessage._id,
+                                        from: socket.user._id.toString(),
+                                        time: userMessage.date.valueOf()
+                                    }
+
+                                    if (sockets[ownerId] === socket) {
                                         socket.send(sendSuccess(
                                             action.tempId,
                                             action.chatId,
-                                            {
-                                                message: action.message,
-                                                id: userMessage._id,
-                                                me: true,
-                                                time: userMessage.date.valueOf(),
-                                                avatar: socket.user.avatar
-                                            }
+                                            msg
                                         ))
                                     }
                                     else if (sockets[userMessage.owner.toString()]) {
-                                        sockets[userMessage.owner.toString()].send(newMessage({
-                                            message: strippedMessage,
-                                            id: userMessage._id.toString(),
-                                            me: false,
-                                            time: userMessage.date.valueOf(),
-                                            avatar: socket.user.avatar
-                                        }, action.chatId))
+                                        sockets[userMessage.owner.toString()].send(newMessage(msg, action.chatId))
                                     }
                                 }
                             ))
@@ -223,19 +213,41 @@ module.exports = function (server) {
                         Promise.resolve()
                             .getMessages(socket.user._id.toString(), action.chatId, action.lastMessageId)
                             .messagesFilter(socket.user._id.toString())
-                            .then(messages => {
-                                socket.send(fetchMessagesSuccess(action.chatId, messages))
+                            .then(([messages, isFullLoaded]) => {
+                                socket.send(fetchMessagesSuccess(action.chatId, messages, isFullLoaded))
                             })
                             .catch(err => {
                                 log.error(err)
                                 socket.send(fetchMessagesError('Server error'))
                             })
                         break
+                    case FETCH_USERS:
+                        Promise.resolve()
+                            .getUsers(action.userIds)
+                            .usersFilter()
+                            .then(users => {
+                                socket.send(fetchUsersSuccess(users))
+                            })
+                            .catch(error => {
+                                socket.send(fetchUsersError('Server error'))
+                            })
+                        break
+                    case TRY_SEARCH_USERS:
+                        Promise.resolve()
+                            .searchUsers(action.search)
+                            .then(users => {
+                                socket.send(searchUsersSuccess(users))
+                            })
+                            .catch(err => {
+                                log.error(err)
+                                socket.send(searchUsersError('Server Error'))
+                            })
+                        break
                     case TRY_INVITE_USERS:
                         Promise.resolve()
                             .getRoom(action.chatId)
                             .checkMember(socket.user._id.toString())
-                            .addUsers(action.users)
+                            .addUsers(action.userIds)
                             .then(([room, newUsers]) =>
                                 Promise.all(
                                     newUsers.map(newUser =>
@@ -247,7 +259,6 @@ module.exports = function (server) {
                                                         sockets[userMessage.owner.toString()].send(newMessage({
                                                             message: `${socket.user.name} ${socket.user.surname} invited ${newUser.name} ${newUser.surname}`,
                                                             id: userMessage._id,
-                                                            system: true,
                                                             time: userMessage.date.valueOf()
                                                         }, action.chatId))
                                                 }
@@ -263,12 +274,25 @@ module.exports = function (server) {
                                 socket.send(inviteUsersError('Server Error'))
                             })
                         break
+                    case TRY_MARK_READ:
+                        Promise.resolve()
+                            .markRead(action.chatId, socket.user._id.toString())
+                        break
+                    case FETCH_ONLINE_USERS:
+                        const users = {}
+
+                        action.userIds.forEach(userId => {
+                            users[userId] = !!sockets[userId]
+                        })
+                        socket.send(fetchOnlineUsersSuccess(users))
+                        break
                 }
             })
 
             socket.on('disconnect', () => {
-                if (socket.user)
-                    delete sockets[socket.user._id]
+                if (socket.user) {
+                    delete sockets[socket.user._id.toString()]
+                }
             })
         }
     )

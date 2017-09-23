@@ -3,17 +3,25 @@ import { connect } from 'react-redux'
 import NewChatBtn from './NewChatBtn'
 import ChatItem from './ChatItem'
 
-class ChatList extends Component {
+class ChatsList extends Component {
+
+    chatItems() {
+        const {chatIds} = this.props
+
+        return chatIds.map(
+            chatId => <ChatItem chatId={chatId} key={chatId}/>
+        )
+    }
 
     render() {
         return (
             <div className="chat-list">
                 <div className="up-line">
-                    <div  className="label">Chats</div>
+                    <div className="label">Chats</div>
                     <NewChatBtn/>
                 </div>
                 <ul id="chats">
-                    {this.props.chats.map(chat => <ChatItem chat={chat} key={chat.id}/>)}
+                    {this.chatItems()}
                 </ul>
             </div>
         )
@@ -22,7 +30,7 @@ class ChatList extends Component {
 
 export default connect(
     state => ({
-        chats: state.chats
+        chatIds: state.ui.chatsList
     }),
     dispatch => ({})
-)(ChatList)
+)(ChatsList)

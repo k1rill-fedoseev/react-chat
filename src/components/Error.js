@@ -14,12 +14,14 @@ class Error extends Component {
 
     componentWillReceiveProps() {
         const {clear} = this.props
+
         clearTimeout(this.timeoutId)
         this.timeoutId = setTimeout(clear, 3500)
     }
 
     render() {
         const {error} = this.props
+
         return (
             <ReactCSSTransitionGroup {...transitionSettings}>
                 {error &&
@@ -33,7 +35,7 @@ class Error extends Component {
 
 export default connect(
     state => ({
-        error: state.error
+        error: state.ui.error
     }),
     dispatch => ({
         clear: () => dispatch(clearError())

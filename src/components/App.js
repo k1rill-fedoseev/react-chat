@@ -1,30 +1,36 @@
 import React, { Component } from 'react'
 import { Account } from './Account'
 import { connect } from 'react-redux'
-import ChatList from './ChatList'
-import MessageList from './MessageList'
+import ChatsList from './ChatsList'
 import NewChatTab from './NewChatTab'
 import InviteTab from './InviteTab'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 import Error from './Error'
+import MessagesTab from './MessagesTab'
 
 class App extends Component {
 
     render() {
-        const {phase} = this.props
+        const {isLogged, isSignInTab, newChatTab, inviteTab, isChatSelected} = this.props
+
         return (
             <div>
                 <div className="header">
-                    {phase > 1 && <Account />}
+                    {isLogged && <Account />}
                 </div>
                 <div className="content">
-                    {phase === 0 && <SignIn />}
-                    {phase === 1 && <SignUp />}
-                    {phase > 1 && <ChatList/>}
-                    {(phase > 2 && phase < 5) && <MessageList/>}
-                    {phase > 4 && <NewChatTab />}
-                    {phase > 3 && <InviteTab />}
+                    {isLogged
+                        ? <ChatsList />
+                        : (isSignInTab
+                            ? <SignIn />
+                            : <SignUp />
+                        )
+                    }
+                    {isLogged && (newChatTab
+                        ? <NewChatTab />
+                        : isChatSelected && <MessagesTab/>)}
+                    {isLogged && (newChatTab || inviteTab) && <InviteTab />}
                 </div>
                 <Error />
             </div>
@@ -35,8 +41,11 @@ class App extends Component {
 
 export default connect(
     state => ({
-        phase: state.phase
+        isLogged: !!state.ui.loggedAccount,
+        isSignInTab: state.ui.isSignInTab,
+        newChatTab: state.ui.newChatTab,
+        inviteTab: state.ui.inviteTab,
+        isChatSelected: !!state.ui.selectedChat
     }),
-    dispatch => ({
-    })
+    dispatch => ({})
 )(App)

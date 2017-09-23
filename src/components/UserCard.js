@@ -5,9 +5,10 @@ import { userSelect } from '../actions/frontend'
 class UserCard extends Component {
 
     render() {
-        const {user, onClick} = this.props
+        const {user, remove} = this.props
+
         return (
-            <div className="card" onClick={onClick}>
+            <div className="card" onClick={remove}>
                 @{user.username}
             </div>
         )
@@ -15,8 +16,10 @@ class UserCard extends Component {
 }
 
 export default connect(
-    state => ({}),
+    (state, ownProps) => ({
+        user: state.db.users[ownProps.userId]
+    }),
     (dispatch, ownProps) => ({
-        onClick: () => dispatch(userSelect(ownProps.user.id))
+        remove: () => dispatch(userSelect(ownProps.userId))
     })
 )(UserCard)

@@ -6,7 +6,6 @@ const config = require('../cfg')
 const Message = require('../models/message')
 const UserMessage = require('../models/userMessage')
 const OpenRoom = require('../models/openRoom')
-const ObjectId = mongoose.Schema.Types.ObjectId
 
 class MyPromise extends Promise {
     getUser(userId) {
@@ -20,6 +19,14 @@ class MyPromise extends Promise {
                     }
                 )
             })
+        )
+    }
+
+    getUsers(userIds) {
+        return this.then(() =>
+            MyPromise.all(userIds.map(
+                userId => MyPromise.resolve().getUser(userId)
+            ))
         )
     }
 
@@ -63,7 +70,6 @@ class MyPromise extends Promise {
                             resolve(openRoom)
                     }
                 ).populate('room')
-                    .populate({path: 'room', populate: {path: 'users'}})
             })
         )
     }
@@ -78,7 +84,6 @@ class MyPromise extends Promise {
                             resolve(openRooms)
                     }
                 ).populate('room')
-                    .populate({path: 'room', populate: {path: 'users'}})
             })
         )
     }
@@ -108,7 +113,6 @@ class MyPromise extends Promise {
                     ).sort({date: -1})
                         .limit(config.get('packetSize') + 1)
                         .populate('message')
-                        .populate({path: 'message', populate: {path: 'from'}})
                 }))
         )
     }
@@ -126,7 +130,6 @@ class MyPromise extends Promise {
                             resolve(message)
                     }
                 ).populate('message')
-                    .populate({path: 'message', populate: {path: 'from'}})
             })
                 .then((message) =>
                     new MyPromise((resolve, reject) => {
@@ -145,6 +148,74 @@ class MyPromise extends Promise {
                         )
                     })
                 )
+        )
+    }
+
+    updateUserOnline() {
+        return this.then((user) =>
+            new MyPromise((resolve, reject) => {
+                user.lastOnline = Date.now()
+                user.save((err, user) => {
+                    err ?
+                        reject(err) :
+                        resolve(users)
+                })
+            })
+        )
+    }
+
+    updateOpenRoom(roomId, userId, add) {
+        return this.then(() =>
+            new MyPromise((resolve, reject) => {
+                OpenRoom.findOne({
+                    room: roomId,
+                    owner: userId
+                }, (err, openRoom) => {
+                    if (err)
+                        reject(err)
+                    else if (openRoom) {
+                        openRoom.newMessages += add
+                        openRoom.save(err => {
+                            err ?
+                                reject(err) :
+                                resolve()
+                        })
+                    }
+                    else {
+                        OpenRoom.create({
+                            room: roomId,
+                            owner: userId,
+                            newMessages: add
+                        }, err => {
+                            err ?
+                                reject(err) :
+                                resolve()
+                        })
+                    }
+                })
+            })
+        )
+    }
+
+    markRead(roomId, userId) {
+        return this.then(() =>
+            new MyPromise((resolve, reject) => {
+                OpenRoom.findOne({
+                    room: roomId,
+                    owner: userId
+                }, (err, openRoom) => {
+                    if (err)
+                        reject(err)
+                    else if (openRoom) {
+                        openRoom.newMessages = 0
+                        openRoom.save(err => {
+                            err ?
+                                reject(err) :
+                                resolve()
+                        })
+                    }
+                })
+            })
         )
     }
 
@@ -233,7 +304,7 @@ class MyPromise extends Promise {
                     (err, users) => {
                         err ?
                             reject(err) :
-                            resolve(users)
+                            resolve(users.map(user => user._id.toString()))
                     }
                 ).sort({score: {$meta: 'textScore'}})
             })
@@ -313,21 +384,13 @@ class MyPromise extends Promise {
         )
             .then(([room, message]) =>
                 MyPromise.all(
-                    room.users.map(userId =>
-                        new MyPromise((resolve, reject) => {
-                            OpenRoom.findOneOrCreate({
-                                owner: userId,
-                                room: room._id
-                            }, (err) => {
-                                err ?
-                                    reject(err) :
-                                    resolve()
-                            })
-                        })
+                    room.users.map(roomUserId =>
+                        MyPromise.resolve()
+                            .updateOpenRoom(room._id.toString(), roomUserId, userId === roomUserId.toString() ? 0 : 1)
                             .then(() => new MyPromise(
                                 (resolve, reject) => {
                                     UserMessage.create({
-                                            owner: userId,
+                                            owner: roomUserId,
                                             message,
                                             room: room._id,
                                             date: message.date
@@ -345,13 +408,24 @@ class MyPromise extends Promise {
             )
     }
 
+    tokenUserFilter() {
+        return this.then(([token, user]) => [token, {
+                username: user.username,
+                name: user.name,
+                surname: user.surname,
+                avatar: user.avatar,
+                id: user._id.toString()
+            }
+        ])
+    }
+
     usersFilter() {
         return this.then(users => users.map(user => ({
             username: user.username,
             avatar: user.avatar,
             name: user.name,
             surname: user.surname,
-            id: user._id
+            id: user._id.toString()
         })))
     }
 
@@ -364,28 +438,30 @@ class MyPromise extends Promise {
                 .then(args => [openRoom, ...args])
             ))
                 .then(data => {
-                    const messages = {}
+                    const messages = []
                     const rooms = []
 
                     for (let row of data) {
-                        const [openRoom, message, isStart] = row
-                        const userTo = openRoom.room.users[0]._id.toString() === openRoom.owner.toString() ?
-                            openRoom.room.users[1] : openRoom.room.users[0]
+                        const [openRoom, message, isFullLoaded] = row
+                        let userTo = openRoom.room.users[0].toString()
+                        if(userTo === openRoom.owner.toString() && openRoom.room.users.length > 1)
+                            userTo = openRoom.room.users[1].toString()
+
                         const {from, date} = message.message
-                        messages[message.room] = [{
+                        messages.push({
                             message: message.message.message,
-                            avatar: from ? from.avatar : '',
+                            from: from ? from.toString() : undefined,
                             time: date.valueOf(),
-                            system: !from,
-                            isStart,
-                            me: from ? openRoom.owner.toString() === from._id.toString() : false,
                             id: message._id.toString()
-                        }]
+                        })
                         rooms.push({
-                            name: openRoom.room.isRoom ? openRoom.room.name : userTo.name + ' ' + userTo.surname,
+                            isRoom: openRoom.room.isRoom,
+                            name: openRoom.room.name,
                             id: openRoom.room._id.toString(),
-                            avatar: openRoom.room.isRoom ? openRoom.room.avatar : userTo.avatar,
-                            isRoom: openRoom.room.isRoom
+                            avatar: openRoom.room.avatar,
+                            newMessages: openRoom.newMessages,
+                            to: userTo.toString(),
+                            isFullLoaded
                         })
                     }
 
@@ -397,14 +473,18 @@ class MyPromise extends Promise {
 
     openRoomFilter() {
         return this.then(openRoom => {
-            const userTo = openRoom.room.users[0]._id.toString() === openRoom.owner.toString() ?
-                openRoom.room.users[1] : openRoom.room.users[0]
+            let userTo = openRoom.room.users[0].toString()
+            if(userTo === openRoom.owner.toString() && openRoom.room.users.length > 1)
+                userTo = openRoom.room.users[1].toString()
 
             return {
-                name: openRoom.room.isRoom ? openRoom.room.name : userTo.name + ' ' + userTo.surname,
+                name: openRoom.room.name,
                 id: openRoom.room._id.toString(),
-                avatar: openRoom.room.isRoom ? openRoom.room.avatar : userTo.avatar,
-                isRoom: openRoom.room.isRoom
+                avatar: openRoom.room.avatar,
+                newMessages: openRoom.newMessages,
+                isRoom: openRoom.room.isRoom,
+                to: userTo.toString(),
+                isFullLoaded: true
             }
         })
     }
@@ -413,17 +493,15 @@ class MyPromise extends Promise {
         return this.then(messages => {
             const arr = messages.map((message) => ({
                 message: message.message.message,
-                avatar: message.message.from ? message.message.from.avatar : '',
                 time: message.date.valueOf(),
-                system: !message.message.from,
-                me: message.message.from ? userId.toString() === message.message.from._id.toString() : false,
-                id: message._id
+                from: message.message.from ? message.message.from.toString() : undefined,
+                id: message._id.toString()
             }))
             if (arr.length === config.get('packetSize') + 1)
                 arr.pop()
-            else
-                arr[arr.length - 1].isStart = true
-            return arr
+            else if(arr.length)
+                return [arr, true]
+            return [arr, false]
         })
     }
 }
