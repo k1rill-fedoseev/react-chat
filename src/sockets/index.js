@@ -7,13 +7,22 @@ const socket = io(':3001', {
     transports: ['websocket']
 })
 
+let intervalId
+
 socket.on('connect', () => {
     console.log('Success connection')
 
-    socket.send(fetchOnlineUsers(getUserIds()))
-    setInterval(() => {
+    setTimeout(() => {
         socket.send(fetchOnlineUsers(getUserIds()))
-    }, 30000)
+    }, 2000)
+
+    intervalId = setInterval(() => {
+        socket.send(fetchOnlineUsers(getUserIds()))
+    }, 60000)
+})
+
+socket.on('disconnect', () => {
+    clearInterval(intervalId)
 })
 
 socket.on('message', (action) => {

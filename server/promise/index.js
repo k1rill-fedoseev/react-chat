@@ -55,7 +55,7 @@ class MyPromise extends Promise {
                     })
             })
         )
-    } //????
+    }
 
     getOpenRoom(userId, roomId) {
         return this.then(() =>

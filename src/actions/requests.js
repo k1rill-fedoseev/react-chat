@@ -11,6 +11,8 @@ export const TRY_INVITE_USERS = 109
 export const FETCH_CHAT = 110
 export const TRY_MARK_READ = 111
 export const FETCH_ONLINE_USERS = 112
+export const START_TYPING = 113
+export const END_TYPING = 114
 
 export const trySignIn = (username, password) => ({
     type: TRY_SIGN_IN,
@@ -74,4 +76,14 @@ export const tryMarkRead = chatId => ({
 export const fetchOnlineUsers = userIds => ({
     type: FETCH_ONLINE_USERS,
     userIds
+})
+
+export const startTyping = chatId => ({
+    type: START_TYPING,
+    chatId
+})
+
+export const endTyping = chatId => ({
+    type: END_TYPING,
+    chatId
 })

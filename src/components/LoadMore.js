@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadMoreClick } from '../actions/frontend'
+import EllipsisText from './EllipsisText'
 
 class LoadMore extends Component {
 
@@ -8,38 +9,13 @@ class LoadMore extends Component {
         super()
 
         this.handleClick = this.handleClick.bind(this)
-        this.state = {
-            points: 0
-        }
     }
 
     handleClick() {
         const {loadMore, isLoading} = this.props
 
-        if(!isLoading)
+        if (!isLoading)
             loadMore()
-    }
-
-    componentWillMount() {
-        this.componentWillReceiveProps(this.props)
-    }
-
-    componentWillReceiveProps(props) {
-        const {isLoading} = props
-
-        clearInterval(this.intevalId)
-
-        if (isLoading) {
-            this.intevalId = setInterval(() => {
-                this.setState((prevState) => ({
-                    points: (prevState.points + 1) % 4
-                }))
-            }, 500)
-        }
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.intevalId)
     }
 
     render() {
@@ -47,12 +23,10 @@ class LoadMore extends Component {
 
         return (
             <li className="loading" onClick={this.handleClick}>
-                <span className="load-more">
-                    {isLoading
-                        ? 'Loading'
-                        : 'Load more'}
-                    {isLoading && <i className="points">{'.'.repeat(this.state.points)}</i>}
-                </span>
+                {isLoading
+                    ? <EllipsisText fixed text='Loading'/>
+                    : 'Load more'
+                }
             </li>
         )
     }

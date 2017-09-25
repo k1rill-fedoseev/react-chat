@@ -1,4 +1,4 @@
-import { MARK_READ, SEND_CLICK, USER_SELECT } from '../actions/frontend'
+import { LOAD_MORE_CLICK, MARK_READ, SEND_CLICK, USER_SELECT } from '../actions/frontend'
 import { FETCH_CHAT_SUCCESS, NEW_MESSAGE } from '../actions/responses'
 
 export default store => next => action => {
@@ -9,6 +9,7 @@ export default store => next => action => {
             action.tempId = state.ui.tempId
         case NEW_MESSAGE:
         case MARK_READ:
+        case LOAD_MORE_CLICK:
             action.selectedChat = state.ui.selectedChat
             break
         case USER_SELECT:

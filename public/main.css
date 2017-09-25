@@ -585,11 +585,11 @@ sup {
     color: #d6d7d8;
 }
 
-.load-more {
+.ellipsis-text {
     position: relative;
 }
 
-.points {
+.fixed-points {
     left: 100%;
     position: absolute;
 }

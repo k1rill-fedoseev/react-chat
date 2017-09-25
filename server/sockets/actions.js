@@ -11,6 +11,8 @@ const TRY_INVITE_USERS = 109
 const FETCH_CHAT = 110
 const TRY_MARK_READ = 111
 const FETCH_ONLINE_USERS = 112
+const START_TYPING = 113
+const END_TYPING = 114
 
 const NEW_MESSAGE = 200
 const FETCH_CHAT_SUCCESS = 201
@@ -35,6 +37,8 @@ const SEARCH_USERS_SUCCESS = 219
 const SEARCH_USERS_ERROR = 220
 const FETCH_ONLINE_USERS_SUCCESS = 221
 const FETCH_ONLINE_USERS_ERROR = 222
+const START_TYPING_RESPONSE = 223
+const END_TYPING_RESPONSE = 224
 
 module.exports = {
     TRY_SIGN_IN,
@@ -50,6 +54,8 @@ module.exports = {
     FETCH_CHAT,
     TRY_MARK_READ,
     FETCH_ONLINE_USERS,
+    START_TYPING,
+    END_TYPING,
 
     NEW_MESSAGE,
     FETCH_CHAT_SUCCESS,
@@ -74,6 +80,8 @@ module.exports = {
     SEARCH_USERS_ERROR,
     FETCH_ONLINE_USERS_SUCCESS,
     FETCH_ONLINE_USERS_ERROR,
+    START_TYPING_RESPONSE,
+    END_TYPING_RESPONSE,
 
     newMessage: (message, chatId) => ({
         type: NEW_MESSAGE,
@@ -180,5 +188,15 @@ module.exports = {
     fetchOnlineUsersError: error => ({
         type: FETCH_ONLINE_USERS_ERROR,
         error
+    }),
+
+    startTypingResponse: (chatId, userId) => ({
+        type: START_TYPING_RESPONSE,
+        chatId, userId
+    }),
+
+    endTypingResponse: (chatId, userId) => ({
+        type: END_TYPING_RESPONSE,
+        chatId, userId
     })
 }

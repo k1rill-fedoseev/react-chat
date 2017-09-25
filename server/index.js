@@ -2,8 +2,6 @@
 //TODO: Удаление сообщений
 //TODO: Удаление юзеров из комнаты
 //TODO: Удаление чата
-//TODO: Is typing...
-//TODO: Autoscroll
 
 const express = require('express')
 const mongoose = require('mongoose')

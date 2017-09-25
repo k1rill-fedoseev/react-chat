@@ -1,6 +1,7 @@
 import { CLEAR_ERROR } from '../../actions/frontend'
 import {
-    CREATE_ERROR, FETCH_CHAT_ERROR, FETCH_CHATS_ERROR, FETCH_MESSAGES_ERROR, FETCH_USERS_ERROR, INVITE_USERS_ERROR,
+    CREATE_ERROR, FETCH_CHAT_ERROR, FETCH_CHATS_ERROR, FETCH_MESSAGES_ERROR, FETCH_ONLINE_USERS_ERROR,
+    FETCH_USERS_ERROR, INVITE_USERS_ERROR,
     SEARCH_USERS_ERROR,
     SEND_ERROR,
     SIGN_IN_ERROR,
@@ -21,6 +22,7 @@ export default (state = '', action) => {
         case FETCH_MESSAGES_ERROR:
         case INVITE_USERS_ERROR:
         case SEARCH_USERS_ERROR:
+        case FETCH_ONLINE_USERS_ERROR:
             console.log(`[${Date.now()}] ERROR ${action.type} : ${action.error}`)
             return 'ERROR ' + action.type + ': ' + action.error
         default:

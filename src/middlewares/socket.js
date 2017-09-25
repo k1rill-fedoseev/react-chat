@@ -1,12 +1,15 @@
 import {
-    CHAT_SELECT,
-    CREATE_CLICK, INVITE_ACCEPT_CLICK, LOAD_MORE_CLICK, MARK_READ, SEARCH_CHANGE, SEND_CLICK, SIGN_IN_CLICK,
+    CREATE_CLICK, INVITE_ACCEPT_CLICK, LOAD_MORE_CLICK, MARK_READ, MESSAGE_INPUT_IS_EMPTY,
+    MESSAGE_INPUT_IS_NOT_EMPTY,
+    SEARCH_CHANGE,
+    SEND_CLICK, SIGN_IN_CLICK,
     SIGN_UP_CLICK
 } from '../actions/frontend'
 import socket from '../sockets'
 import {
+    endTyping,
     fetchChat, fetchChats,
-    fetchMessages, fetchUsers, tryCreate1To1, tryCreateRoom, tryInviteUsers, tryMarkRead,
+    fetchMessages, fetchUsers, startTyping, tryCreate1To1, tryCreateRoom, tryInviteUsers, tryMarkRead,
     trySearchUsers, trySend,
     trySignIn,
     trySignUp
@@ -40,10 +43,6 @@ export default store => next => action => {
         case SIGN_UP_CLICK:
             socket.send(trySignUp(action.name, action.surname, action.username,
                 action.password, action.avatar, action.desc))
-            break
-        case CHAT_SELECT:
-            if(state.ui.messagesLists[action.chatId].length < 2)
-                socket.send(fetchMessages(action.chatId, state.ui.messagesLists[action.chatId][0]))
             break
         case LOAD_MORE_CLICK:
             socket.send(fetchMessages(state.ui.selectedChat, state.ui.messagesLists[state.ui.selectedChat][0]))
@@ -103,6 +102,12 @@ export default store => next => action => {
 
             if (keys.length)
                 socket.send(fetchUsers(keys))
+            break
+        case MESSAGE_INPUT_IS_NOT_EMPTY:
+            socket.send(startTyping(state.ui.selectedChat))
+            break
+        case MESSAGE_INPUT_IS_EMPTY:
+            socket.send(endTyping(state.ui.selectedChat))
             break
     }
 

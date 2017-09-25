@@ -1,5 +1,5 @@
 import { FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE } from '../../actions/responses'
-import { MARK_READ } from '../../actions/frontend'
+import { LOAD_MORE_CLICK, MARK_READ } from '../../actions/frontend'
 
 export default (state = {}, action) => {
     switch (action.type) {
@@ -8,6 +8,7 @@ export default (state = {}, action) => {
             action.chats.forEach(chat => {
                 newState[chat.id] = chat
             })
+
             return newState
         case FETCH_CHAT_SUCCESS:
             return {
@@ -19,7 +20,13 @@ export default (state = {}, action) => {
             }
         case FETCH_MESSAGES_SUCCESS:
             if (!action.isFullLoaded)
-                return state
+                return {
+                    ...state,
+                    [action.chatId]: {
+                        ...state[action.chatId],
+                        isLoading: false
+                    }
+                }
 
             return {
                 ...state,
@@ -37,6 +44,7 @@ export default (state = {}, action) => {
                         newMessages: state[action.chatId].newMessages + 1
                     }
                 }
+
             return state
         case MARK_READ:
             return {
@@ -44,6 +52,14 @@ export default (state = {}, action) => {
                 [action.selectedChat]: {
                     ...state[action.selectedChat],
                     newMessages: 0
+                }
+            }
+        case LOAD_MORE_CLICK:
+            return {
+                ...state,
+                [action.selectedChat]: {
+                    ...state[action.selectedChat],
+                    isLoading: true
                 }
             }
         default:
