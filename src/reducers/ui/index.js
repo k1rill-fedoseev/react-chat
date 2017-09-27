@@ -11,6 +11,7 @@ import selectedChat from './selectedChat'
 import selectedUsers from './selectedUsers'
 import tempId from './tempId'
 import usersList from './usersList'
+import selectedMessages from './selectedMessages'
 
 export default combineReducers({
     error,
@@ -23,6 +24,7 @@ export default combineReducers({
     newChatTab,
     selectedChat,
     selectedUsers,
+    selectedMessages,
     tempId,
     usersList
 })

@@ -1,12 +1,14 @@
 import { FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE, SEND_SUCCESS } from '../../actions/responses'
-import { SEND_CLICK } from '../../actions/frontend'
+import { DELETE_MESSAGES_CLICK, SEND_CLICK } from '../../actions/frontend'
 
 export default (state = {}, action) => {
     let listCopy
 
     switch (action.type) {
         case NEW_MESSAGE:
-            listCopy = state[action.chatId] ? [...state[action.chatId]] : []
+            listCopy = state[action.chatId]
+                ? [...state[action.chatId]]
+                : []
             listCopy.push(action.message.id)
             return {...state, [action.chatId]: listCopy}
         case FETCH_MESSAGES_SUCCESS:
@@ -18,7 +20,9 @@ export default (state = {}, action) => {
         case FETCH_CHATS_SUCCESS:
             const messagesLists = {}
             action.chats.forEach((chat, index) => {
-                messagesLists[chat.id] = [action.messages[index].id]
+                messagesLists[chat.id] = action.messages[index].id
+                    ? [action.messages[index].id]
+                    : []
             })
             return messagesLists
         case SEND_CLICK:
@@ -34,6 +38,13 @@ export default (state = {}, action) => {
                 }
             }
             return {...state, [action.chatId]: listCopy}
+        case DELETE_MESSAGES_CLICK:
+            return {
+                ...state,
+                [action.selectedChat]: state[action.selectedChat].filter(
+                    messageId => !action.selectedMessages[messageId]
+                )
+            }
         default:
             return state
     }

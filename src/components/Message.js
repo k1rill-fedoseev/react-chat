@@ -1,39 +1,60 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Avatar from './Avatar'
+import { messageSelect } from '../actions/frontend'
 
 class Message extends Component {
 
-    render() {
-        const {sender, me} = this.props
-        const {message, from, id} = this.props.message
+    messageBlock() {
+        const {select, isSelected} = this.props
+        const {message} = this.props.message
 
-        if(!from && !me)
+        return (
+            <div className="message">
+                <div className="mes-text">
+                    {message}
+                </div>
+                <span className="delete-link" onClick={select} style={isSelected && {opacity: 1}}>+</span>
+            </div>
+        )
+    }
+
+    messageSimpleBlock() {
+        const {message} = this.props.message
+
+        return (
+            <div className="message">
+                <div className="mes-text">
+                    {message}
+                </div>
+            </div>
+        )
+    }
+
+    render() {
+        const {sender, me, isSelected, isTemp} = this.props
+        const {from} = this.props.message
+
+        if (!from && !me)
             return (
-                <li className={'mes system'}>
-                    <div className="message">
-                        <div className="mes-text">
-                            {message}
-                        </div>
-                    </div>
+                <li className={`mes system ${isSelected ? 'temp' : ''}`}>
+                    {this.messageBlock()}
                 </li>
             )
 
-        if(!sender)
+        if (!sender)
             return null
 
         const {name, surname, avatar, username} = sender
 
         return (
-            <li className={`mes ${me ? 'me' : ''} ${id[0] === 't' ? 'temp' : ''}`}>
+            <li className={`mes ${me ? 'me' : ''} ${isSelected || isTemp ? 'temp' : ''}`}>
                 <div className="avatar">
                     <Avatar src={avatar} title={`${name} ${surname}\n\n@${username}`}/>
                 </div>
-                <div className="message">
-                    <div className="mes-text">
-                        {message}
-                    </div>
-                </div>
+                {isTemp
+                    ? this.messageSimpleBlock()
+                    : this.messageBlock()}
             </li>
         )
     }
@@ -42,13 +63,18 @@ class Message extends Component {
 export default connect(
     (state, ownProps) => {
         const message = state.db.messages[ownProps.messageId]
-        const me = state.ui.loggedAccount === message.from || ownProps.messageId[0] === 't'
+        const isTemp = ownProps.messageId[0] === 't'
+        const me = state.ui.loggedAccount === message.from || isTemp
 
         return {
-            message: message,
+            message,
+            isTemp,
+            isSelected: state.ui.selectedMessages[ownProps.messageId],
             sender: state.db.users[me ? state.ui.loggedAccount : message.from],
             me
         }
     },
-    dispatch => ({})
+    (dispatch, ownProps) => ({
+        select: () => dispatch(messageSelect(ownProps.messageId))
+    })
 )(Message)

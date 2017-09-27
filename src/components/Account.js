@@ -6,7 +6,11 @@ import Avatar from './Avatar'
 class AccountClass extends Component {
 
     render() {
-        const {name, surname, avatar} = this.props
+        const {user} = this.props
+        if (!user)
+            return null
+
+        const {name, surname, avatar} = user
 
         return (
             <div className="account">
@@ -56,12 +60,15 @@ class InviteAccountClass extends Component {
 }
 
 export const Account = connect(
-    state => state.db.users[state.ui.loggedAccount],
+    state => ({
+        user: state.db.users[state.ui.loggedAccount]
+    }),
     dispatch => ({})
 )(AccountClass)
 
 export const InviteAccount = connect(
     (state, ownProps) => ({
+        checked: !!state.ui.selectedUsers[ownProps.userId],
         user: state.db.users[ownProps.userId]
     }),
     (dispatch, ownProps) => ({

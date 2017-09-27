@@ -1,4 +1,4 @@
-import { SEND_CLICK } from '../../actions/frontend'
+import { DELETE_MESSAGES_CLICK, SEND_CLICK } from '../../actions/frontend'
 import {
     FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE,
     SEND_SUCCESS
@@ -24,15 +24,24 @@ export default (state = {}, action) => {
             return newState
         case FETCH_CHATS_SUCCESS:
             newState = {}
+
             action.messages.forEach(message => {
-                newState[message.id] = message
+                if(message.id)
+                    newState[message.id] = message
             })
             return newState
         case FETCH_MESSAGES_SUCCESS:
             newState = {...state}
 
-            for(let message of action.messages)
+            action.messages.forEach(message =>
                 newState[message.id] = message
+            )
+            return newState
+        case DELETE_MESSAGES_CLICK:
+            newState = {...state}
+
+            Object.keys(action.selectedMessages)
+                .forEach(key => delete newState[key])
             return newState
         default:
             return state

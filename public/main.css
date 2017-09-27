@@ -343,19 +343,28 @@ html {
     right: 0;
 }
 
-#messages .up-line .left {
+#messages .up-line .left, #messages .up-line .right {
     display: flex;
     align-items: center;
 }
 
-.plus-user {
+.right {
     color: #C9D6DF;
+}
+
+.plus-user {
     font-size: 32px;
     cursor: pointer;
     text-shadow: 1px 1px 3px rgba(214, 227, 236, 0.5);
     transition: all ease-out 0.1s;
     line-height: 20px;
+    margin-left: 6px;
+}
+
+.plus-user, .delete-link, #tick {
+    -ms-user-select: none;
     -moz-user-select: none;
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -384,8 +393,6 @@ html {
     cursor: pointer;
     transition: all ease-out 0.1s;
     line-height: 20px;
-    -moz-user-select: none;
-    user-select: none;
     margin: 0 5px;
     font-size: 18px;
 }
@@ -555,6 +562,39 @@ sup {
 #messages .mes.me .message {
     margin-left: 80px;
     margin-right: 0;
+}
+
+.message .delete-link {
+    position: absolute;
+    display: block;
+    color: #F44336;
+    right: 0;
+    top: -12px;
+    z-index: 10;
+    transform: rotate(45deg);
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 26px;
+    opacity: 0;
+}
+
+.mes.system .delete-link {
+    right: -8px;
+}
+
+.message .delete-link:hover {
+    opacity: 1;
+}
+
+.confirm-delete {
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.confirm-delete:hover {
+    color: #F44336;
 }
 
 .divider {

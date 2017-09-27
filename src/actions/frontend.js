@@ -16,6 +16,8 @@ export const MARK_READ = 14
 export const SORT_CHATS_LIST = 15
 export const MESSAGE_INPUT_IS_EMPTY = 16
 export const MESSAGE_INPUT_IS_NOT_EMPTY = 17
+export const MESSAGE_SELECT = 18
+export const DELETE_MESSAGES_CLICK = 19
 
 export const switchClick = () => ({
     type: SWITCH_CLICK
@@ -95,4 +97,13 @@ export const messageInputIsEmpty = () => ({
 
 export const messageInputIsNotEmpty = () => ({
     type: MESSAGE_INPUT_IS_NOT_EMPTY
+})
+
+export const messageSelect = messageId => ({
+    type: MESSAGE_SELECT,
+    messageId
+})
+
+export const deleteMessagesClick = () => ({
+    type: DELETE_MESSAGES_CLICK
 })

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import MessageInput from './MessageInput'
-import { inviteClick } from '../actions/frontend'
+import { deleteMessagesClick, inviteClick } from '../actions/frontend'
 import MessagesList from './MessagesList'
 
 class MessagesTab extends Component {
 
     render() {
-        const {chat, inviteTab, invite, to} = this.props
+        const {chat, inviteTab, invite, to, isSelected, deleteMessages} = this.props
         const {name, isRoom} = chat
 
         return (
@@ -17,7 +17,10 @@ class MessagesTab extends Component {
                         <div className="name">{isRoom ? name : `${to.name} ${to.surname}`}</div>
                         {!isRoom && <div className={`tmblr ${to.online ? 'online' : ''}`}/>}
                     </div>
-                    {!inviteTab && isRoom && <div className="plus-user" onClick={invite}>+</div>}
+                    <div className="right">
+                        {isSelected && <span className="confirm-delete" onClick={deleteMessages}>&#61460;</span>}
+                        {!inviteTab && isRoom && <span className="plus-user" onClick={invite}>+</span>}
+                    </div>
                 </div>
                 <MessagesList />
                 <MessageInput/>
@@ -29,13 +32,16 @@ class MessagesTab extends Component {
 export default connect(
     state => {
         const chat = state.db.chats[state.ui.selectedChat]
+
         return {
             chat,
             to: state.db.users[chat.to],
-            inviteTab: state.ui.inviteTab
+            inviteTab: state.ui.inviteTab,
+            isSelected: Object.keys(state.ui.selectedMessages).length > 0
         }
     },
     dispatch => ({
-        invite: () => dispatch(inviteClick())
+        invite: () => dispatch(inviteClick()),
+        deleteMessages: () => dispatch(deleteMessagesClick())
     })
 )(MessagesTab)

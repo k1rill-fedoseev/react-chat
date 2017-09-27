@@ -18,17 +18,15 @@ class InviteTab extends Component {
     }
 
     inviteAccounts() {
-        const {usersList, selectedUsers} = this.props
+        const {usersList} = this.props
 
         return usersList.map(
-            userId =>
-                (<InviteAccount key={userId} userId={userId}
-                                checked={selectedUsers.some(clickedUserId => clickedUserId === userId)}/>)
+            userId => <InviteAccount key={userId} userId={userId}/>
         )
     }
 
     render() {
-        const {selectedUsers, newChatTab, accept, cancel} = this.props
+        const {selectedUsersCount, newChatTab, accept, cancel} = this.props
 
         return (
             <div id="add-user">
@@ -37,7 +35,7 @@ class InviteTab extends Component {
                     <input type="text" id="invite-input" onChange={this.handleChange}/>
                     {!newChatTab && <span id="tick" onClick={accept}>
                         &#10004;
-                        <sup>{selectedUsers.length || null}</sup>
+                        <sup>{selectedUsersCount || null}</sup>
                     </span>}
                     {!newChatTab && <div className="plus-user" onClick={cancel}>+</div>}
                 </div>
@@ -53,7 +51,7 @@ export default connect(
     state => ({
         newChatTab: state.ui.newChatTab,
         usersList: state.ui.usersList,
-        selectedUsers: state.ui.selectedUsers
+        selectedUsersCount: Object.keys(state.ui.selectedUsers).length
     }),
     dispatch => ({
         fetch: (search) => dispatch(searchChange(search)),

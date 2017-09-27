@@ -28,7 +28,10 @@ class ChatItem extends Component {
     }
 
     componentWillMount() {
-        this.updateInterval(this.props)
+        const {time} = this.props
+
+        if (time !== 0)
+            this.updateInterval(this.props)
         this.subscribe(this.props)
     }
 
@@ -39,10 +42,11 @@ class ChatItem extends Component {
     }
 
     componentWillReceiveProps(props) {
-        const {isSelected, markRead, chat} = props
+        const {isSelected, markRead, chat, time} = props
         const {newMessages} = chat
 
-        this.updateInterval(props)
+        if (time !== 0)
+            this.updateInterval(props)
         this.subscribe(props)
 
         if (newMessages && isSelected)
@@ -52,21 +56,27 @@ class ChatItem extends Component {
     }
 
     render() {
-        const {isSelected, chat, select, message, to, typingUser, typingUsersCount} = this.props
+        const {isSelected, chat, select, message, to, typingUser, typingUsersCount, time} = this.props
+
         if (!chat || !chat.isRoom && !to)
             return null
 
-        const timeStr = parseMs(this.state.time)
         const {avatar, newMessages, isRoom, name} = chat
 
         return (
-            <li className={'chat-item' + (isSelected ? ' active' : '')} onClick={select}>
+            <li className={'chat-item' + (isSelected
+                ? ' active'
+                : '')} onClick={select}>
                 <div className="avatar">
                     {newMessages > 0 && <div className="new-mes">{newMessages}</div>}
-                    <Avatar src={isRoom ? avatar : to.avatar}/>
+                    <Avatar src={isRoom
+                        ? avatar
+                        : to.avatar}/>
                 </div>
                 <div className="info">
-                    <div className="name">{isRoom ? name : `${to.name} ${to.surname}`}</div>
+                    <div className="name">{isRoom
+                        ? name
+                        : `${to.name} ${to.surname}`}</div>
                     <div className="mes">
                         {typingUsersCount
                             ? <EllipsisText text={`${typingUser.name} ${typingUser.surname} ${typingUsersCount > 1
@@ -77,7 +87,7 @@ class ChatItem extends Component {
                 </div>
                 <div className="info2">
                     {!isRoom && <div className={'tmblr ' + (to.online && 'online')}/>}
-                    <div className="time">{timeStr}</div>
+                    <div className="time">{time ? parseMs(this.state.time) : 'Infinity'}</div>
                 </div>
             </li>
         )
@@ -90,17 +100,27 @@ export default connect(
         if (!messagesList)
             return {}
 
-        const lastMessage = state.db.messages[messagesList[messagesList.length - 1]]
+        const lastMessage = messagesList.length
+            ? state.db.messages[messagesList[messagesList.length - 1]]
+            : {
+                message: '',
+                time: 0
+            }
         const chat = state.db.chats[ownProps.chatId]
         const typing = state.db.typing[ownProps.chatId]
+
         return {
             isSelected: ownProps.chatId === state.ui.selectedChat,
             chat,
             message: lastMessage.message,
             time: lastMessage.time,
             to: state.db.users[chat.to],
-            typingUser: typing ? state.db.users[typing[0]] : '',
-            typingUsersCount: typing ? typing.length : 0
+            typingUser: typing
+                ? state.db.users[typing[0]]
+                : '',
+            typingUsersCount: typing
+                ? typing.length
+                : 0
         }
     },
     (dispatch, ownProps) => ({

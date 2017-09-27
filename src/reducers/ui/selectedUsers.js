@@ -3,24 +3,24 @@ import {
     USER_SELECT
 } from '../../actions/frontend'
 
-export default (state = [], action) => {
+export default (state = {}, action) => {
     switch (action.type) {
         case NEW_CLICK:
         case SWAP_CLICK:
         case INVITE_ACCEPT_CLICK:
-            return []
+            return {}
         case USER_SELECT:
-            if (action.isRoomCreateTab) {
-                const index = state.indexOf(action.userId)
-                const stateCopy = [...state]
-                if (index > -1) {
-                    stateCopy.splice(index, 1)
-                    return stateCopy
-                }
-                stateCopy.push(action.userId)
-                return stateCopy
-            }
-            return [action.userId]
+            if (action.newChatTab && !action.isRoomCreateTab)
+                return {[action.userId]: true}
+
+            const stateCopy = {...state}
+
+            if (stateCopy[action.userId])
+                delete stateCopy[action.userId]
+            else
+                stateCopy[action.userId] = true
+
+            return stateCopy
         default:
             return state
     }

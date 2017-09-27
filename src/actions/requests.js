@@ -13,6 +13,7 @@ export const TRY_MARK_READ = 111
 export const FETCH_ONLINE_USERS = 112
 export const START_TYPING = 113
 export const END_TYPING = 114
+export const DELETE_MESSAGES = 115
 
 export const trySignIn = (username, password) => ({
     type: TRY_SIGN_IN,
@@ -86,4 +87,9 @@ export const startTyping = chatId => ({
 export const endTyping = chatId => ({
     type: END_TYPING,
     chatId
+})
+
+export const deleteMessages = messageIds => ({
+    type: DELETE_MESSAGES,
+    messageIds
 })

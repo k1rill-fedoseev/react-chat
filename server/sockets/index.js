@@ -7,7 +7,7 @@ const sockets = {}
 const {
     TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHATS, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
     FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, TRY_SEND, TRY_INVITE_USERS, TRY_MARK_READ,
-    TRY_SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING,
+    TRY_SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING, DELETE_MESSAGES,
     newMessage,
     signInSuccess, signInError, signUpSuccess, signUpError,
     fetchChatsSuccess, fetchChatsError, fetchChatSuccess, fetchChatError,
@@ -191,12 +191,17 @@ module.exports = function (server) {
                         break
                     case TRY_CREATE_1_TO_1:
                         Promise.resolve()
+                            .checkRoom(userId, action.userId)
+                            .then(isExists => {
+                                if(isExists)
+                                    throw 'Such 1-to-1 chat is already exists'
+                            })
                             .createRoom(false, null, null, userId)
                             .then(room => {
                                 roomId = room._id.toString()
                                 return room
                             })
-                            .addUsers([action.userId])
+                            .addUsers(action.userId ? [action.userId] : [])
                             .then(args => args[0])
                             .createMessage(undefined, config.get('startMessage'))
                             .then(userMessages => userMessages.forEach(
@@ -211,8 +216,12 @@ module.exports = function (server) {
                                 }
                             ))
                             .catch(err => {
-                                log.error(err)
-                                socket.send(createError('Server Error'))
+                                if(typeof err === 'string')
+                                    socket.send(createError(err))
+                                else {
+                                    log.error(err)
+                                    socket.send(createError('Server Error'))
+                                }
                             })
                         break
                     case TRY_SEND:
@@ -335,6 +344,13 @@ module.exports = function (server) {
                         break
                     case END_TYPING:
                         socket.broadcast.to(action.chatId).send(endTypingResponse(action.chatId, userId))
+                        break
+                    case DELETE_MESSAGES:
+                        Promise.resolve()
+                            .deleteMessages(userId, action.messageIds)
+                            .catch(err => {
+                                log.error(err)
+                            })
                         break
                 }
             })

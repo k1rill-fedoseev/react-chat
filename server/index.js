@@ -1,7 +1,7 @@
 //TODO: Изменение инфы о комнатах и юзере
-//TODO: Удаление сообщений
 //TODO: Удаление юзеров из комнаты
 //TODO: Удаление чата
+//TODO: Выход из чата
 
 const express = require('express')
 const mongoose = require('mongoose')
@@ -22,13 +22,14 @@ server.listen(config.get('port'), () => {
 
 mongoose.connect('mongodb://localhost/chat')
 
-mongoose.connection.on('connected', function () {
-    log.info('Connected to db')
-}).on('disconnected', function () {
-    log.warn('Disconnected from db')
-}).on('error', function (err) {
-    log.error('Error with db connection ' + err)
-})
+mongoose.connection
+    .on('connected',
+        () => log.info('Connected to db'))
+    .on('disconnected',
+        () => log.warn('Disconnected from db'))
+    .on('error',
+        err => log.error('Error with db connection ' + err)
+    )
 
 //app.use(favicon('public/favicon.ico'));
 app.use(cookieParser())

@@ -1,5 +1,8 @@
 const getLastMessageTime = (state, chatId) => {
     const messagesList = state.ui.messagesLists[chatId]
+
+    if(messagesList.length === 0)
+        return 0
     return state.db.messages[messagesList[messagesList.length - 1]].time
 }
 

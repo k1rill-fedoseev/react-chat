@@ -1,5 +1,5 @@
 import {
-    CREATE_CLICK, INVITE_ACCEPT_CLICK, LOAD_MORE_CLICK, MARK_READ, MESSAGE_INPUT_IS_EMPTY,
+    CREATE_CLICK, DELETE_MESSAGES_CLICK, INVITE_ACCEPT_CLICK, LOAD_MORE_CLICK, MARK_READ, MESSAGE_INPUT_IS_EMPTY,
     MESSAGE_INPUT_IS_NOT_EMPTY,
     SEARCH_CHANGE,
     SEND_CLICK, SIGN_IN_CLICK,
@@ -7,6 +7,7 @@ import {
 } from '../actions/frontend'
 import socket from '../sockets'
 import {
+    deleteMessages,
     endTyping,
     fetchChat, fetchChats,
     fetchMessages, fetchUsers, startTyping, tryCreate1To1, tryCreateRoom, tryInviteUsers, tryMarkRead,
@@ -26,16 +27,16 @@ export default store => next => action => {
 
     switch (action.type) {
         case INVITE_ACCEPT_CLICK:
-            socket.send(tryInviteUsers(state.ui.selectedChat, state.ui.selectedUsers))
+            socket.send(tryInviteUsers(state.ui.selectedChat, Object.keys(state.ui.selectedUsers)))
             break
         case SEND_CLICK:
             socket.send(trySend(state.ui.tempId, state.ui.selectedChat, action.message))
             break
         case CREATE_CLICK:
             if (state.ui.isRoomCreateTab)
-                socket.send(tryCreateRoom(action.name, action.desc, action.avatar, state.ui.selectedUsers))
+                socket.send(tryCreateRoom(action.name, action.desc, action.avatar, Object.keys(state.ui.selectedUsers)))
             else
-                socket.send(tryCreate1To1(state.ui.selectedUsers[0]))
+                socket.send(tryCreate1To1(Object.keys(state.ui.selectedUsers)[0]))
             break
         case SIGN_IN_CLICK:
             socket.send(trySignIn(action.username, action.password))
@@ -108,6 +109,9 @@ export default store => next => action => {
             break
         case MESSAGE_INPUT_IS_EMPTY:
             socket.send(endTyping(state.ui.selectedChat))
+            break
+        case DELETE_MESSAGES_CLICK:
+            socket.send(deleteMessages(Object.keys(state.ui.selectedMessages)))
             break
     }
 
