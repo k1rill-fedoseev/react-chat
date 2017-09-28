@@ -100,7 +100,7 @@ class MyPromise extends Promise {
                 )
             })
                 .then(message => {
-                    if(!message)
+                    if (!message)
                         return []
 
                     return new MyPromise((resolve, reject) => {
@@ -269,11 +269,13 @@ class MyPromise extends Promise {
                 if (token) {
                     const attempt = User.encrypt(token, config.get('tokenKey'))
 
-                    User.findOne({hashedToken: attempt}, (err, user) => {
-                        (err || !user)
-                            ? reject(err)
-                            : resolve(user)
-                    })
+                    User.findOne({hashedToken: attempt},
+                        (err, user) => {
+                            (err || !user)
+                                ? reject(err)
+                                : resolve(user)
+                        }
+                    )
                 }
                 else
                     reject()
@@ -326,6 +328,7 @@ class MyPromise extends Promise {
         return this.then(() =>
             new MyPromise((resolve, reject) => {
                 Room.findOne({
+                        isRoom: false,
                         users: {
                             $all: users
                         }
@@ -351,13 +354,13 @@ class MyPromise extends Promise {
 
     addUsers(userIds) {
         return this.then(room => {
-                const newUsersMap = {}, newUsersArr = [], newUsers = []
+                const newUsersMap = {}
+                const newUsers = []
+
                 userIds.forEach(userId => newUsersMap[userId] = true)
                 room.users.forEach(userId => delete newUsersMap[userId.toString()])
-                for (let userId in newUsersMap)
-                    newUsersArr.push(userId)
 
-                return MyPromise.all(newUsersArr.map(
+                return MyPromise.all(Object.keys(newUsersMap).map(
                     newUser => MyPromise.resolve().getUser(newUser).then(user => {
                         room.users.push(user._id)
                         newUsers.push(user)
@@ -435,6 +438,7 @@ class MyPromise extends Promise {
                                 : resolve()
                         })
                     }
+
                 })
             })
         )
@@ -519,7 +523,7 @@ class MyPromise extends Promise {
                             id: openRoom.room._id.toString(),
                             avatar: openRoom.room.avatar,
                             newMessages: openRoom.newMessages,
-                            to: userTo.toString(),
+                            to: openRoom.room.isRoom ? '' : userTo.toString(),
                             isFullLoaded
                         })
                     }

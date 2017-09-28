@@ -348,13 +348,10 @@ html {
     align-items: center;
 }
 
-.right {
-    color: #C9D6DF;
-}
-
 .plus-user {
     font-size: 32px;
     cursor: pointer;
+    color: #C9D6DF;
     text-shadow: 1px 1px 3px rgba(214, 227, 236, 0.5);
     transition: all ease-out 0.1s;
     line-height: 20px;
@@ -591,6 +588,7 @@ sup {
     font-weight: normal;
     font-size: 22px;
     cursor: pointer;
+    color: #C9D6DF;
 }
 
 .confirm-delete:hover {

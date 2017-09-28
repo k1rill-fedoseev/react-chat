@@ -58,23 +58,21 @@ module.exports = function (server) {
                         next()
                     })
                     .catch(err => {
-                        log.error(err)
+                        if (err)
+                            log.error(err)
                         next()
                     })
-
-                Promise.resolve()
-                    .getUserRooms()
             }
             else
                 next()
         })
 
-    const kek = io
-
     io.on('connection',
         socket => {
             let roomId
-            let userId = socket.user ? socket.user._id.toString() : ''
+            let userId = socket.user
+                ? socket.user._id.toString()
+                : ''
 
             socket.on('message', (action) => {
                 switch (action.type) {
@@ -193,7 +191,7 @@ module.exports = function (server) {
                         Promise.resolve()
                             .checkRoom(userId, action.userId)
                             .then(isExists => {
-                                if(isExists)
+                                if (isExists)
                                     throw 'Such 1-to-1 chat is already exists'
                             })
                             .createRoom(false, null, null, userId)
@@ -201,7 +199,9 @@ module.exports = function (server) {
                                 roomId = room._id.toString()
                                 return room
                             })
-                            .addUsers(action.userId ? [action.userId] : [])
+                            .addUsers(action.userId
+                                ? [action.userId]
+                                : [])
                             .then(args => args[0])
                             .createMessage(undefined, config.get('startMessage'))
                             .then(userMessages => userMessages.forEach(
@@ -216,7 +216,7 @@ module.exports = function (server) {
                                 }
                             ))
                             .catch(err => {
-                                if(typeof err === 'string')
+                                if (typeof err === 'string')
                                     socket.send(createError(err))
                                 else {
                                     log.error(err)
@@ -225,8 +225,9 @@ module.exports = function (server) {
                             })
                         break
                     case TRY_SEND:
-                        const strippedMessage = socket.user.username === 'admin' ?
-                            action.message : stripTags(action.message)
+                        const strippedMessage = socket.user.username === 'admin'
+                            ? action.message
+                            : stripTags(action.message)
 
                         Promise.resolve()
                             .getRoom(action.chatId)
@@ -297,31 +298,33 @@ module.exports = function (server) {
                             .getRoom(action.chatId)
                             .checkMember(userId)
                             .addUsers(action.userIds)
-                            .then(([room, newUsers]) =>
-                                Promise.all(
-                                    newUsers.map(
-                                        newUser => {
-                                            const message = `${socket.user.name} ${socket.user.surname} invited ${newUser.name} ${newUser.surname}`
+                            .then(([room, newUsers]) => {
+                                return newUsers.map(
+                                    newUser => {
+                                        const message = `${socket.user.name} ${socket.user.surname} invited ${newUser.name} ${newUser.surname}`
 
-                                            return Promise.resolve(room)
-                                                .createMessage(undefined, message)
-                                                .then(userMessages => userMessages.forEach(
-                                                    userMessage => {
-                                                        if (sockets[userMessage.owner.toString()])
-                                                            sockets[userMessage.owner.toString()].send(newMessage({
-                                                                message,
-                                                                id: userMessage._id,
-                                                                time: userMessage.date.valueOf()
-                                                            }, action.chatId))
-                                                    }
-                                                ))
-                                                .catch(err => {
-                                                    log.error(err)
-                                                })
-                                        }
-                                    )
+                                        return () => Promise.resolve(room)
+                                            .createMessage(undefined, message)
+                                            .then(userMessages => userMessages.forEach(
+                                                userMessage => {
+                                                    if (sockets[userMessage.owner.toString()])
+                                                        sockets[userMessage.owner.toString()].send(newMessage({
+                                                            message,
+                                                            id: userMessage._id,
+                                                            time: userMessage.date.valueOf()
+                                                        }, action.chatId))
+                                                }
+                                            ))
+                                            .catch(err => {
+                                                log.error(err)
+                                            })
+                                    }
                                 )
-                            )
+                                    .reduce(
+                                        (chain, promise) => chain.then(promise)
+                                        , Promise.resolve()
+                                    )
+                            })
                             .catch(err => {
                                 log.error(err)
                                 socket.send(inviteUsersError('Server Error'))

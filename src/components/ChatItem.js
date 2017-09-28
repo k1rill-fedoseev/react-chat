@@ -38,7 +38,7 @@ class ChatItem extends Component {
     componentWillUnmount() {
         clearInterval(this.intervalId)
         clearTimeout(this.timeoutId)
-        unsubscribe(this.props)
+        unsubscribe(this.props.to.id)
     }
 
     componentWillReceiveProps(props) {
@@ -78,7 +78,7 @@ class ChatItem extends Component {
                         ? name
                         : `${to.name} ${to.surname}`}</div>
                     <div className="mes">
-                        {typingUsersCount
+                        {typingUsersCount && typingUser
                             ? <EllipsisText text={`${typingUser.name} ${typingUser.surname} ${typingUsersCount > 1
                                 ? `and ${typingUsersCount - 1} more are`
                                 : 'is'} typing`}/>

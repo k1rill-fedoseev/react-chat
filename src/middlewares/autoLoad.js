@@ -5,6 +5,8 @@ export default store => next => action => {
 
     next(action)
 
-    if(action.type === CHAT_SELECT && state.ui.messagesLists[action.chatId].length < 2)
+    if (action.type === CHAT_SELECT
+        && state.ui.messagesLists[action.chatId].length === 1
+        && !state.db.chats[action.chatId].isFullLoaded)
         next(loadMoreClick())
 }

@@ -51,8 +51,8 @@ class NewChatTab extends Component {
                 <div className="up-line">
                     <div className="title">
                         Create new {isRoomCreateTab
-                        ? 'room'
-                        : '1-to-1 chat'
+                        ? 'room '
+                        : '1-to-1 chat '
                     }
                         <span className="quot">(</span>
                         <span id="next" onClick={swap}>

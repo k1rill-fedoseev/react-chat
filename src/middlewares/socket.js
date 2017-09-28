@@ -18,7 +18,7 @@ import {
 import {
     FETCH_CHAT_SUCCESS,
     FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE, SEARCH_USERS_SUCCESS, SIGN_IN_SUCCESS,
-    SIGN_UP_SUCCESS
+    SIGN_UP_SUCCESS, START_TYPING_RESPONSE
 } from '../actions/responses'
 
 export default store => next => action => {
@@ -82,7 +82,7 @@ export default store => next => action => {
                     userIds.push(chat.to)
             })
             action.messages.forEach(message => {
-                if(message.from && !state.db.users[message.from])
+                if (message.from && !state.db.users[message.from])
                     userIds.push(message.from)
             })
             if (userIds.length)
@@ -112,6 +112,10 @@ export default store => next => action => {
             break
         case DELETE_MESSAGES_CLICK:
             socket.send(deleteMessages(Object.keys(state.ui.selectedMessages)))
+            break
+        case START_TYPING_RESPONSE:
+            if (!state.db.users[action.userId])
+                socket.send([action.userId])
             break
     }
 

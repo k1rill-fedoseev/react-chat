@@ -30,10 +30,11 @@ class MessageInput extends Component {
     }
 
     handleClick() {
-        const {send} = this.props
+        const {send, endTyping} = this.props
 
         if (this.state.inputMessage.length) {
             send(this.state.inputMessage)
+            endTyping()
             this.setState({
                 inputMessage: ''
             })
