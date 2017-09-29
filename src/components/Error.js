@@ -4,7 +4,7 @@ import { clearError } from '../actions/frontend'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 const transitionSettings = {
-    transitionName: 'drop',
+    transitionName: 'drop-menu',
     transitionEnter: false,
     transitionLeave: true,
     transitionLeaveTimeout: 500

@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { userSelect } from '../actions/frontend'
 import Avatar from './Avatar'
+import ExitMenu from './ExitMenu'
 
 class AccountClass extends Component {
 
     render() {
         const {user} = this.props
+
         if (!user)
             return null
 
@@ -21,7 +23,10 @@ class AccountClass extends Component {
                     <div className="name">
                         {name} {surname}
                     </div>
-                    <div className="link">Online</div>
+                    <div className="menu-area">
+                        <div className="link">Online</div>
+                        <ExitMenu />
+                    </div>
                 </div>
             </div>
         )

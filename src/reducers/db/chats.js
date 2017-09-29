@@ -1,5 +1,5 @@
 import { FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE } from '../../actions/responses'
-import { LOAD_MORE_CLICK, MARK_READ } from '../../actions/frontend'
+import { EXIT, LOAD_MORE_CLICK, MARK_READ } from '../../actions/frontend'
 
 export default (state = {}, action) => {
     switch (action.type) {
@@ -62,6 +62,8 @@ export default (state = {}, action) => {
                     isLoading: true
                 }
             }
+        case EXIT:
+            return {}
         default:
             return state
     }

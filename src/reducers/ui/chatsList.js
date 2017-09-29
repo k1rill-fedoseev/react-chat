@@ -1,5 +1,5 @@
 import { FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS } from '../../actions/responses'
-import { SORT_CHATS_LIST } from '../../actions/frontend'
+import { EXIT, SORT_CHATS_LIST } from '../../actions/frontend'
 
 export default (state = [], action) => {
     switch (action.type) {
@@ -11,6 +11,8 @@ export default (state = [], action) => {
             return state
         case SORT_CHATS_LIST:
             return action.chatsList
+        case EXIT:
+            return []
         default:
             return state
     }

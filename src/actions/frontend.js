@@ -18,6 +18,7 @@ export const MESSAGE_INPUT_IS_EMPTY = 16
 export const MESSAGE_INPUT_IS_NOT_EMPTY = 17
 export const MESSAGE_SELECT = 18
 export const DELETE_MESSAGES_CLICK = 19
+export const EXIT = 20
 
 export const switchClick = () => ({
     type: SWITCH_CLICK
@@ -106,4 +107,8 @@ export const messageSelect = messageId => ({
 
 export const deleteMessagesClick = () => ({
     type: DELETE_MESSAGES_CLICK
+})
+
+export const exit = () => ({
+    type: EXIT
 })

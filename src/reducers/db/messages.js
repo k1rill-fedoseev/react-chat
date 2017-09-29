@@ -1,4 +1,4 @@
-import { DELETE_MESSAGES_CLICK, SEND_CLICK } from '../../actions/frontend'
+import { DELETE_MESSAGES_CLICK, EXIT, SEND_CLICK } from '../../actions/frontend'
 import {
     FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE,
     SEND_SUCCESS
@@ -43,6 +43,8 @@ export default (state = {}, action) => {
             Object.keys(action.selectedMessages)
                 .forEach(key => delete newState[key])
             return newState
+        case EXIT:
+            return {}
         default:
             return state
     }

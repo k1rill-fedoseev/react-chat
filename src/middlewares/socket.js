@@ -65,8 +65,6 @@ export default store => next => action => {
             break
         case SIGN_IN_SUCCESS:
         case SIGN_UP_SUCCESS:
-            if (action.token)
-                document.cookie = `token=${action.token}`
             socket.send(fetchChats())
             break
         case SEARCH_USERS_SUCCESS:

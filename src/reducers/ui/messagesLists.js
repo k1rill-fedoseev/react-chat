@@ -1,5 +1,5 @@
 import { FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE, SEND_SUCCESS } from '../../actions/responses'
-import { DELETE_MESSAGES_CLICK, SEND_CLICK } from '../../actions/frontend'
+import { DELETE_MESSAGES_CLICK, EXIT, SEND_CLICK } from '../../actions/frontend'
 
 export default (state = {}, action) => {
     let listCopy
@@ -45,6 +45,8 @@ export default (state = {}, action) => {
                     messageId => !action.selectedMessages[messageId]
                 )
             }
+        case EXIT:
+            return {}
         default:
             return state
     }

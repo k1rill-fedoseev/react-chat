@@ -1,6 +1,6 @@
 import {
     NEW_CLICK, SWAP_CLICK, INVITE_ACCEPT_CLICK,
-    USER_SELECT
+    USER_SELECT, EXIT
 } from '../../actions/frontend'
 
 export default (state = {}, action) => {
@@ -8,6 +8,7 @@ export default (state = {}, action) => {
         case NEW_CLICK:
         case SWAP_CLICK:
         case INVITE_ACCEPT_CLICK:
+        case EXIT:
             return {}
         case USER_SELECT:
             if (action.newChatTab && !action.isRoomCreateTab)

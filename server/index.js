@@ -2,6 +2,7 @@
 //TODO: Удаление юзеров из комнаты
 //TODO: Удаление чата
 //TODO: Выход из чата
+//TODO: Ограничения
 
 const express = require('express')
 const mongoose = require('mongoose')

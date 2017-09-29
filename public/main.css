@@ -116,6 +116,8 @@ html {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 10;
 }
 
 .header .link:hover {
@@ -746,4 +748,41 @@ input {
 
 #users .account input:checked + .custom:after {
     display: block;
+}
+
+.menu-area {
+    position: relative;
+}
+
+.exit-menu {
+    position: absolute;
+    right: 0;
+    background-color: #FFFFFF;
+    width: 100px;
+    border-radius: 3px;
+    box-shadow: 0 0 25px 0 rgba(53, 152, 219, 0.2);
+    top: 0;
+    transition: all .2s ease-out;
+    opacity: 0;
+    height: 0;
+}
+
+.menu-area:hover .exit-menu{
+    height: auto;
+    top: 18px;
+    opacity: 1;
+}
+
+.exit-menu-btn {
+    padding: 5px;
+    display: none;
+    border-radius: 3px;
+}
+
+.menu-area:hover .exit-menu-btn {
+    display: block;
+}
+
+.exit-menu-btn:hover {
+    background-color: #ECEFF1;
 }

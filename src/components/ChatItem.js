@@ -36,9 +36,12 @@ class ChatItem extends Component {
     }
 
     componentWillUnmount() {
+        const {to} = this.props
         clearInterval(this.intervalId)
         clearTimeout(this.timeoutId)
-        unsubscribe(this.props.to.id)
+
+        if (to)
+            unsubscribe(to.id)
     }
 
     componentWillReceiveProps(props) {
@@ -87,7 +90,9 @@ class ChatItem extends Component {
                 </div>
                 <div className="info2">
                     {!isRoom && <div className={'tmblr ' + (to.online && 'online')}/>}
-                    <div className="time">{time ? parseMs(this.state.time) : 'Infinity'}</div>
+                    <div className="time">{time
+                        ? parseMs(this.state.time)
+                        : 'Infinity'}</div>
                 </div>
             </li>
         )

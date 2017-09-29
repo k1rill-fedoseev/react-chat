@@ -1,4 +1,5 @@
 import { END_TYPING_RESPONSE, START_TYPING_RESPONSE } from '../../actions/responses'
+import { EXIT } from '../../actions/frontend'
 
 export default (state = {}, action) => {
     switch (action.type) {
@@ -27,6 +28,8 @@ export default (state = {}, action) => {
                 ...state,
                 [action.chatId]: state[action.chatId].filter(userId => userId !== action.userId)
             }
+        case EXIT:
+            return {}
         default:
             return state
     }

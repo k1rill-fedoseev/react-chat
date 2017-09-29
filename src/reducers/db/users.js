@@ -2,6 +2,7 @@ import {
     FETCH_ONLINE_USERS_SUCCESS, FETCH_USERS_SUCCESS, SIGN_IN_SUCCESS,
     SIGN_UP_SUCCESS
 } from '../../actions/responses'
+import { EXIT } from '../../actions/frontend'
 
 export default (state = {}, action) => {
     let newState
@@ -23,6 +24,8 @@ export default (state = {}, action) => {
                 if (state[userId] && state[userId].online !== action.users[userId])
                     newState[userId] = {...state[userId], online: action.users[userId]}
             return newState
+        case EXIT:
+            return {}
         default:
             return state
     }

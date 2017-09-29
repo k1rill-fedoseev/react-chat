@@ -6,10 +6,11 @@ import logger from '../middlewares/logger'
 import sort from '../middlewares/sort'
 import markRead from '../middlewares/markRead'
 import autoLoad from '../middlewares/autoLoad'
+import cookie from '../middlewares/cookie'
 
 const store = createStore(
     reducer,
-    applyMiddleware(markRead, autoLoad, connector, sort, logger, socket)
+    applyMiddleware(markRead, autoLoad, connector, sort, logger, cookie, socket)
 )
 
 export const dispatch = store.dispatch
