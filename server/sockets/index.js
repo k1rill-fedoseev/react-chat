@@ -7,8 +7,9 @@ const sockets = {}
 const {
     TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHATS, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
     FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, TRY_SEND, TRY_INVITE_USERS, TRY_MARK_READ,
-    TRY_SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING, DELETE_MESSAGES,
-    newMessage,
+    TRY_SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING, DELETE_MESSAGES, REMOVE_USER,
+    EXIT_REQUEST,
+    newMessage, newMessageWithInvite, newMessageWithRemove,
     signInSuccess, signInError, signUpSuccess, signUpError,
     fetchChatsSuccess, fetchChatsError, fetchChatSuccess, fetchChatError,
     createError, sendSuccess, sendError, inviteUsersError,
@@ -169,17 +170,19 @@ module.exports = function (server) {
                                 roomId = room._id.toString()
                                 return room
                             })
-                            .addUsers(action.userIds)
+                            .addUsers(action.userIds, userId)
                             .then(args => args[0])
                             .createMessage(undefined, config.get('startMessage'))
                             .then(userMessages => userMessages.forEach(
                                 userMessage => {
-                                    if (sockets[userMessage.owner.toString()])
+                                    if (sockets[userMessage.owner.toString()]) {
+                                        sockets[userMessage.owner.toString()].join(roomId)
                                         sockets[userMessage.owner.toString()].send(newMessage({
                                             message: config.get('startMessage'),
                                             id: userMessage._id,
                                             time: userMessage.date.valueOf()
                                         }, roomId))
+                                    }
                                 }
                             ))
                             .catch(err => {
@@ -201,12 +204,13 @@ module.exports = function (server) {
                             })
                             .addUsers(action.userId
                                 ? [action.userId]
-                                : [])
+                                : [], userId)
                             .then(args => args[0])
                             .createMessage(undefined, config.get('startMessage'))
                             .then(userMessages => userMessages.forEach(
                                 userMessage => {
                                     if (sockets[userMessage.owner.toString()]) {
+                                        sockets[userMessage.owner.toString()].join(roomId)
                                         sockets[userMessage.owner.toString()].send(newMessage({
                                             message: config.get('startMessage'),
                                             id: userMessage._id.toString(),
@@ -231,6 +235,7 @@ module.exports = function (server) {
 
                         Promise.resolve()
                             .getRoom(action.chatId)
+                            .checkMember(userId)
                             .createMessage(userId, strippedMessage)
                             .then(userMessages => userMessages.forEach(
                                 userMessage => {
@@ -262,7 +267,7 @@ module.exports = function (server) {
                     case FETCH_MESSAGES:
                         Promise.resolve()
                             .getMessages(userId, action.chatId, action.lastMessageId)
-                            .messagesFilter(userId)
+                            .messagesFilter()
                             .then(([messages, isFullLoaded]) => {
                                 socket.send(fetchMessagesSuccess(action.chatId, messages, isFullLoaded))
                             })
@@ -297,22 +302,29 @@ module.exports = function (server) {
                         Promise.resolve()
                             .getRoom(action.chatId)
                             .checkMember(userId)
-                            .addUsers(action.userIds)
+                            .addUsers(action.userIds, userId)
                             .then(([room, newUsers]) => {
                                 return newUsers.map(
                                     newUser => {
                                         const message = `${socket.user.name} ${socket.user.surname} invited ${newUser.name} ${newUser.surname}`
+                                        if (sockets[newUser._id.toString()])
+                                            sockets[newUser._id.toString()].join(action.chatId)
 
                                         return () => Promise.resolve(room)
                                             .createMessage(undefined, message)
                                             .then(userMessages => userMessages.forEach(
                                                 userMessage => {
                                                     if (sockets[userMessage.owner.toString()])
-                                                        sockets[userMessage.owner.toString()].send(newMessage({
-                                                            message,
-                                                            id: userMessage._id,
-                                                            time: userMessage.date.valueOf()
-                                                        }, action.chatId))
+                                                        sockets[userMessage.owner.toString()].send(newMessageWithInvite(
+                                                            {
+                                                                message,
+                                                                id: userMessage._id,
+                                                                time: userMessage.date.valueOf()
+                                                            },
+                                                            action.chatId,
+                                                            newUser._id.toString(),
+                                                            userId
+                                                        ))
                                                 }
                                             ))
                                             .catch(err => {
@@ -321,8 +333,8 @@ module.exports = function (server) {
                                     }
                                 )
                                     .reduce(
-                                        (chain, promise) => chain.then(promise)
-                                        , Promise.resolve()
+                                        (chain, promise) => chain.then(promise),
+                                        Promise.resolve()
                                     )
                             })
                             .catch(err => {
@@ -343,10 +355,12 @@ module.exports = function (server) {
                         socket.send(fetchOnlineUsersSuccess(users))
                         break
                     case START_TYPING:
-                        socket.broadcast.to(action.chatId).send(startTypingResponse(action.chatId, userId))
+                        if (io.sockets.adapter.rooms[action.chatId].sockets[socket.id])
+                            socket.to(action.chatId).send(startTypingResponse(action.chatId, userId))
                         break
                     case END_TYPING:
-                        socket.broadcast.to(action.chatId).send(endTypingResponse(action.chatId, userId))
+                        if (io.sockets.adapter.rooms[action.chatId].sockets[socket.id])
+                            socket.to(action.chatId).send(endTypingResponse(action.chatId, userId))
                         break
                     case DELETE_MESSAGES:
                         Promise.resolve()
@@ -355,11 +369,70 @@ module.exports = function (server) {
                                 log.error(err)
                             })
                         break
+                    case REMOVE_USER:
+                        let room
+
+                        Promise.resolve()
+                            .getRoom(action.chatId)
+                            .then(foundRoom => {
+                                if (!foundRoom.isRoom)
+                                    throw Error('Chat must be a room')
+                                return room = foundRoom
+                            })
+                            .checkRemovable(userId, action.userId)
+                            .getUser(action.userId)
+                            .then(user => {
+                                const message = `${socket.user.name} ${socket.user.surname} removed ${user.name} ${user.surname}`
+
+                                return Promise.resolve(room)
+                                    .createMessage(undefined, message)
+                                    .then(userMessages => {
+                                        userMessages.forEach(
+                                            userMessage => {
+                                                if (sockets[userMessage.owner.toString()])
+                                                    sockets[userMessage.owner.toString()].send(newMessageWithRemove(
+                                                        {
+                                                            message,
+                                                            id: userMessage._id,
+                                                            time: userMessage.date.valueOf()
+                                                        },
+                                                        action.chatId,
+                                                        action.userId
+                                                    ))
+                                            }
+                                        )
+                                        return room
+                                    })
+                                    .removeUser(action.userId)
+                                    .then(() => {
+                                        if (sockets[action.userId])
+                                            sockets[action.userId].leave(action.chatId)
+                                    })
+                                    .catch(err => {
+                                        log.error(err)
+                                    })
+                            })
+                            .catch(err => {
+                                log.error(err)
+                            })
+                        break
+                    case EXIT_REQUEST:
+                        if (action.chatId)
+                            socket.to(action.chatId).send(endTypingResponse(action.chatId, userId))
+
+                        Object.keys(socket.adapter.rooms).forEach(roomId => {
+                            socket.leave(roomId)
+                        })
+
+                        delete sockets[userId]
+                        break
+
                 }
             })
 
             socket.on('disconnect', () => {
-                if (socket.user) {
+                if (userId) {
+                    //maybe send end typing
                     delete sockets[userId]
                 }
             })

@@ -166,7 +166,7 @@ class MyPromise extends Promise {
                 user.save((err, user) => {
                     err
                         ? reject(err)
-                        : resolve(users)
+                        : resolve(user)
                 })
             })
         )
@@ -308,6 +308,7 @@ class MyPromise extends Promise {
                         description: description || undefined,
                         creator: userId,
                         users: [userId],
+                        invites: [undefined],
                         avatar: avatar || undefined
                     },
                     (err, room) => {
@@ -345,14 +346,32 @@ class MyPromise extends Promise {
 
     checkMember(userId) {
         return this.then(room => {
-                if (room.users.some(item => item.toString() === userId))
-                    return room
-                throw Error(`${userId} is not member of ${room._id.toString()}`)
-            }
-        )
+            if (room.users.some(id => id.toString() === userId))
+                return room
+            throw Error(`${userId} is not member of ${room._id.toString()}`)
+        })
     }
 
-    addUsers(userIds) {
+    checkRemovable(userId, removingUserId) {
+        return this.then(room => {
+            if (userId === removingUserId)
+                throw Error(`${userId} can't remove ${removingUserId} from ${room._id.toString()}`)
+
+            let invitedBy
+
+            room.users.forEach((id, index) => {
+                if (id.toString() === removingUserId)
+                    invitedBy = room.invites[index]
+            })
+
+            if (userId === invitedBy || (userId === room.creator.toString() && invitedBy))
+                return room
+
+            throw Error(`${userId} can't remove ${removingUserId} from ${room._id.toString()}`)
+        })
+    }
+
+    addUsers(userIds, invitingUserId) {
         return this.then(room => {
                 const newUsersMap = {}
                 const newUsers = []
@@ -361,11 +380,14 @@ class MyPromise extends Promise {
                 room.users.forEach(userId => delete newUsersMap[userId.toString()])
 
                 return MyPromise.all(Object.keys(newUsersMap).map(
-                    newUser => MyPromise.resolve().getUser(newUser).then(user => {
-                        room.users.push(user._id)
-                        newUsers.push(user)
-                        return user
-                    })
+                    newUser => MyPromise.resolve()
+                        .getUser(newUser)
+                        .then(user => {
+                            room.users.push(user._id)
+                            room.invites.push(invitingUserId)
+                            newUsers.push(user)
+                            return user
+                        })
                 ))
                     .then(newUsers =>
                         new MyPromise((resolve, reject) => {
@@ -381,17 +403,18 @@ class MyPromise extends Promise {
     }
 
     createMessage(userId, text) {
-        return this.then(room =>
-            new MyPromise((resolve, reject) => {
-                Message.create({
-                    from: userId || undefined,
-                    message: text
-                }, (err, message) => {
-                    err
-                        ? reject(err)
-                        : resolve([room, message])
+        return this.then(room => {
+                return new MyPromise((resolve, reject) => {
+                    Message.create({
+                        from: userId || undefined,
+                        message: text
+                    }, (err, message) => {
+                        err
+                            ? reject(err)
+                            : resolve([room, message])
+                    })
                 })
-            })
+            }
         )
             .then(([room, message]) =>
                 MyPromise.all(
@@ -462,6 +485,25 @@ class MyPromise extends Promise {
         )
     }
 
+    removeUser(userId) {
+        return this.then(room =>
+            new MyPromise((resolve, reject) => {
+                [...room.users].forEach((user, index) => {
+                    if (user.toString() === userId) {
+                        room.users.splice(index, 1)
+                        room.invites.splice(index, 1)
+                    }
+                })
+
+                room.save((err, room) =>
+                    err
+                        ? reject(err)
+                        : resolve(room)
+                )
+            })
+        )
+    }
+
     tokenUserFilter() {
         return this.then(([token, user]) => [token, {
             username: user.username,
@@ -496,11 +538,14 @@ class MyPromise extends Promise {
                     const messages = []
                     const rooms = []
 
-                    for (let row of data) {
+                    data.forEach(row => {
                         const [openRoom, message, isFullLoaded] = row
-                        let userTo = openRoom.room.users[0].toString()
-                        if (userTo === openRoom.owner.toString() && openRoom.room.users.length > 1)
-                            userTo = openRoom.room.users[1].toString()
+                        const {room, owner, newMessages} = openRoom
+                        const {isRoom, name, avatar, _id, users, invites} = room
+
+                        let userTo = users[0].toString()
+                        if (userTo === owner.toString() && users.length > 1)
+                            userTo = users[1].toString()
 
                         if (message) {
                             const {from, date} = message.message
@@ -518,15 +563,21 @@ class MyPromise extends Promise {
                             messages.push({})
 
                         rooms.push({
-                            isRoom: openRoom.room.isRoom,
-                            name: openRoom.room.name,
-                            id: openRoom.room._id.toString(),
-                            avatar: openRoom.room.avatar,
-                            newMessages: openRoom.newMessages,
-                            to: openRoom.room.isRoom ? '' : userTo.toString(),
+                            isRoom,
+                            name,
+                            id: _id.toString(),
+                            avatar,
+                            newMessages,
+                            to: isRoom
+                                ? ''
+                                : userTo.toString(),
+                            users: users.map(user => user.toString()),
+                            invites: invites.map(invite => invite
+                                ? invite.toString()
+                                : ''),
                             isFullLoaded
                         })
-                    }
+                    })
 
                     return [rooms, messages]
                 })
@@ -536,23 +587,32 @@ class MyPromise extends Promise {
 
     openRoomFilter() {
         return this.then(openRoom => {
-            let userTo = openRoom.room.users[0].toString()
-            if (userTo === openRoom.owner.toString() && openRoom.room.users.length > 1)
-                userTo = openRoom.room.users[1].toString()
+            const {room, owner} = openRoom
+            const {isRoom, name, avatar, _id, newMessages, users, invites} = room
+
+            let userTo = users[0].toString()
+            if (userTo === owner.toString() && users.length > 1)
+                userTo = users[1].toString()
 
             return {
-                name: openRoom.room.name,
-                id: openRoom.room._id.toString(),
-                avatar: openRoom.room.avatar,
-                newMessages: openRoom.newMessages,
-                isRoom: openRoom.room.isRoom,
-                to: userTo.toString(),
+                name,
+                id: _id.toString(),
+                avatar,
+                newMessages,
+                isRoom,
+                to: isRoom
+                    ? ''
+                    : userTo.toString(),
+                users: users.map(user => user.toString()),
+                invites: invites.map(invite => invite
+                    ? invite.toString()
+                    : ''),
                 isFullLoaded: true
             }
         })
     }
 
-    messagesFilter(userId) {
+    messagesFilter() {
         return this.then(messages => {
             const arr = messages.map((message) => ({
                 message: message.message.message,

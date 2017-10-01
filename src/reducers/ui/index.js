@@ -12,12 +12,14 @@ import selectedUsers from './selectedUsers'
 import tempId from './tempId'
 import usersList from './usersList'
 import selectedMessages from './selectedMessages'
+import isSwitchedToChatInfo from './isSwitchedToChatInfo'
 
 export default combineReducers({
     error,
     inviteTab,
     isRoomCreateTab,
     isSignInTab,
+    isSwitchedToChatInfo,
     loggedAccount,
     messagesLists,
     chatsList,

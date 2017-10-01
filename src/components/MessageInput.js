@@ -5,48 +5,72 @@ import { messageInputIsEmpty, messageInputIsNotEmpty, sendClick } from '../actio
 class MessageInput extends Component {
 
     constructor(props) {
+        const {selectedChat} = props
+
         super()
 
         this.state = {
-            inputMessage: ''
+            inputMessages: {
+                [selectedChat]: ''
+            }
         }
 
         this.handleChange = this.handleChange.bind(this)
         this.handleClick = this.handleClick.bind(this)
     }
 
-    handleChange(e) {
-        const {inputMessage} = this.state
-        const {startTyping, endTyping} = this.props
+    componentWillReceiveProps(props) {
+        const {startTyping, endTyping, selectedChat} = this.props
+        const {inputMessages} = this.state
 
-        if (!inputMessage && e.target.value)
-            startTyping()
-        else if (inputMessage && !e.target.value)
-            endTyping()
+        if(inputMessages[selectedChat])
+            endTyping(selectedChat)
+        if(inputMessages[props.selectedChat])
+            startTyping(props.selectedChat)
+    }
+
+    handleChange(e) {
+        const {inputMessages} = this.state
+        const {startTyping, endTyping, selectedChat} = this.props
+
+        if (!inputMessages[selectedChat] && e.target.value)
+            startTyping(selectedChat)
+        else if (inputMessages[selectedChat] && !e.target.value)
+            endTyping(selectedChat)
 
         this.setState({
-            inputMessage: e.target.value
+            inputMessages: {
+                ...inputMessages,
+                [selectedChat]: e.target.value
+            }
         })
     }
 
     handleClick() {
-        const {send, endTyping} = this.props
+        const {send, endTyping, selectedChat} = this.props
+        const {inputMessages} = this.state
 
-        if (this.state.inputMessage.length) {
-            send(this.state.inputMessage)
-            endTyping()
-            this.setState({
-                inputMessage: ''
-            })
+        if (inputMessages[selectedChat].length) {
+            send(inputMessages[selectedChat])
+            endTyping(selectedChat)
+            this.setState(state => ({
+                inputMessages: {
+                    ...state.inputMessages,
+                    [selectedChat]: ''
+                }
+            }))
         }
     }
 
     render() {
+        const {selectedChat} = this.props
+        const {inputMessages} = this.state
+
         return (
             <div className="input">
                 <div className="fix">
                         <textarea className="text" id="mes-input" placeholder="Type your message ..."
-                                  value={this.state.inputMessage}
+                                  value={inputMessages[selectedChat] || ''}
                                   onChange={this.handleChange}/>
                 </div>
                 <div id="send-btn" onClick={this.handleClick}/>
@@ -57,10 +81,12 @@ class MessageInput extends Component {
 }
 
 export default connect(
-    state => ({}),
+    state => ({
+        selectedChat: state.ui.selectedChat
+    }),
     dispatch => ({
         send: message => dispatch(sendClick(message)),
-        startTyping: () => dispatch(messageInputIsNotEmpty()),
-        endTyping: () => dispatch(messageInputIsEmpty())
+        startTyping: chatId => dispatch(messageInputIsNotEmpty(chatId)),
+        endTyping: chatId => dispatch(messageInputIsEmpty(chatId))
     })
 )(MessageInput)

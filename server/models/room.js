@@ -12,6 +12,10 @@ const roomSchema = mongoose.Schema({
         ref: 'user',
         index: true
     }],
+    invites: [{
+        type: ObjectId,
+        ref: 'user',
+    }],
     isRoom: {
         type: Boolean,
         default: true

@@ -95,7 +95,7 @@ class NewChatTab extends Component {
 export default connect(
     state => ({
         isRoomCreateTab: state.ui.isRoomCreateTab,
-        selectedUsers: state.ui.selectedUsers
+        selectedUsers: Object.keys(state.ui.selectedUsers)
     }),
     dispatch => ({
         create: (name, desc, avatar) => dispatch(createClick(name, desc, avatar)),

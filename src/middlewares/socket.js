@@ -1,16 +1,16 @@
 import {
-    CREATE_CLICK, DELETE_MESSAGES_CLICK, INVITE_ACCEPT_CLICK, LOAD_MORE_CLICK, MARK_READ, MESSAGE_INPUT_IS_EMPTY,
-    MESSAGE_INPUT_IS_NOT_EMPTY,
+    CREATE_CLICK, DELETE_MESSAGES_CLICK, EXIT, INVITE_ACCEPT_CLICK, LOAD_MORE_CLICK, MARK_READ, MESSAGE_INPUT_IS_EMPTY,
+    MESSAGE_INPUT_IS_NOT_EMPTY, REMOVE_USER_CLICK,
     SEARCH_CHANGE,
     SEND_CLICK, SIGN_IN_CLICK,
-    SIGN_UP_CLICK
+    SIGN_UP_CLICK, SWITCH_MESSAGES_AND_CHAT_INFO
 } from '../actions/frontend'
 import socket from '../sockets'
 import {
     deleteMessages,
-    endTyping,
+    endTyping, exitRequest,
     fetchChat, fetchChats,
-    fetchMessages, fetchUsers, startTyping, tryCreate1To1, tryCreateRoom, tryInviteUsers, tryMarkRead,
+    fetchMessages, fetchUsers, removeUser, startTyping, tryCreate1To1, tryCreateRoom, tryInviteUsers, tryMarkRead,
     trySearchUsers, trySend,
     trySignIn,
     trySignUp
@@ -59,6 +59,8 @@ export default store => next => action => {
 
             if (action.message.from && !state.db.users[action.message.from])
                 socket.send(fetchUsers([action.message.from]))
+            else if(action.invitedUserId && !state.db.users[action.invitedUserId])
+                socket.send(fetchUsers([action.invitedUserId]))
             break
         case MARK_READ:
             socket.send(tryMarkRead(state.ui.selectedChat))
@@ -103,17 +105,32 @@ export default store => next => action => {
                 socket.send(fetchUsers(keys))
             break
         case MESSAGE_INPUT_IS_NOT_EMPTY:
-            socket.send(startTyping(state.ui.selectedChat))
+            socket.send(startTyping(action.chatId))
             break
         case MESSAGE_INPUT_IS_EMPTY:
-            socket.send(endTyping(state.ui.selectedChat))
+            socket.send(endTyping(action.chatId))
             break
         case DELETE_MESSAGES_CLICK:
             socket.send(deleteMessages(Object.keys(state.ui.selectedMessages)))
             break
         case START_TYPING_RESPONSE:
             if (!state.db.users[action.userId])
-                socket.send([action.userId])
+                socket.send(fetchUsers([action.userId]))
+            break
+        case SWITCH_MESSAGES_AND_CHAT_INFO:
+            state.db.chats[state.ui.selectedChat].users.forEach(userId => {
+                if(!state.db.users[userId])
+                    userIds.push(userId)
+            })
+
+            if (userIds.length)
+                socket.send(fetchUsers(userIds))
+            break
+        case REMOVE_USER_CLICK:
+            socket.send(removeUser(state.ui.selectedChat, action.userId))
+            break
+        case EXIT:
+            socket.send(exitRequest(state.ui.selectedChat))
             break
     }
 

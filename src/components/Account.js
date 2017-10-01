@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { userSelect } from '../actions/frontend'
+import { removeUserClick, userSelect } from '../actions/frontend'
 import Avatar from './Avatar'
 import ExitMenu from './ExitMenu'
 
@@ -64,6 +64,40 @@ class InviteAccountClass extends Component {
     }
 }
 
+class MemberAccountClass extends Component {
+
+    render() {
+        const {user, invitedBy, isCreator, isRemovable, removeUser} = this.props
+
+        if (!user || (!invitedBy && !isCreator))
+            return null
+
+        const {name, surname, avatar, username} = user
+
+        return (
+            <li className="account">
+                <div className="avatar">
+                    <Avatar src={avatar}/>
+                </div>
+                <div className="info-fix">
+                    <div className="name">
+                        {name} {surname}
+                    </div>
+                    <div className="link">
+                        @{username}
+                    </div>
+                </div>
+                <div className="invited-by">
+                    {isCreator
+                        ? 'Created the chat'
+                        : `Invited by ${invitedBy.name} ${invitedBy.surname}`}
+                </div>
+                {!isCreator && isRemovable && <span className="confirm-delete" onClick={removeUser}>&#61460;</span>}
+            </li>
+        )
+    }
+}
+
 export const Account = connect(
     state => ({
         user: state.db.users[state.ui.loggedAccount]
@@ -80,3 +114,19 @@ export const InviteAccount = connect(
         select: () => dispatch(userSelect(ownProps.userId))
     })
 )(InviteAccountClass)
+
+export const MemberAccount = connect(
+    (state, ownProps) => {
+        const isCreator = ownProps.userId === ownProps.creatorId
+
+        return {
+            user: state.db.users[ownProps.userId],
+            invitedBy: state.db.users[ownProps.invitedById],
+            isCreator,
+            isRemovable: state.ui.loggedAccount === ownProps.invitedById || state.ui.loggedAccount === ownProps.creatorId
+        }
+    },
+    (dispatch, ownProps) => ({
+        removeUser: () => dispatch(removeUserClick(ownProps.userId))
+    })
+)(MemberAccountClass)

@@ -7,30 +7,38 @@ import InviteTab from './InviteTab'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 import Error from './Error'
-import MessagesTab from './MessagesTab'
+import MainTab from './MainTab'
 
 class App extends Component {
 
     render() {
         const {isLogged, isSignInTab, newChatTab, inviteTab, isChatSelected} = this.props
 
+        if (isLogged)
+            return (
+                <div>
+                    <div className="header">
+                        <Account />
+                    </div>
+                    <div className="content">
+                        <ChatsList />
+                        {newChatTab
+                            ? <NewChatTab />
+                            : isChatSelected && <MainTab/>}
+                        {(newChatTab || inviteTab) && <InviteTab />}
+                    </div>
+                    <Error />
+                </div>
+            )
+
         return (
             <div>
-                <div className="header">
-                    {isLogged && <Account />}
-                </div>
+                <div className="header"/>
                 <div className="content">
-                    {isLogged
-                        ? <ChatsList />
-                        : (isSignInTab
-                            ? <SignIn />
-                            : <SignUp />
-                        )
+                    {isSignInTab
+                        ? <SignIn />
+                        : <SignUp />
                     }
-                    {isLogged && (newChatTab
-                        ? <NewChatTab />
-                        : isChatSelected && <MessagesTab/>)}
-                    {isLogged && (newChatTab || inviteTab) && <InviteTab />}
                 </div>
                 <Error />
             </div>

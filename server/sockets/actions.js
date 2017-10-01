@@ -14,6 +14,8 @@ const FETCH_ONLINE_USERS = 112
 const START_TYPING = 113
 const END_TYPING = 114
 const DELETE_MESSAGES = 115
+const REMOVE_USER = 116
+const EXIT_REQUEST = 117
 
 const NEW_MESSAGE = 200
 const FETCH_CHAT_SUCCESS = 201
@@ -58,6 +60,8 @@ module.exports = {
     START_TYPING,
     END_TYPING,
     DELETE_MESSAGES,
+    REMOVE_USER,
+    EXIT_REQUEST,
 
     NEW_MESSAGE,
     FETCH_CHAT_SUCCESS,
@@ -88,6 +92,16 @@ module.exports = {
     newMessage: (message, chatId) => ({
         type: NEW_MESSAGE,
         message, chatId
+    }),
+
+    newMessageWithInvite: (message, chatId, invitedUserId, invitedById) => ({
+        type: NEW_MESSAGE,
+        message, chatId, invitedUserId, invitedById
+    }),
+
+    newMessageWithRemove: (message, chatId, removedUserId) => ({
+        type: NEW_MESSAGE,
+        message, chatId, removedUserId
     }),
 
     fetchChatSuccess: chat => ({

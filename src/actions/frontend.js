@@ -18,7 +18,9 @@ export const MESSAGE_INPUT_IS_EMPTY = 16
 export const MESSAGE_INPUT_IS_NOT_EMPTY = 17
 export const MESSAGE_SELECT = 18
 export const DELETE_MESSAGES_CLICK = 19
-export const EXIT = 20
+export const SWITCH_MESSAGES_AND_CHAT_INFO = 20
+export const REMOVE_USER_CLICK = 21
+export const EXIT = 22
 
 export const switchClick = () => ({
     type: SWITCH_CLICK
@@ -92,12 +94,14 @@ export const sortChatsList = chatsList => ({
     chatsList
 })
 
-export const messageInputIsEmpty = () => ({
-    type: MESSAGE_INPUT_IS_EMPTY
+export const messageInputIsEmpty = chatId => ({
+    type: MESSAGE_INPUT_IS_EMPTY,
+    chatId
 })
 
-export const messageInputIsNotEmpty = () => ({
-    type: MESSAGE_INPUT_IS_NOT_EMPTY
+export const messageInputIsNotEmpty = chatId => ({
+    type: MESSAGE_INPUT_IS_NOT_EMPTY,
+    chatId
 })
 
 export const messageSelect = messageId => ({
@@ -107,6 +111,15 @@ export const messageSelect = messageId => ({
 
 export const deleteMessagesClick = () => ({
     type: DELETE_MESSAGES_CLICK
+})
+
+export const switchMessagesAndChatInfo = () => ({
+    type: SWITCH_MESSAGES_AND_CHAT_INFO
+})
+
+export const removeUserClick = userId => ({
+    type: REMOVE_USER_CLICK,
+    userId
 })
 
 export const exit = () => ({

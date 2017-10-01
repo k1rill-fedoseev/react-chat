@@ -61,7 +61,7 @@ class ChatItem extends Component {
     render() {
         const {isSelected, chat, select, message, to, typingUser, typingUsersCount, time} = this.props
 
-        if (!chat || !chat.isRoom && !to)
+        if (!chat || (!chat.isRoom && !to))
             return null
 
         const {avatar, newMessages, isRoom, name} = chat

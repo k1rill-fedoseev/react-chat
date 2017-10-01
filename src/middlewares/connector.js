@@ -1,4 +1,7 @@
-import { DELETE_MESSAGES_CLICK, LOAD_MORE_CLICK, MARK_READ, SEND_CLICK, USER_SELECT } from '../actions/frontend'
+import {
+    DELETE_MESSAGES_CLICK, LOAD_MORE_CLICK, MARK_READ, REMOVE_USER_CLICK, SEND_CLICK,
+    USER_SELECT
+} from '../actions/frontend'
 import { FETCH_CHAT_SUCCESS, NEW_MESSAGE } from '../actions/responses'
 
 export default store => next => action => {
@@ -11,6 +14,7 @@ export default store => next => action => {
         case MARK_READ:
         case LOAD_MORE_CLICK:
         case DELETE_MESSAGES_CLICK:
+        case REMOVE_USER_CLICK:
             action.selectedChat = state.ui.selectedChat
             action.selectedMessages = state.ui.selectedMessages
             break

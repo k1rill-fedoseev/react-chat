@@ -1,7 +1,6 @@
-//TODO: Изменение инфы о комнатах и юзере
-//TODO: Удаление юзеров из комнаты
-//TODO: Удаление чата
-//TODO: Выход из чата
+//TODO: Change info about users and rooms
+//TODO: Delete chat(all messages)
+//TODO: Exit the chat
 //TODO: Ограничения
 
 const express = require('express')

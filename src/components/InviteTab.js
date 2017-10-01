@@ -39,7 +39,7 @@ class InviteTab extends Component {
                     </span>}
                     {!newChatTab && <div className="plus-user" onClick={cancel}>+</div>}
                 </div>
-                <ul id="users">
+                <ul className="users">
                     {this.inviteAccounts()}
                 </ul>
             </div>
