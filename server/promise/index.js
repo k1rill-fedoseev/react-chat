@@ -6,6 +6,7 @@ const config = require('../cfg')
 const Message = require('../models/message')
 const UserMessage = require('../models/userMessage')
 const OpenRoom = require('../models/openRoom')
+const {NotFoundError, WrongAuthData, MemberError, CheckError} = require('./errors')
 
 class MyPromise extends Promise {
     getUser(userId) {
@@ -14,7 +15,7 @@ class MyPromise extends Promise {
                 User.findById(userId,
                     (err, user) => {
                         (err || !user)
-                            ? reject(err)
+                            ? reject(err || NotFoundError(`User ${userId} not found`))
                             : resolve(user)
                     }
                 )
@@ -36,7 +37,7 @@ class MyPromise extends Promise {
                 Room.findById(roomId,
                     (err, room) => {
                         (err || !room)
-                            ? reject(err)
+                            ? reject(err || NotFoundError(`Room ${roomId} not found`))
                             : resolve(room)
                     }
                 )
@@ -66,7 +67,7 @@ class MyPromise extends Promise {
                     },
                     (err, openRoom) => {
                         err || !openRoom
-                            ? reject(err)
+                            ? reject(err || NotFoundError(`Openroom ${roomId} of ${userId} not found`))
                             : resolve(openRoom)
                     }
                 ).populate('room')
@@ -138,7 +139,7 @@ class MyPromise extends Promise {
             })
                 .then(message => {
                     if (!message)
-                        return [message, true]
+                        return [undefined, true]
 
                     return new MyPromise((resolve, reject) => {
                         UserMessage.findOne({
@@ -160,9 +161,10 @@ class MyPromise extends Promise {
     }
 
     updateUserOnline() {
-        return this.then((user) =>
+        return this.then(user =>
             new MyPromise((resolve, reject) => {
                 user.lastOnline = Date.now()
+
                 user.save((err, user) => {
                     err
                         ? reject(err)
@@ -221,7 +223,9 @@ class MyPromise extends Promise {
                             reject(err)
                         else {
                             log.trace(username, password)
+
                             const token = user.genToken()
+
                             user.save((err) => {
                                 err
                                     ? reject(err)
@@ -242,7 +246,7 @@ class MyPromise extends Promise {
                         if (err)
                             reject(err)
                         else if (!user)
-                            reject()
+                            reject(NotFoundError('User not found'))
                         else {
                             const attempt = user.encrypt(password)
 
@@ -255,7 +259,7 @@ class MyPromise extends Promise {
                                 })
                             }
                             else
-                                reject()
+                                reject(WrongAuthData('Wrong username or password'))
                         }
                     }
                 )
@@ -266,19 +270,15 @@ class MyPromise extends Promise {
     tokenCheck(token) {
         return this.then(() =>
             new MyPromise((resolve, reject) => {
-                if (token) {
-                    const attempt = User.encrypt(token, config.get('tokenKey'))
+                const attempt = User.encrypt(token, config.get('tokenKey'))
 
-                    User.findOne({hashedToken: attempt},
-                        (err, user) => {
-                            (err || !user)
-                                ? reject(err)
-                                : resolve(user)
-                        }
-                    )
-                }
-                else
-                    reject()
+                User.findOne({hashedToken: attempt},
+                    (err, user) => {
+                        (err || !user)
+                            ? reject(err || WrongAuthData('Wrong token'))
+                            : resolve(user)
+                    }
+                )
             })
         )
     }
@@ -348,14 +348,14 @@ class MyPromise extends Promise {
         return this.then(room => {
             if (room.users.some(id => id.toString() === userId))
                 return room
-            throw Error(`${userId} is not member of ${room._id.toString()}`)
+            throw MemberError(`${userId} is not member of ${room._id.toString()}`)
         })
     }
 
     checkIsRoom() {
         this.then(room => {
             if (!room.isRoom)
-                throw Error('Should be a room')
+                throw CheckError('Not a room')
             return room
         })
     }
@@ -363,7 +363,7 @@ class MyPromise extends Promise {
     checkRemovable(userId, removingUserId) {
         return this.then(room => {
             if (userId === removingUserId)
-                throw Error(`${userId} can't remove ${removingUserId} from ${room._id.toString()}`)
+                throw CheckError(`${userId} can't remove himself from ${room._id.toString()}`)
 
             let invitedBy
 
@@ -375,7 +375,7 @@ class MyPromise extends Promise {
             if (userId === invitedBy || (userId === room.creator.toString() && invitedBy))
                 return room
 
-            throw Error(`${userId} can't remove ${removingUserId} from ${room._id.toString()}`)
+            throw CheckError(`${userId} can't remove ${removingUserId} from ${room._id.toString()}`)
         })
     }
 
@@ -459,8 +459,8 @@ class MyPromise extends Promise {
                     room: roomId,
                     owner: userId
                 }, (err, openRoom) => {
-                    if (err)
-                        reject(err)
+                    if (err || !openRoom)
+                        reject(err || NotFoundError(`Openroom ${roomId} of ${userId} not found`))
                     else if (openRoom) {
                         openRoom.newMessages = 0
                         openRoom.save(err => {
@@ -469,7 +469,6 @@ class MyPromise extends Promise {
                                 : resolve()
                         })
                     }
-
                 })
             })
         )
@@ -513,24 +512,28 @@ class MyPromise extends Promise {
     }
 
     tokenUserFilter() {
-        return this.then(([token, user]) => [token, {
-            username: user.username,
-            name: user.name,
-            surname: user.surname,
-            avatar: user.avatar,
-            id: user._id.toString()
-        }
+        return this.then(([token, user]) => [
+            token,
+            {
+                username: user.username,
+                name: user.name,
+                surname: user.surname,
+                avatar: user.avatar,
+                id: user._id.toString()
+            }
         ])
     }
 
     usersFilter() {
-        return this.then(users => users.map(user => ({
-            username: user.username,
-            avatar: user.avatar,
-            name: user.name,
-            surname: user.surname,
-            id: user._id.toString()
-        })))
+        return this.then(users => users.map(
+            user => ({
+                username: user.username,
+                avatar: user.avatar,
+                name: user.name,
+                surname: user.surname,
+                id: user._id.toString()
+            })
+        ))
     }
 
     openRoomsFilter() {

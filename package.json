@@ -21,7 +21,8 @@
     "serve-favicon": "^2.4.3",
     "socket.io": "^2.0.3",
     "socket.io-client": "latest",
-    "striptags": "^3.0.1"
+    "striptags": "^3.0.1",
+    "validator": "^9.0.0"
   },
   "scripts": {
     "start": "set PORT=3002 && react-scripts start",

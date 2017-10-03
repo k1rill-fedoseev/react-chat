@@ -2,7 +2,9 @@ const socketIo = require('socket.io')
 const config = require('../cfg')
 const log = require('../log')('sockets')
 const stripTags = require('striptags')
-const sockets = {}
+const Promise = require('../promise')
+const validate = require('./validation')
+const {MyError} = require('../promise/errors.js')
 
 const {
     TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHATS, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
@@ -17,14 +19,18 @@ const {
     searchUsersError, searchUsersSuccess, fetchOnlineUsersSuccess, startTypingResponse, endTypingResponse
 } = require('./actions')
 
-const startMessage = (userMessage, chatId) => newMessage({
-    message: config.get('startMessage'),
-    id: userMessage._id,
-    system: true,
-    time: userMessage.date.valueOf()
-}, chatId)
+const sockets = {}
 
-const Promise = require('../promise')
+const errorHandlerSocket = socket => actionCreator => err => {
+    if (err instanceof MyError) {
+        log.debug(err)
+        socket.send(actionCreator(err.message))
+    }
+    else {
+        log.error(err)
+        socket.send(actionCreator('Server error'))
+    }
+}
 
 module.exports = function (server) {
     const io = socketIo(server)
@@ -33,7 +39,7 @@ module.exports = function (server) {
         (socket, next) => {
             const token = new RegExp(config.get('cookie:name') + '=\\w*(?=;?)')
                 .exec(socket.handshake.headers.cookie)
-            if (token) {
+            if (token && token[0]) {
                 socket.token = token[0].slice(config.get('cookie:name').length + 1)
                 Promise.resolve()
                     .tokenCheck(socket.token)
@@ -70,12 +76,17 @@ module.exports = function (server) {
 
     io.on('connection',
         socket => {
+            const errorHandler = errorHandlerSocket(socket)
+
             let roomId
             let userId = socket.user
                 ? socket.user._id.toString()
                 : ''
 
             socket.on('message', (action) => {
+                if (!validate(action))
+                    return
+
                 switch (action.type) {
                     case TRY_SIGN_IN:
                         Promise.resolve()
@@ -100,14 +111,7 @@ module.exports = function (server) {
                             .then(([token, user]) => {
                                 socket.send(signInSuccess(user, token))
                             })
-                            .catch(err => {
-                                if (err) {
-                                    log.error(err)
-                                    socket.send(signInError('Server error'))
-                                }
-                                else
-                                    socket.send(signInError('Incorrect username or password'))
-                            })
+                            .catch(errorHandler(signInError))
                         break
                     case TRY_SIGN_UP:
                         const {name, surname, password, username, avatar, desc} = action
@@ -134,10 +138,7 @@ module.exports = function (server) {
                             .then(([token, user]) => {
                                 socket.send(signUpSuccess(user, token))
                             })
-                            .catch(err => {
-                                log.error(err)
-                                socket.send(signUpError('Server error / incorrect data'))
-                            })
+                            .catch(errorHandler(signUpError))
                         break
                     case FETCH_CHATS:
                         Promise.resolve()
@@ -146,10 +147,7 @@ module.exports = function (server) {
                             .then(arr => {
                                 socket.send(fetchChatsSuccess(...arr))
                             })
-                            .catch(err => {
-                                log.error(err)
-                                socket.send(fetchChatsError('Server Error'))
-                            })
+                            .catch(errorHandler(fetchChatsError))
                         break
                     case FETCH_CHAT:
                         Promise.resolve()
@@ -158,10 +156,7 @@ module.exports = function (server) {
                             .then(room => {
                                 socket.send(fetchChatSuccess(room))
                             })
-                            .catch(err => {
-                                log.error(err)
-                                socket.send(fetchChatError('Server Error'))
-                            })
+                            .catch(errorHandler(fetchChatError))
                         break
                     case TRY_CREATE_ROOM:
                         Promise.resolve()
@@ -185,10 +180,7 @@ module.exports = function (server) {
                                     }
                                 }
                             ))
-                            .catch(err => {
-                                log.error(err)
-                                socket.send(createError('Server Error'))
-                            })
+                            .catch(errorHandler(createError))
                         break
                     case TRY_CREATE_1_TO_1:
                         Promise.resolve()
@@ -219,14 +211,7 @@ module.exports = function (server) {
                                     }
                                 }
                             ))
-                            .catch(err => {
-                                if (typeof err === 'string')
-                                    socket.send(createError(err))
-                                else {
-                                    log.error(err)
-                                    socket.send(createError('Server Error'))
-                                }
-                            })
+                            .catch(errorHandler(createError))
                         break
                     case TRY_SEND:
                         const strippedMessage = socket.user.username === 'admin'
@@ -259,10 +244,7 @@ module.exports = function (server) {
                                     }
                                 }
                             ))
-                            .catch(err => {
-                                log.error(err)
-                                socket.send(sendError('Server Error'))
-                            })
+                            .catch(errorHandler(sendError))
                         break
                     case FETCH_MESSAGES:
                         Promise.resolve()
@@ -271,10 +253,7 @@ module.exports = function (server) {
                             .then(([messages, isFullLoaded]) => {
                                 socket.send(fetchMessagesSuccess(action.chatId, messages, isFullLoaded))
                             })
-                            .catch(err => {
-                                log.error(err)
-                                socket.send(fetchMessagesError('Server error'))
-                            })
+                            .catch(errorHandler(fetchMessagesError))
                         break
                     case FETCH_USERS:
                         Promise.resolve()
@@ -283,9 +262,7 @@ module.exports = function (server) {
                             .then(users => {
                                 socket.send(fetchUsersSuccess(users))
                             })
-                            .catch(error => {
-                                socket.send(fetchUsersError('Server error'))
-                            })
+                            .catch(errorHandler(fetchUsersError))
                         break
                     case TRY_SEARCH_USERS:
                         Promise.resolve()
@@ -293,10 +270,7 @@ module.exports = function (server) {
                             .then(users => {
                                 socket.send(searchUsersSuccess(users))
                             })
-                            .catch(err => {
-                                log.error(err)
-                                socket.send(searchUsersError('Server Error'))
-                            })
+                            .catch(errorHandler(searchUsersError))
                         break
                     case TRY_INVITE_USERS:
                         Promise.resolve()
@@ -337,14 +311,12 @@ module.exports = function (server) {
                                         Promise.resolve()
                                     )
                             })
-                            .catch(err => {
-                                log.error(err)
-                                socket.send(inviteUsersError('Server Error'))
-                            })
+                            .catch(errorHandler(inviteUsersError))
                         break
                     case TRY_MARK_READ:
                         Promise.resolve()
                             .markRead(action.chatId, userId)
+                            .catch(log.error)
                         break
                     case FETCH_ONLINE_USERS:
                         const users = {}
@@ -365,9 +337,7 @@ module.exports = function (server) {
                     case DELETE_MESSAGES:
                         Promise.resolve()
                             .deleteMessages(userId, action.messageIds)
-                            .catch(err => {
-                                log.error(err)
-                            })
+                            .catch(log.error)
                         break
                     case REMOVE_USER:
                         let room
@@ -404,13 +374,9 @@ module.exports = function (server) {
                                         if (sockets[action.userId])
                                             sockets[action.userId].leave(action.chatId)
                                     })
-                                    .catch(err => {
-                                        log.error(err)
-                                    })
+                                    .catch(log.error)
                             })
-                            .catch(err => {
-                                log.error(err)
-                            })
+                            .catch(log.error)
                         break
                     case LEAVE_CHAT:
                         Promise.resolve()
@@ -443,13 +409,9 @@ module.exports = function (server) {
                                     .then(() => {
                                         socket.leave(action.chatId)
                                     })
-                                    .catch(err => {
-                                        log.error(err)
-                                    })
+                                    .catch(log.error)
                             })
-                            .catch(err => {
-                                log.error(err)
-                            })
+                            .catch(log.error)
                         break
                     case EXIT_REQUEST:
                         if (action.chatId)
