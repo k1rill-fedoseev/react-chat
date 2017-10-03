@@ -1,7 +1,7 @@
 //TODO: Change info about users and rooms
 //TODO: Delete chat(all messages)
-//TODO: Exit the chat
 //TODO: Ограничения
+//TODO: dont let send messages if u arent a member of a chat(frontend)
 
 const express = require('express')
 const mongoose = require('mongoose')

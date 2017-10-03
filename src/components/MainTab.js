@@ -23,7 +23,7 @@ class MainTab extends Component {
     render() {
         const {chat, inviteTab, invite, to, isSelected,
             deleteMessages, isSwitchedToChatInfo} = this.props
-        const {name, isRoom} = chat
+        const {name, isRoom, isMember} = chat
 
         return (
             <div id="messages">
@@ -41,7 +41,7 @@ class MainTab extends Component {
                     </div>
                     <div className="right">
                         {isSelected && <span className="confirm-delete" onClick={deleteMessages}>&#61460;</span>}
-                        {!inviteTab && isRoom && <span className="plus-user" onClick={invite}>+</span>}
+                        {!inviteTab && isRoom && isMember && <span className="plus-user" onClick={invite}>+</span>}
                     </div>
                 </div>
                 {!isSwitchedToChatInfo && <MessagesList />}

@@ -1,6 +1,6 @@
-#The best messenger ever
+# The best messenger ever
 
-##Abilities
+## Abilities
 
 * Registration ans authentication (_+cookies_)
 * Create chats and private messages
@@ -12,7 +12,7 @@
 * See if users are typing messages
 * Single-page logic and live update
 
-##Used libraries
+## Used libraries
 
 * Server-side
     * Express
@@ -23,7 +23,7 @@
     * Redux
     * Socket.io-client
     
-##Author
+## Author
 
 _Kirill Fedoseev_
 [Vk](https://vk.com/kfedoseev])

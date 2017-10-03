@@ -20,7 +20,8 @@ export const MESSAGE_SELECT = 18
 export const DELETE_MESSAGES_CLICK = 19
 export const SWITCH_MESSAGES_AND_CHAT_INFO = 20
 export const REMOVE_USER_CLICK = 21
-export const EXIT = 22
+export const LEAVE_CHAT_CLICK = 22
+export const EXIT = 23
 
 export const switchClick = () => ({
     type: SWITCH_CLICK
@@ -120,6 +121,10 @@ export const switchMessagesAndChatInfo = () => ({
 export const removeUserClick = userId => ({
     type: REMOVE_USER_CLICK,
     userId
+})
+
+export const leaveChatClick = () => ({
+    type: LEAVE_CHAT_CLICK
 })
 
 export const exit = () => ({

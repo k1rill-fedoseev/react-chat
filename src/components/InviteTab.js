@@ -12,9 +12,9 @@ class InviteTab extends Component {
     }
 
     handleChange(e) {
-        const {fetch} = this.props
+        const {search} = this.props
 
-        fetch(e.target.value)
+        search(e.target.value)
     }
 
     inviteAccounts() {
@@ -54,7 +54,7 @@ export default connect(
         selectedUsersCount: Object.keys(state.ui.selectedUsers).length
     }),
     dispatch => ({
-        fetch: (search) => dispatch(searchChange(search)),
+        search: search => dispatch(searchChange(search)),
         accept: () => dispatch(inviteAcceptClick()),
         cancel: () => dispatch(inviteClick())
     })

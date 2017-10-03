@@ -23,9 +23,9 @@ class MessageInput extends Component {
         const {startTyping, endTyping, selectedChat} = this.props
         const {inputMessages} = this.state
 
-        if(inputMessages[selectedChat])
+        if (inputMessages[selectedChat])
             endTyping(selectedChat)
-        if(inputMessages[props.selectedChat])
+        if (inputMessages[props.selectedChat])
             startTyping(props.selectedChat)
     }
 
@@ -47,10 +47,10 @@ class MessageInput extends Component {
     }
 
     handleClick() {
-        const {send, endTyping, selectedChat} = this.props
+        const {send, endTyping, selectedChat, isMember} = this.props
         const {inputMessages} = this.state
 
-        if (inputMessages[selectedChat].length) {
+        if (inputMessages[selectedChat] && inputMessages[selectedChat].length && isMember) {
             send(inputMessages[selectedChat])
             endTyping(selectedChat)
             this.setState(state => ({
@@ -63,7 +63,7 @@ class MessageInput extends Component {
     }
 
     render() {
-        const {selectedChat} = this.props
+        const {selectedChat, isMember} = this.props
         const {inputMessages} = this.state
 
         return (
@@ -73,7 +73,7 @@ class MessageInput extends Component {
                                   value={inputMessages[selectedChat] || ''}
                                   onChange={this.handleChange}/>
                 </div>
-                <div id="send-btn" onClick={this.handleClick}/>
+                <div className={`send-btn ${isMember ? '' : 'disabled'}`} onClick={this.handleClick}/>
             </div>
 
         )
@@ -81,9 +81,14 @@ class MessageInput extends Component {
 }
 
 export default connect(
-    state => ({
-        selectedChat: state.ui.selectedChat
-    }),
+    state => {
+        const {selectedChat} = state.ui
+
+        return {
+            selectedChat,
+            isMember: state.db.chats[selectedChat].isMember
+        }
+    },
     dispatch => ({
         send: message => dispatch(sendClick(message)),
         startTyping: chatId => dispatch(messageInputIsNotEmpty(chatId)),

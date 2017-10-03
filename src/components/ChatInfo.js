@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { MemberAccount } from './Account'
+import { inviteClick, leaveChatClick } from '../actions/frontend'
 
 class ChatInfo extends Component {
 
@@ -13,11 +14,14 @@ class ChatInfo extends Component {
     }
 
     render() {
+        const {leave} = this.props
+
         return (
             <div className="chat-info">
                 <ul className="users">
                     {this.users()}
                 </ul>
+                <div className="btn leave" onClick={leave}>Leave room</div>
             </div>
         )
     }
@@ -28,5 +32,7 @@ export default connect(
         chat: state.db.chats[state.ui.selectedChat],
         messagesList: state.ui.messagesLists[state.ui.selectedChat]
     }),
-    dispatch => ({})
+    dispatch => ({
+        leave: () => dispatch(leaveChatClick())
+    })
 )(ChatInfo)

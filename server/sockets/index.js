@@ -8,7 +8,7 @@ const {
     TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHATS, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
     FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, TRY_SEND, TRY_INVITE_USERS, TRY_MARK_READ,
     TRY_SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING, DELETE_MESSAGES, REMOVE_USER,
-    EXIT_REQUEST,
+    EXIT_REQUEST, LEAVE_CHAT,
     newMessage, newMessageWithInvite, newMessageWithRemove,
     signInSuccess, signInError, signUpSuccess, signUpError,
     fetchChatsSuccess, fetchChatsError, fetchChatSuccess, fetchChatError,
@@ -355,11 +355,11 @@ module.exports = function (server) {
                         socket.send(fetchOnlineUsersSuccess(users))
                         break
                     case START_TYPING:
-                        if (io.sockets.adapter.rooms[action.chatId].sockets[socket.id])
+                        if (io.sockets.adapter.rooms[action.chatId] && io.sockets.adapter.rooms[action.chatId].sockets[socket.id])
                             socket.to(action.chatId).send(startTypingResponse(action.chatId, userId))
                         break
                     case END_TYPING:
-                        if (io.sockets.adapter.rooms[action.chatId].sockets[socket.id])
+                        if (io.sockets.adapter.rooms[action.chatId] && io.sockets.adapter.rooms[action.chatId].sockets[socket.id])
                             socket.to(action.chatId).send(endTypingResponse(action.chatId, userId))
                         break
                     case DELETE_MESSAGES:
@@ -374,11 +374,7 @@ module.exports = function (server) {
 
                         Promise.resolve()
                             .getRoom(action.chatId)
-                            .then(foundRoom => {
-                                if (!foundRoom.isRoom)
-                                    throw Error('Chat must be a room')
-                                return room = foundRoom
-                            })
+                            .checkIsRoom()
                             .checkRemovable(userId, action.userId)
                             .getUser(action.userId)
                             .then(user => {
@@ -407,6 +403,45 @@ module.exports = function (server) {
                                     .then(() => {
                                         if (sockets[action.userId])
                                             sockets[action.userId].leave(action.chatId)
+                                    })
+                                    .catch(err => {
+                                        log.error(err)
+                                    })
+                            })
+                            .catch(err => {
+                                log.error(err)
+                            })
+                        break
+                    case LEAVE_CHAT:
+                        Promise.resolve()
+                            .getRoom(action.chatId)
+                            .checkMember(userId)
+                            .checkIsRoom()
+                            .then(room => {
+                                const message = `${socket.user.name} ${socket.user.surname} left room`
+
+                                return Promise.resolve(room)
+                                    .createMessage(undefined, message)
+                                    .then(userMessages => {
+                                        userMessages.forEach(
+                                            userMessage => {
+                                                if (sockets[userMessage.owner.toString()])
+                                                    sockets[userMessage.owner.toString()].send(newMessageWithRemove(
+                                                        {
+                                                            message,
+                                                            id: userMessage._id,
+                                                            time: userMessage.date.valueOf()
+                                                        },
+                                                        action.chatId,
+                                                        userId
+                                                    ))
+                                            }
+                                        )
+                                        return room
+                                    })
+                                    .removeUser(userId)
+                                    .then(() => {
+                                        socket.leave(action.chatId)
                                     })
                                     .catch(err => {
                                         log.error(err)

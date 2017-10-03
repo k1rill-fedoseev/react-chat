@@ -452,7 +452,7 @@ sup {
     width: 100%;
 }
 
-#send-btn {
+.send-btn {
     flex-basis: 40px;
     margin: 0 15px;
     flex-shrink: 0;
@@ -463,11 +463,16 @@ sup {
     cursor: pointer;
 }
 
-#send-btn:hover {
+.send-btn.disabled {
+    opacity: .5;
+    cursor: auto;
+}
+
+.send-btn:not(.disabled):hover {
     background-size: 24px;
 }
 
-#send-btn:active {
+.send-btn:not(.disabled):active {
     box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
 }
 
@@ -819,4 +824,8 @@ input {
 
 .invited-by {
     margin-right: 10px;
+}
+
+.btn.leave {
+    width: 150px;
 }

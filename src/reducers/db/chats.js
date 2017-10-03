@@ -18,6 +18,7 @@ export default (state = {}, action) => {
                 chat.invites = invites
 
                 newState[chat.id] = chat
+                newState[chat.id].isMember = chat.users.includes(action.userId)
             })
 
             return newState
@@ -35,6 +36,7 @@ export default (state = {}, action) => {
                 ...state,
                 [action.chat.id]: {
                     ...action.chat,
+                    isMember: action.chat.users.includes(action.userId),
                     newMessages: action.newMessages
                 }
             }
@@ -68,6 +70,9 @@ export default (state = {}, action) => {
             }
 
             if (action.invitedUserId) {
+                if(action.invitedUserId === action.userId)
+                    newState[action.chatId].isMember = true
+
                 newState[action.chatId].users = [
                     ...newState[action.chatId].users,
                    action.invitedUserId
@@ -79,6 +84,9 @@ export default (state = {}, action) => {
             }
 
             if (action.removedUserId) {
+                if(action.removedUserId === action.userId)
+                    newState[action.chatId].isMember = false
+
                 newState[action.chatId].users = newState[action.chatId].users
                     .filter(userId => userId !== action.removedUserId)
 
@@ -105,17 +113,6 @@ export default (state = {}, action) => {
                     isLoading: true
                 }
             }
-        case REMOVE_USER_CLICK:
-            const invitesCopy = {...state[action.selectedChat].invites}
-            delete invitesCopy[action.userId]
-            newState = {...state}
-
-            newState[action.selectedChat] = {...state[action.selectedChat]}
-
-            newState[action.selectedChat].users = state[action.selectedChat].users
-                .filter(userId => userId !== action.userId)
-            newState[action.selectedChat].invites = invitesCopy
-            return newState
         case EXIT:
             return {}
         default:

@@ -352,6 +352,14 @@ class MyPromise extends Promise {
         })
     }
 
+    checkIsRoom() {
+        this.then(room => {
+            if (!room.isRoom)
+                throw Error('Should be a room')
+            return room
+        })
+    }
+
     checkRemovable(userId, removingUserId) {
         return this.then(room => {
             if (userId === removingUserId)
@@ -543,7 +551,7 @@ class MyPromise extends Promise {
                         const {room, owner, newMessages} = openRoom
                         const {isRoom, name, avatar, _id, users, invites} = room
 
-                        let userTo = users[0].toString()
+                        let userTo = users[0] && users[0].toString()
                         if (userTo === owner.toString() && users.length > 1)
                             userTo = users[1].toString()
 
@@ -570,7 +578,7 @@ class MyPromise extends Promise {
                             newMessages,
                             to: isRoom
                                 ? ''
-                                : userTo.toString(),
+                                : userTo,
                             users: users.map(user => user.toString()),
                             invites: invites.map(invite => invite
                                 ? invite.toString()
@@ -590,7 +598,7 @@ class MyPromise extends Promise {
             const {room, owner} = openRoom
             const {isRoom, name, avatar, _id, newMessages, users, invites} = room
 
-            let userTo = users[0].toString()
+            let userTo = users[0] && users[0].toString()
             if (userTo === owner.toString() && users.length > 1)
                 userTo = users[1].toString()
 
@@ -602,7 +610,7 @@ class MyPromise extends Promise {
                 isRoom,
                 to: isRoom
                     ? ''
-                    : userTo.toString(),
+                    : userTo,
                 users: users.map(user => user.toString()),
                 invites: invites.map(invite => invite
                     ? invite.toString()

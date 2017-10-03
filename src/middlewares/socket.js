@@ -1,5 +1,6 @@
 import {
-    CREATE_CLICK, DELETE_MESSAGES_CLICK, EXIT, INVITE_ACCEPT_CLICK, LOAD_MORE_CLICK, MARK_READ, MESSAGE_INPUT_IS_EMPTY,
+    CREATE_CLICK, DELETE_MESSAGES_CLICK, EXIT, INVITE_ACCEPT_CLICK, LEAVE_CHAT_CLICK, LOAD_MORE_CLICK, MARK_READ,
+    MESSAGE_INPUT_IS_EMPTY,
     MESSAGE_INPUT_IS_NOT_EMPTY, REMOVE_USER_CLICK,
     SEARCH_CHANGE,
     SEND_CLICK, SIGN_IN_CLICK,
@@ -10,7 +11,9 @@ import {
     deleteMessages,
     endTyping, exitRequest,
     fetchChat, fetchChats,
-    fetchMessages, fetchUsers, removeUser, startTyping, tryCreate1To1, tryCreateRoom, tryInviteUsers, tryMarkRead,
+    fetchMessages, fetchUsers, leaveChat, removeUser, startTyping, tryCreate1To1, tryCreateRoom,
+    tryInviteUsers,
+    tryMarkRead,
     trySearchUsers, trySend,
     trySignIn,
     trySignUp
@@ -128,6 +131,9 @@ export default store => next => action => {
             break
         case REMOVE_USER_CLICK:
             socket.send(removeUser(state.ui.selectedChat, action.userId))
+            break
+        case LEAVE_CHAT_CLICK:
+            socket.send(leaveChat(state.ui.selectedChat))
             break
         case EXIT:
             socket.send(exitRequest(state.ui.selectedChat))
