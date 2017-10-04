@@ -15,8 +15,8 @@ const server = require('http').Server(app)
 
 require('./sockets')(server)
 
-server.listen(config.get('port'), () => {
-    log.info('Running server on ' + config.get('port') + ' port')
+server.listen(config.port, () => {
+    log.info(`Running server on ${config.port} port`)
 })
 
 mongoose.connect('mongodb://localhost/chat')

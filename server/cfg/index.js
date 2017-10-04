@@ -1,12 +1,28 @@
-const nconf = require('nconf'),
-    log = require('../log')('config')
-
-nconf.file('cfg/maincfg.json')
-
 module.exports = {
-    get: (field) => nconf.get(field),
-    set: (field, value) => {
-        nconf.set(field, value)
-        nconf.save((err) => err && log.error(err))
+    port: 3001,
+    token: {
+        size: 20,
+        key: 'dfb3963626664b932d4dba14cc1bfe4478d7f0c8'
+    },
+    cookie: {
+        name: 'token'
+    },
+    messages: {
+        startMessage: 'Send your messages here'
+    },
+    limits: {
+        length: {
+            username: {min: 1, max: 20},
+            password: {min: 3, max: 128},
+            name: {min: 2, max: 16},
+            roomName: {min: 1, max: 30},
+            surname: {min: 2, max: 16},
+            avatar: {max: 256},
+            desc: {max: 256},
+            message: {min: 1, max: 256},
+            search: {min: 1, max: 30},
+        },
+        roomMaxUsers: 30,
+        packetSize: 50
     }
 }

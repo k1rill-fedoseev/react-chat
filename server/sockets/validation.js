@@ -1,4 +1,5 @@
 const log = require('../log')('validator')
+const {length} = require('../cfg').limits
 const assert = require('assert')
 const validator = require('validator')
 const {
@@ -8,30 +9,30 @@ const {
     REMOVE_USER, LEAVE_CHAT, EXIT_REQUEST
 } = require('./actions.js')
 
-module.exports = (action) => {
+module.exports = action => {
     try {
         const {
-            name, surname, password, username, avatar, desc,
+            name, surname, password, username, avatar, desc, search, message,
             chatId, userId, userIds, messageIds, lastMessageId
         } = action
 
         switch (action.type) {
             case TRY_SIGN_IN:
-                assert(validator.isLength(username, {min: 1, max: 20}))
-                assert(validator.isLength(password, {min: 3, max: 128}))
+                assert(validator.isLength(username, length.username))
+                assert(validator.isLength(password, length.password))
                 break
             case TRY_SIGN_UP:
-                assert(validator.isLength(name, {min: 2, max: 16}))
-                assert(validator.isLength(surname, {min: 2, max: 16}))
-                assert(validator.isLength(avatar, {max: 256}))
-                assert(validator.isLength(desc, {max: 256}))
-                assert(validator.isLength(username, {min: 1, max: 20}))
-                assert(validator.isLength(password, {min: 3, max: 128}))
+                assert(validator.isLength(name, length.name))
+                assert(validator.isLength(surname, length.surname))
+                assert(validator.isLength(avatar, length.avatar))
+                assert(validator.isLength(desc, length.desc))
+                assert(validator.isLength(username, length.username))
+                assert(validator.isLength(password, length.password))
                 break
             case TRY_CREATE_ROOM:
-                assert(validator.isLength(name, {min: 1, max: 30}))
-                assert(validator.isLength(avatar, {max: 256}))
-                assert(validator.isLength(desc, {max: 256}))
+                assert(validator.isLength(name, length.roomName))
+                assert(validator.isLength(avatar, length.avatar))
+                assert(validator.isLength(desc, length.desc))
                 assert(Array.isArray(userIds))
                 userIds.forEach(userId => {
                     assert(validator.isMongoId(userId))
@@ -58,7 +59,7 @@ module.exports = (action) => {
                 break
             case TRY_SEND:
                 assert(validator.isMongoId(chatId))
-                assert(validator.isLength(message, {min: 1, max: 256}))
+                assert(validator.isLength(message, length.message))
                 break
             case TRY_INVITE_USERS:
                 assert(validator.isMongoId(chatId))
@@ -81,7 +82,7 @@ module.exports = (action) => {
                 })
                 break
             case TRY_SEARCH_USERS:
-                assert(validator.isLength(search, {min: 1, max: 30}))
+                assert(validator.isLength(search, length.search))
                 break
         }
     }

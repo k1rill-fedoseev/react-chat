@@ -116,7 +116,7 @@ class MyPromise extends Promise {
                                     : resolve(messages)
                             }
                         ).sort({date: -1})
-                            .limit(config.get('packetSize') + 1)
+                            .limit(config.limits.packetSize + 1)
                             .populate('message')
                     })
                 })
@@ -270,7 +270,7 @@ class MyPromise extends Promise {
     tokenCheck(token) {
         return this.then(() =>
             new MyPromise((resolve, reject) => {
-                const attempt = User.encrypt(token, config.get('tokenKey'))
+                const attempt = User.encrypt(token, config.token.key)
 
                 User.findOne({hashedToken: attempt},
                     (err, user) => {
@@ -295,6 +295,7 @@ class MyPromise extends Promise {
                             : resolve(users.map(user => user._id.toString()))
                     }
                 ).sort({score: {$meta: 'textScore'}})
+                    .limit(config.limits.packetSize)
             })
         )
     }
@@ -353,10 +354,10 @@ class MyPromise extends Promise {
     }
 
     checkIsRoom() {
-        this.then(room => {
-            if (!room.isRoom)
-                throw CheckError('Not a room')
-            return room
+        return this.then(room => {
+            if (room.isRoom)
+                return room
+            throw CheckError('Not a room')
         })
     }
 
@@ -379,15 +380,11 @@ class MyPromise extends Promise {
         })
     }
 
-    addUsers(userIds, invitingUserId) {
-        return this.then(room => {
-                const newUsersMap = {}
+    addUsers(invitingUserId) {
+        return this.then(([room, userIds]) => {
                 const newUsers = []
 
-                userIds.forEach(userId => newUsersMap[userId] = true)
-                room.users.forEach(userId => delete newUsersMap[userId.toString()])
-
-                return MyPromise.all(Object.keys(newUsersMap).map(
+                return MyPromise.all(userIds.map(
                     newUser => MyPromise.resolve()
                         .getUser(newUser)
                         .then(user => {
@@ -412,18 +409,17 @@ class MyPromise extends Promise {
 
     createMessage(userId, text) {
         return this.then(room => {
-                return new MyPromise((resolve, reject) => {
-                    Message.create({
-                        from: userId || undefined,
-                        message: text
-                    }, (err, message) => {
-                        err
-                            ? reject(err)
-                            : resolve([room, message])
-                    })
+            return new MyPromise((resolve, reject) => {
+                Message.create({
+                    from: userId || undefined,
+                    message: text
+                }, (err, message) => {
+                    err
+                        ? reject(err)
+                        : resolve([room, message])
                 })
-            }
-        )
+            })
+        })
             .then(([room, message]) =>
                 MyPromise.all(
                     room.users.map(roomUserId =>
@@ -508,6 +504,18 @@ class MyPromise extends Promise {
                         : resolve(room)
                 )
             })
+        )
+    }
+
+    existingUsersFilter(userIds) {
+        return this.then(room => {
+                const newUsersMap = {}
+
+                userIds.forEach(userId => newUsersMap[userId] = true)
+                room.users.forEach(userId => delete newUsersMap[userId.toString()])
+
+                return [room, Object.keys(newUsersMap).splice(0 ,config.limits.roomMaxUsers)]
+            }
         )
     }
 
@@ -633,7 +641,7 @@ class MyPromise extends Promise {
                     : undefined,
                 id: message._id.toString()
             }))
-            if (arr.length === config.get('packetSize') + 1)
+            if (arr.length === config.messages.packetSize + 1)
                 arr.pop()
             else
                 return [arr, true]

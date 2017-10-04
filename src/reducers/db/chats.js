@@ -58,24 +58,26 @@ export default (state = {}, action) => {
                 }
             }
         case NEW_MESSAGE:
-            if((!action.invitedUserId && !action.removedUserId && action.selectedChat === action.chatId) || !state[action.chatId])
+            if ((!action.invitedUserId && !action.removedUserId && action.selectedChat === action.chatId) || !state[action.chatId])
                 return state
 
             newState = {
                 ...state,
                 [action.chatId]: {
                     ...state[action.chatId],
-                    newMessages: state[action.chatId].newMessages + 1
+                    newMessages: action.selectedChat === action.chatId
+                        ? 0
+                        : state[action.chatId].newMessages + 1
                 }
             }
 
             if (action.invitedUserId) {
-                if(action.invitedUserId === action.userId)
+                if (action.invitedUserId === action.userId)
                     newState[action.chatId].isMember = true
 
                 newState[action.chatId].users = [
                     ...newState[action.chatId].users,
-                   action.invitedUserId
+                    action.invitedUserId
                 ]
                 newState[action.chatId].invites = {
                     ...newState[action.chatId].invites,
@@ -84,7 +86,7 @@ export default (state = {}, action) => {
             }
 
             if (action.removedUserId) {
-                if(action.removedUserId === action.userId)
+                if (action.removedUserId === action.userId)
                     newState[action.chatId].isMember = false
 
                 newState[action.chatId].users = newState[action.chatId].users
