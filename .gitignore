@@ -10,6 +10,7 @@
 /build
 
 /server/log/chat.log
+package-lock.json
 /.idea
 
 # misc
