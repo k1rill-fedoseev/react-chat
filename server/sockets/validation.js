@@ -43,8 +43,10 @@ module.exports = action => {
             case START_TYPING:
             case END_TYPING:
             case LEAVE_CHAT:
-            case EXIT_REQUEST:
                 assert(validator.isMongoId(chatId))
+                break
+            case EXIT_REQUEST:
+                assert(chatId === '' || validator.isMongoId(chatId))
                 break
             case TRY_CREATE_1_TO_1:
                 assert(validator.isMongoId(userId))
@@ -87,6 +89,7 @@ module.exports = action => {
         }
     }
     catch(e) {
+        log.debug(action)
         log.debug(e)
         return false
     }

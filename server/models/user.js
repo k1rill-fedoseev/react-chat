@@ -64,8 +64,8 @@ userSchema.methods = {
             .digest('hex')
     },
     genToken: function()  {
-        this._token = crypto.randomBytes(config.get('tokenSize')).toString('hex')
-        this.hashedToken = this.encrypt(this._token, config.get('tokenKey'))
+        this._token = crypto.randomBytes(config.token.size).toString('hex')
+        this.hashedToken = this.encrypt(this._token, config.token.key)
 
         log.trace('Generated new token ' + this._token + ' for user ' + this.username)
 

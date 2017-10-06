@@ -20,7 +20,7 @@ module.exports = {
             avatar: {max: 256},
             desc: {max: 256},
             message: {min: 1, max: 256},
-            search: {min: 1, max: 30},
+            search: {max: 256}
         },
         roomMaxUsers: 30,
         packetSize: 50

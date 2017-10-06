@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { signUpClick, switchClick } from '../actions/frontend'
+import Form from './Form'
+import Input from './Input'
 
 class SignUp extends Component {
 
@@ -8,121 +10,55 @@ class SignUp extends Component {
         super()
 
         this.state = {
-            passwordsEqual: true
+            isAllValid: false
         }
 
-        this.nameInput = ''
-        this.surnameInput = ''
-        this.usernameInput = ''
-        this.passwordInput = ''
-        this.confirmPassInput = ''
-        this.avatarInput = ''
-        this.descInput = ''
+        this.values = {}
+
         this.handleClick = this.handleClick.bind(this)
-        this.handleUsernameChange = this.handleUsernameChange.bind(this)
-        this.handlePasswordChange = this.handlePasswordChange.bind(this)
-        this.handleConfirmPassChange = this.handleConfirmPassChange.bind(this)
-        this.handleNameChange = this.handleNameChange.bind(this)
-        this.handleSurnameChange = this.handleSurnameChange.bind(this)
-        this.handleDescChange = this.handleDescChange.bind(this)
-        this.handleAvatarChange = this.handleAvatarChange.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     handleClick() {
         const {signUp} = this.props
+        const {isAllValid} = this.props
+        const {name, surname, username, password, confirm, avatar, desc} = this.values
 
-        if (this.passwordInput === this.confirmPassInput)
-            signUp(
-                this.nameInput,
-                this.surnameInput,
-                this.usernameInput,
-                this.passwordInput,
-                this.avatarInput,
-                this.descInput)
+        if (isAllValid && password === confirm)
+            signUp(name, surname, username, password, avatar, desc)
     }
 
-    handleUsernameChange(e) {
-        this.usernameInput = e.target.value
-    }
-
-    handlePasswordChange(e) {
-        this.passwordInput = e.target.value
+    handleChange(values, isAllValid) {
+        this.values = values
         this.setState({
-            passwordsEqual: this.passwordInput === this.confirmPassInput
+            isAllValid
         })
-    }
-
-    handleConfirmPassChange(e) {
-        this.confirmPassInput = e.target.value
-        this.setState({
-            passwordsEqual: this.passwordInput === this.confirmPassInput
-        })
-    }
-
-    handleNameChange(e) {
-        this.nameInput = e.target.value
-    }
-
-    handleSurnameChange(e) {
-        this.surnameInput = e.target.value
-    }
-
-    handleDescChange(e) {
-        this.descInput = e.target.value
-    }
-
-    handleAvatarChange(e) {
-        this.avatarInput = e.target.value
     }
 
     render() {
         const {toSignIn} = this.props
+        const {isAllValid} = this.state
 
         return (
-            <form className="main">
-                <label>
-                    Name: <input type="text" autoComplete="off"
-                                 onChange={this.handleNameChange}/>
-                </label>
-                <label>
-                    Surname: <input type="text" autoComplete="off"
-                                    onChange={this.handleSurnameChange}/>
-                </label>
-                <label>
-                    Username: <input type="text" autoComplete="off"
-                                     onChange={this.handleUsernameChange}/>
-                </label>
-                <label>
-                    Password: <input type="password" autoComplete="off"
-                                     onChange={this.handlePasswordChange}/>
-                </label>
-                <label>
-                    Confirm password: <input type="password" autoComplete="off" id="confirm"
-                                             style={{
-                                                 boxShadow: this.state.passwordsEqual
-                                                     ? ''
-                                                     : '0 0 10px 0 rgba(244, 67, 54, 0.65)'
-                                             }}
-                                             onChange={this.handleConfirmPassChange}/>
-                </label>
-                <label>
-                    Avatar: <input type="url" autoComplete="off"
-                                   onChange={this.handleAvatarChange}/>
-                </label>
-                <label>
-                    Description: <input type="text" autoComplete="off"
-                                        onChange={this.handleDescChange}/>
-                </label>
+            <Form onChange={this.handleChange}>
+                <Input name="name" label="Name" minLength={2} maxLength={16}/>
+                <Input name="surname" label="Surname" minLength={2} maxLength={16}/>
+                <Input name="username" label="Username" minLength={1} maxLength={20}/>
+                <Input name="password" label="Password" type="password" minLength={3} maxLength={128}/>
+                <Input name="confirm" label="Confirm password" type="password" minLength={3} maxLength={128} equalTo='password'/>
+                <Input name="avatar" label="Avatar" maxLength={256}/>
+                <Input name="desc" label="Description" maxLength={256}/>
                 <div className="buttons">
-                    <div className="btn"
-                         onClick={this.handleClick}>
+                    <div className={`btn ${isAllValid
+                        ? ''
+                        : 'disabled'}`} onClick={this.handleClick}>
                         Sign Up
                     </div>
                     <div className="btn switch-btn" onClick={toSignIn}>
                         Switch
                     </div>
                 </div>
-            </form>
+            </Form>
         )
     }
 }

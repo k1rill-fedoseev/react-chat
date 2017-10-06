@@ -2,37 +2,36 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createClick, swapClick } from '../actions/frontend'
 import UserCard from './UserCard'
+import Form from './Form'
+import Input from './Input'
 
 class NewChatTab extends Component {
 
     constructor(props) {
         super()
 
-        this.nameInput = ''
-        this.descInput = ''
-        this.avatarInput = ''
+        this.state = {
+            isAllValid: true
+        }
+
+        this.values = {}
+
         this.handleClick = this.handleClick.bind(this)
-        this.handleNameChange = this.handleNameChange.bind(this)
-        this.handleDescChange = this.handleDescChange.bind(this)
-        this.handleAvatarChange = this.handleAvatarChange.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     handleClick() {
         const {create} = this.props
+        const {name, desc, avatar} = this.values
 
-        create(this.nameInput, this.descInput, this.avatarInput)
+        create(name, desc, avatar)
     }
 
-    handleNameChange(e) {
-        this.nameInput = e.target.value
-    }
-
-    handleDescChange(e) {
-        this.descInput = e.target.value
-    }
-
-    handleAvatarChange(e) {
-        this.avatarInput = e.target.value
+    handleChange(values, isAllValid) {
+        this.values = values
+        this.setState({
+            isAllValid
+        })
     }
 
     userCardsList() {
@@ -45,6 +44,7 @@ class NewChatTab extends Component {
 
     render() {
         const {isRoomCreateTab, swap, selectedUsers} = this.props
+        const {isAllValid} = this.state
 
         return (
             <div id="new-chat">
@@ -63,30 +63,20 @@ class NewChatTab extends Component {
                         <span className="quot">)</span>
                     </div>
                 </div>
-                <form className="main">
-                    {isRoomCreateTab &&
-                    <label>
-                        Name: <input type="text" autoComplete="off"
-                                     onChange={this.handleNameChange}/>
-                    </label>}
-                    {isRoomCreateTab &&
-                    <label>
-                        Description: <input type="text" autoComplete="off"
-                                            onChange={this.handleDescChange}/>
-                    </label>}
-                    {isRoomCreateTab && <label>
-                        Photo: <input type="url" autoComplete="off"
-                                      onChange={this.handleAvatarChange}/>
-                    </label>}
-
+                <Form onChange={this.handleChange}>
+                    {isRoomCreateTab && <Input name="name" label="Name" minLength={1} maxLength={30}/>}
+                    {isRoomCreateTab && <Input name="desc" label="Description" maxLength={256}/>}
+                    {isRoomCreateTab && <Input name="avatar" label="Avatar" maxlength={256}/>}
                     {!!selectedUsers.length &&
                     <label className="card-row">
                         Users: {this.userCardsList()}
                     </label>}
-                    <div className="btn" onClick={this.handleClick}>
+                    <div className={`btn ${isAllValid
+                        ? ''
+                        : 'disabled'}`} onClick={this.handleClick}>
                         Create
                     </div>
-                </form>
+                </Form>
             </div>
         )
     }

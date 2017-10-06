@@ -1,6 +1,5 @@
 //TODO: Change info about users and rooms
 //TODO: Delete chat(all messages)
-//TODO: Ограничения
 
 const express = require('express')
 const mongoose = require('mongoose')

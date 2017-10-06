@@ -57,9 +57,7 @@ module.exports = function (server) {
                             .then(rooms => {
                                 rooms.forEach(room => socket.join(room._id.toString()))
                             })
-                            .catch(err => {
-                                log.error(err)
-                            })
+                            .catch(logError)
 
                         return [user]
                     })
@@ -69,8 +67,8 @@ module.exports = function (server) {
                         next()
                     })
                     .catch(err => {
-                        if (err)
-                            log.error(err)
+                        if (!err instanceof MyError)
+                            logError(err)
                         next()
                     })
             }
@@ -87,7 +85,7 @@ module.exports = function (server) {
                 ? socket.user._id.toString()
                 : ''
 
-            socket.on('message', (action) => {
+            socket.on('message', action => {
                 if (!validate(action))
                     return
 
