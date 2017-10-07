@@ -1,5 +1,6 @@
 import {
-    CREATE_CLICK, DELETE_MESSAGES_CLICK, EXIT, INVITE_ACCEPT_CLICK, LEAVE_CHAT_CLICK, LOAD_MORE_CLICK, MARK_READ,
+    CREATE_CLICK, DELETE_CHAT_CLICK, DELETE_MESSAGES_CLICK, EXIT_CLICK, INVITE_ACCEPT_CLICK, LEAVE_CHAT_CLICK,
+    LOAD_MORE_CLICK, MARK_READ,
     MESSAGE_INPUT_IS_EMPTY,
     MESSAGE_INPUT_IS_NOT_EMPTY, REMOVE_USER_CLICK,
     SEARCH_CHANGE,
@@ -8,6 +9,7 @@ import {
 } from '../actions/frontend'
 import socket from '../sockets'
 import {
+    deleteChat,
     deleteMessages,
     endTyping, exitRequest,
     fetchChat, fetchChats,
@@ -62,7 +64,7 @@ export default store => next => action => {
 
             if (action.message.from && !state.db.users[action.message.from])
                 socket.send(fetchUsers([action.message.from]))
-            else if(action.invitedUserId && !state.db.users[action.invitedUserId])
+            else if (action.invitedUserId && !state.db.users[action.invitedUserId])
                 socket.send(fetchUsers([action.invitedUserId]))
             break
         case MARK_READ:
@@ -81,8 +83,12 @@ export default store => next => action => {
             break
         case FETCH_CHATS_SUCCESS:
             action.chats.forEach(chat => {
-                if (!chat.isRoom && !state.db.users[chat.to])
-                    userIds.push(chat.to)
+                if (!chat.isRoom) {
+                    if (!state.db.users[chat.users[0]])
+                        userIds.push(chat.users[0])
+                    if (chat.users[1] && !state.db.users[chat.users[1]])
+                        userIds.push(chat.users[1])
+                }
             })
             action.messages.forEach(message => {
                 if (message.from && !state.db.users[message.from])
@@ -122,7 +128,7 @@ export default store => next => action => {
             break
         case SWITCH_MESSAGES_AND_CHAT_INFO:
             state.db.chats[state.ui.selectedChat].users.forEach(userId => {
-                if(!state.db.users[userId])
+                if (!state.db.users[userId])
                     userIds.push(userId)
             })
 
@@ -135,7 +141,10 @@ export default store => next => action => {
         case LEAVE_CHAT_CLICK:
             socket.send(leaveChat(state.ui.selectedChat))
             break
-        case EXIT:
+        case DELETE_CHAT_CLICK:
+            socket.send(deleteChat(state.ui.selectedChat))
+            break
+        case EXIT_CLICK:
             socket.send(exitRequest(state.ui.selectedChat))
             break
     }

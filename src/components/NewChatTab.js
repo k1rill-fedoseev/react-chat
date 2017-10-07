@@ -22,9 +22,11 @@ class NewChatTab extends Component {
 
     handleClick() {
         const {create} = this.props
+        const {isAllValid} = this.state
         const {name, desc, avatar} = this.values
 
-        create(name, desc, avatar)
+        if (isAllValid)
+            create(name, desc, avatar)
     }
 
     handleChange(values, isAllValid) {

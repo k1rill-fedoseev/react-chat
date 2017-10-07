@@ -488,6 +488,36 @@ class MyPromise extends Promise {
         )
     }
 
+    deleteAllMessages(userId, roomId) {
+        return this.then(() =>
+            new MyPromise((resolve, reject) => {
+                UserMessage.deleteMany({
+                    owner: userId,
+                    room: roomId
+                }, err => {
+                    err
+                        ? reject(err)
+                        : resolve()
+                })
+            })
+        )
+    }
+
+    deleteOpenRoom(userId, roomId) {
+        return this.then(() =>
+            new MyPromise((resolve, reject) => {
+                OpenRoom.deleteOne({
+                    owner: userId,
+                    room: roomId
+                }, err => {
+                    err
+                        ? reject(err)
+                        : resolve()
+                })
+            })
+        )
+    }
+
     removeUser(userId) {
         return this.then(room =>
             new MyPromise((resolve, reject) => {
@@ -498,11 +528,11 @@ class MyPromise extends Promise {
                     }
                 })
 
-                room.save((err, room) =>
+                room.save((err, room) => {
                     err
                         ? reject(err)
                         : resolve(room)
-                )
+                })
             })
         )
     }
@@ -558,12 +588,8 @@ class MyPromise extends Promise {
 
                     data.forEach(row => {
                         const [openRoom, message, isFullLoaded] = row
-                        const {room, owner, newMessages} = openRoom
+                        const {room, newMessages} = openRoom
                         const {isRoom, name, avatar, _id, users, invites} = room
-
-                        let userTo = users[0] && users[0].toString()
-                        if (userTo === owner.toString() && users.length > 1)
-                            userTo = users[1].toString()
 
                         if (message) {
                             const {from, date} = message.message
@@ -586,9 +612,6 @@ class MyPromise extends Promise {
                             id: _id.toString(),
                             avatar,
                             newMessages,
-                            to: isRoom
-                                ? ''
-                                : userTo,
                             users: users.map(user => user.toString()),
                             invites: invites.map(invite => invite
                                 ? invite.toString()
@@ -605,12 +628,8 @@ class MyPromise extends Promise {
 
     openRoomFilter() {
         return this.then(openRoom => {
-            const {room, owner} = openRoom
-            const {isRoom, name, avatar, _id, newMessages, users, invites} = room
-
-            let userTo = users[0] && users[0].toString()
-            if (userTo === owner.toString() && users.length > 1)
-                userTo = users[1].toString()
+            const {room, newMessages} = openRoom
+            const {isRoom, name, avatar, _id, users, invites} = room
 
             return {
                 name,
@@ -618,9 +637,6 @@ class MyPromise extends Promise {
                 avatar,
                 newMessages,
                 isRoom,
-                to: isRoom
-                    ? ''
-                    : userTo,
                 users: users.map(user => user.toString()),
                 invites: invites.map(invite => invite
                     ? invite.toString()

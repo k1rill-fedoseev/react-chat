@@ -1,5 +1,6 @@
-import { DELETE_MESSAGES_CLICK, EXIT, SEND_CLICK } from '../../actions/frontend'
+import { DELETE_MESSAGES_CLICK, EXIT_CLICK, SEND_CLICK } from '../../actions/frontend'
 import {
+    DELETE_CHAT_SUCCESS,
     FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE,
     SEND_SUCCESS
 } from '../../actions/responses'
@@ -7,13 +8,15 @@ import {
 export default (state = {}, action) => {
     let newState
 
-    switch(action.type) {
+    switch (action.type) {
         case SEND_CLICK:
-            return {...state, [`temp${action.tempId}`]: {
-                message: action.message,
-                time: Date.now(),
-                id: `temp${action.tempId}`
-            }}
+            return {
+                ...state, [`temp${action.tempId}`]: {
+                    message: action.message,
+                    time: Date.now(),
+                    id: `temp${action.tempId}`
+                }
+            }
         case NEW_MESSAGE:
             return {...state, [action.message.id]: action.message}
         case SEND_SUCCESS:
@@ -26,7 +29,7 @@ export default (state = {}, action) => {
             newState = {}
 
             action.messages.forEach(message => {
-                if(message.id)
+                if (message.id)
                     newState[message.id] = message
             })
             return newState
@@ -43,7 +46,15 @@ export default (state = {}, action) => {
             Object.keys(action.selectedMessages)
                 .forEach(key => delete newState[key])
             return newState
-        case EXIT:
+        case DELETE_CHAT_SUCCESS:
+            newState = {...state}
+
+            action.messagesList.forEach(messageId => {
+                delete newState[messageId]
+            })
+
+            return newState
+        case EXIT_CLICK:
             return {}
         default:
             return state

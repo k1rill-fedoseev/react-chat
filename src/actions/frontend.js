@@ -21,7 +21,8 @@ export const DELETE_MESSAGES_CLICK = 19
 export const SWITCH_MESSAGES_AND_CHAT_INFO = 20
 export const REMOVE_USER_CLICK = 21
 export const LEAVE_CHAT_CLICK = 22
-export const EXIT = 23
+export const DELETE_CHAT_CLICK = 23
+export const EXIT_CLICK = 24
 
 export const switchClick = () => ({
     type: SWITCH_CLICK
@@ -127,6 +128,10 @@ export const leaveChatClick = () => ({
     type: LEAVE_CHAT_CLICK
 })
 
-export const exit = () => ({
-    type: EXIT
+export const deleteChatClick = () => ({
+    type: DELETE_CHAT_CLICK
+})
+
+export const exitClick = () => ({
+    type: EXIT_CLICK
 })

@@ -6,7 +6,7 @@ const {
     TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHAT, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
     TRY_SEND, FETCH_MESSAGES, FETCH_USERS, TRY_SEARCH_USERS, TRY_INVITE_USERS,
     TRY_MARK_READ, FETCH_ONLINE_USERS, START_TYPING, END_TYPING, DELETE_MESSAGES,
-    REMOVE_USER, LEAVE_CHAT, EXIT_REQUEST
+    REMOVE_USER, LEAVE_CHAT, EXIT_REQUEST, DELETE_CHAT
 } = require('./actions.js')
 
 module.exports = action => {
@@ -43,6 +43,7 @@ module.exports = action => {
             case START_TYPING:
             case END_TYPING:
             case LEAVE_CHAT:
+            case DELETE_CHAT:
                 assert(validator.isMongoId(chatId))
                 break
             case EXIT_REQUEST:

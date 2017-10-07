@@ -2,7 +2,7 @@ import {
     DELETE_MESSAGES_CLICK, LOAD_MORE_CLICK, MARK_READ, REMOVE_USER_CLICK, SEND_CLICK,
     USER_SELECT
 } from '../actions/frontend'
-import { FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, NEW_MESSAGE } from '../actions/responses'
+import { DELETE_CHAT_SUCCESS, FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, NEW_MESSAGE } from '../actions/responses'
 
 export default store => next => action => {
     const state = store.getState()
@@ -29,6 +29,9 @@ export default store => next => action => {
             action.newMessages = state.ui.messagesLists[action.chat.id].length
         case FETCH_CHATS_SUCCESS:
             action.userId = state.ui.loggedAccount
+            break
+        case DELETE_CHAT_SUCCESS:
+            action.messagesList = state.ui.messagesLists[action.chatId]
             break
     }
     next(action)

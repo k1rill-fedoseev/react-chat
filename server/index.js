@@ -1,5 +1,5 @@
 //TODO: Change info about users and rooms
-//TODO: Delete chat(all messages)
+//TODO: requests counter
 
 const express = require('express')
 const mongoose = require('mongoose')

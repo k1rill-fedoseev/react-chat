@@ -1,5 +1,8 @@
-import { FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE } from '../../actions/responses'
-import { EXIT, LOAD_MORE_CLICK, MARK_READ, REMOVE_USER_CLICK } from '../../actions/frontend'
+import {
+    DELETE_CHAT_SUCCESS, FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS,
+    NEW_MESSAGE
+} from '../../actions/responses'
+import { EXIT_CLICK, LOAD_MORE_CLICK, MARK_READ } from '../../actions/frontend'
 
 export default (state = {}, action) => {
     let newState
@@ -19,27 +22,38 @@ export default (state = {}, action) => {
 
                 newState[chat.id] = chat
                 newState[chat.id].isMember = chat.users.includes(action.userId)
+                if(!chat.isRoom) {
+                    newState[chat.id].to = chat.users[0]
+                    if(action.userId === chat.users[0] && chat.users.length > 1)
+                        newState[chat.id].to = chat.users[1]
+                }
             })
 
             return newState
         case FETCH_CHAT_SUCCESS:
-            newState = {...state}
+            const {chat} = action
             const invites = {}
 
-            action.chat.invites.forEach((invite, index) => {
-                if (invite)
-                    invites[action.chat.users[index]] = invite
-            })
-            action.chat.invites = invites
+            newState = {...state}
 
-            return {
-                ...state,
-                [action.chat.id]: {
-                    ...action.chat,
-                    isMember: action.chat.users.includes(action.userId),
-                    newMessages: action.newMessages
-                }
+            chat.invites.forEach((invite, index) => {
+                if (invite)
+                    invites[chat.users[index]] = invite
+            })
+
+            newState[chat.id] = {
+                ...chat,
+                invites,
+                isMember: chat.users.includes(action.userId)
             }
+
+            if(!chat.isRoom) {
+                newState[chat.id].to = chat.users[0]
+                if(action.userId === chat.users[0] && chat.users.length > 1)
+                    newState[chat.id].to = chat.users[1]
+            }
+
+            return newState
         case FETCH_MESSAGES_SUCCESS:
             if (!action.isFullLoaded)
                 return {
@@ -115,7 +129,12 @@ export default (state = {}, action) => {
                     isLoading: true
                 }
             }
-        case EXIT:
+        case DELETE_CHAT_SUCCESS:
+            newState = {...state}
+            delete newState[action.chatId]
+
+            return newState
+        case EXIT_CLICK:
             return {}
         default:
             return state

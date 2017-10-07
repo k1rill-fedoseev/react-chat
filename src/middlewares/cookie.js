@@ -1,5 +1,5 @@
 import { SIGN_IN_SUCCESS, SIGN_UP_SUCCESS } from '../actions/responses'
-import { EXIT } from '../actions/frontend'
+import { EXIT_CLICK } from '../actions/frontend'
 
 export default store => next => action => {
     switch (action.type) {
@@ -8,7 +8,7 @@ export default store => next => action => {
             if (action.token)
                 document.cookie = `token=${action.token}`
             break
-        case EXIT:
+        case EXIT_CLICK:
             document.cookie = 'token=kek'
             break
     }

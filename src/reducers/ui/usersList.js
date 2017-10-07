@@ -1,5 +1,5 @@
 import { SEARCH_USERS_SUCCESS } from '../../actions/responses'
-import { EXIT, INVITE_CLICK, NEW_CLICK } from '../../actions/frontend'
+import { EXIT_CLICK, INVITE_CLICK, NEW_CLICK } from '../../actions/frontend'
 
 export default (state = [], action) => {
     switch (action.type) {
@@ -7,7 +7,7 @@ export default (state = [], action) => {
             return action.userIds
         case INVITE_CLICK:
         case NEW_CLICK:
-        case EXIT:
+        case EXIT_CLICK:
             return []
         default:
             return state

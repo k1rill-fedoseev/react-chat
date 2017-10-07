@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { exit } from '../actions/frontend'
+import { exitClick } from '../actions/frontend'
 
 class ExitMenu extends Component {
 
@@ -18,6 +18,6 @@ class ExitMenu extends Component {
 export default connect(
     state => ({}),
     dispatch => ({
-        exit: () => dispatch(exit())
+        exit: () => dispatch(exitClick())
     })
 )(ExitMenu)

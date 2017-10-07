@@ -1,5 +1,5 @@
-import { FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS } from '../../actions/responses'
-import { EXIT, SORT_CHATS_LIST } from '../../actions/frontend'
+import { DELETE_CHAT_SUCCESS, FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS } from '../../actions/responses'
+import { EXIT_CLICK, SORT_CHATS_LIST } from '../../actions/frontend'
 
 export default (state = [], action) => {
     switch (action.type) {
@@ -11,7 +11,9 @@ export default (state = [], action) => {
             return state
         case SORT_CHATS_LIST:
             return action.chatsList
-        case EXIT:
+        case DELETE_CHAT_SUCCESS:
+            return state.filter(chatId => chatId !== action.chatId)
+        case EXIT_CLICK:
             return []
         default:
             return state

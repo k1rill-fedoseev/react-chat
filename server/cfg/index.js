@@ -19,7 +19,7 @@ module.exports = {
             surname: {min: 2, max: 16},
             avatar: {max: 256},
             desc: {max: 256},
-            message: {min: 1, max: 256},
+            message: {min: 1, max: 1024},
             search: {max: 256}
         },
         roomMaxUsers: 30,

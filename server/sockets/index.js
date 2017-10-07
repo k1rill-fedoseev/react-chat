@@ -10,13 +10,14 @@ const {
     TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHATS, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
     FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, TRY_SEND, TRY_INVITE_USERS, TRY_MARK_READ,
     TRY_SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING, DELETE_MESSAGES, REMOVE_USER,
-    EXIT_REQUEST, LEAVE_CHAT,
+    EXIT_REQUEST, LEAVE_CHAT, DELETE_CHAT,
     newMessage, newMessageWithInvite, newMessageWithRemove,
     signInSuccess, signInError, signUpSuccess, signUpError,
     fetchChatsSuccess, fetchChatsError, fetchChatSuccess, fetchChatError,
     createError, sendSuccess, sendError, inviteUsersError,
     fetchUsersSuccess, fetchUsersError, fetchMessagesSuccess, fetchMessagesError,
-    searchUsersError, searchUsersSuccess, fetchOnlineUsersSuccess, startTypingResponse, endTypingResponse
+    searchUsersError, searchUsersSuccess, fetchOnlineUsersSuccess, startTypingResponse, endTypingResponse,
+    deleteChatSuccess, deleteChatError
 } = require('./actions')
 
 const sockets = {}
@@ -412,6 +413,15 @@ module.exports = function (server) {
                                     .catch(logError)
                             })
                             .catch(logError)
+                        break
+                    case DELETE_CHAT:
+                        Promise.resolve()
+                            .deleteAllMessages(userId, action.chatId)
+                            .deleteOpenRoom(userId, action.chatId)
+                            .then(() => {
+                                socket.send(deleteChatSuccess(action.chatId))
+                            })
+                            .catch(errorHandler(deleteChatError))
                         break
                     case EXIT_REQUEST:
                         if (action.chatId)

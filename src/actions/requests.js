@@ -16,7 +16,8 @@ export const END_TYPING = 114
 export const DELETE_MESSAGES = 115
 export const REMOVE_USER = 116
 export const LEAVE_CHAT = 117
-export const EXIT_REQUEST = 118
+export const DELETE_CHAT = 118
+export const EXIT_REQUEST = 119
 
 export const trySignIn = (username, password) => ({
     type: TRY_SIGN_IN,
@@ -104,6 +105,11 @@ export const removeUser = (chatId, userId) => ({
 
 export const leaveChat = chatId => ({
     type: LEAVE_CHAT,
+    chatId
+})
+
+export const deleteChat = chatId => ({
+    type: DELETE_CHAT,
     chatId
 })
 

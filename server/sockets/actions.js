@@ -16,7 +16,8 @@ const END_TYPING = 114
 const DELETE_MESSAGES = 115
 const REMOVE_USER = 116
 const LEAVE_CHAT = 117
-const EXIT_REQUEST = 118
+const DELETE_CHAT = 118
+const EXIT_REQUEST = 119
 
 const NEW_MESSAGE = 200
 const FETCH_CHAT_SUCCESS = 201
@@ -43,6 +44,8 @@ const FETCH_ONLINE_USERS_SUCCESS = 221
 const FETCH_ONLINE_USERS_ERROR = 222
 const START_TYPING_RESPONSE = 223
 const END_TYPING_RESPONSE = 224
+const DELETE_CHAT_SUCCESS = 225
+const DELETE_CHAT_ERROR = 226
 
 module.exports = {
     TRY_SIGN_IN,
@@ -63,6 +66,7 @@ module.exports = {
     DELETE_MESSAGES,
     REMOVE_USER,
     EXIT_REQUEST,
+    DELETE_CHAT,
     LEAVE_CHAT,
 
     newMessage: (message, chatId) => ({
@@ -190,5 +194,15 @@ module.exports = {
     endTypingResponse: (chatId, userId) => ({
         type: END_TYPING_RESPONSE,
         chatId, userId
+    }),
+
+    deleteChatSuccess: chatId => ({
+        type: DELETE_CHAT_SUCCESS,
+        chatId
+    }),
+
+    deleteChatError: error => ({
+        type: DELETE_CHAT_ERROR,
+        error
     })
 }
