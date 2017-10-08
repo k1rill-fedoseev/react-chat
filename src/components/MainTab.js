@@ -16,13 +16,14 @@ class MainTab extends Component {
     handleClick() {
         const {chat, switchMessagesAndChatInfo} = this.props
 
-        if(chat.isRoom)
-            switchMessagesAndChatInfo()
+        switchMessagesAndChatInfo()
     }
 
     render() {
-        const {chat, inviteTab, invite, to, isSelected,
-            deleteMessages, isSwitchedToChatInfo} = this.props
+        const {
+            chat, inviteTab, invite, to, isSelected,
+            deleteMessages, isSwitchedToChatInfo
+        } = this.props
         const {name, isRoom, isMember} = chat
 
         return (

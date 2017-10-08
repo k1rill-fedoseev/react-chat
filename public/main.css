@@ -371,7 +371,7 @@ html {
     margin-left: 6px;
 }
 
-.plus-user, .delete-link, #tick {
+.plus-user, .delete-link, #tick, .fa {
     -ms-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -844,4 +844,25 @@ input {
 
 .btn.delete-room {
     width: 150px;
+}
+
+.smart-input {
+    margin-bottom: 15px;
+}
+
+.wrapper {
+    display: inline-block;
+    position: absolute;
+}
+
+.smart-input label {
+    position: relative;
+    top: -3px;
+    left: 5px;
+}
+
+.smart-input .fa {
+    position: relative;
+    left: 5px;
+    cursor: pointer;
 }

@@ -2,7 +2,7 @@ import {
     DELETE_CHAT_SUCCESS, FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS,
     NEW_MESSAGE
 } from '../../actions/responses'
-import { EXIT_CLICK, LOAD_MORE_CLICK, MARK_READ } from '../../actions/frontend'
+import { CHAT_AVATAR, CHAT_NAME, EXIT_CLICK, LOAD_MORE_CLICK, MARK_READ } from '../../actions/frontend'
 
 export default (state = {}, action) => {
     let newState
@@ -72,7 +72,7 @@ export default (state = {}, action) => {
                 }
             }
         case NEW_MESSAGE:
-            if ((!action.invitedUserId && !action.removedUserId && action.selectedChat === action.chatId) || !state[action.chatId])
+            if ((!action.invitedUserId && !action.removedUserId && !action.value && action.selectedChat === action.chatId) || !state[action.chatId])
                 return state
 
             newState = {
@@ -98,8 +98,7 @@ export default (state = {}, action) => {
                     [action.invitedUserId]: action.invitedById
                 }
             }
-
-            if (action.removedUserId) {
+            else if (action.removedUserId) {
                 if (action.removedUserId === action.userId)
                     newState[action.chatId].isMember = false
 
@@ -109,7 +108,17 @@ export default (state = {}, action) => {
                 newState[action.chatId].invites = {
                     ...newState[action.chatId].invites,
                 }
-                delete newState[action.chatId].invites[action.removedUser]
+                delete newState[action.chatId].invites[action.removedUserId]
+            }
+            else if(action.value) {
+                switch (action.changedField) {
+                    case CHAT_NAME:
+                        newState[action.chatId].name = action.value
+                        break
+                    case CHAT_AVATAR:
+                        newState[action.chatId].avatar = action.value
+                        break
+                }
             }
 
             return newState

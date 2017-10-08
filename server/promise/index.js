@@ -6,6 +6,7 @@ const config = require('../cfg')
 const Message = require('../models/message')
 const UserMessage = require('../models/userMessage')
 const OpenRoom = require('../models/openRoom')
+const { CHAT_AVATAR, CHAT_NAME } = require('../sockets/actions')
 const {NotFoundError, WrongAuthData, MemberError, CheckError} = require('./errors')
 
 class MyPromise extends Promise {
@@ -357,7 +358,7 @@ class MyPromise extends Promise {
         return this.then(room => {
             if (room.isRoom)
                 return room
-            throw new CheckError('Not a room')
+            throw new CheckError(`${room._id.toString()} id not a room`)
         })
     }
 
@@ -468,6 +469,29 @@ class MyPromise extends Promise {
                 })
             })
         )
+    }
+
+    changeRoomInfo(field, value) {
+        return this.then(room => {
+            switch (field) {
+                case CHAT_NAME:
+                    room.name = value
+                    break
+                case CHAT_AVATAR:
+                    room.avatar = value
+                    break
+                default:
+                    throw CheckError(`Unknown field ${field}`)
+            }
+
+            return new MyPromise((resolve, reject) => {
+                room.save(err => {
+                    err
+                        ? reject(err)
+                        : resolve(room)
+                })
+            })
+        })
     }
 
     deleteMessages(userId, messageIds) {

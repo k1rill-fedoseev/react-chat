@@ -1,4 +1,5 @@
 import {
+    CHANGE_CHAT_INFO_CLICK,
     CREATE_CLICK, DELETE_CHAT_CLICK, DELETE_MESSAGES_CLICK, EXIT_CLICK, INVITE_ACCEPT_CLICK, LEAVE_CHAT_CLICK,
     LOAD_MORE_CLICK, MARK_READ,
     MESSAGE_INPUT_IS_EMPTY,
@@ -18,7 +19,7 @@ import {
     tryMarkRead,
     trySearchUsers, trySend,
     trySignIn,
-    trySignUp
+    trySignUp, updateChatInfo
 } from '../actions/requests'
 import {
     FETCH_CHAT_SUCCESS,
@@ -143,6 +144,9 @@ export default store => next => action => {
             break
         case DELETE_CHAT_CLICK:
             socket.send(deleteChat(state.ui.selectedChat))
+            break
+        case CHANGE_CHAT_INFO_CLICK:
+            socket.send(updateChatInfo(state.ui.selectedChat, action.field, action.value))
             break
         case EXIT_CLICK:
             socket.send(exitRequest(state.ui.selectedChat))

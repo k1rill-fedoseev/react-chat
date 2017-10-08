@@ -10,14 +10,14 @@ const {
     TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHATS, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
     FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, TRY_SEND, TRY_INVITE_USERS, TRY_MARK_READ,
     TRY_SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING, DELETE_MESSAGES, REMOVE_USER,
-    EXIT_REQUEST, LEAVE_CHAT, DELETE_CHAT,
+    EXIT_REQUEST, LEAVE_CHAT, DELETE_CHAT, CHAT_NAME, CHAT_AVATAR, UPDATE_CHAT_INFO,
     newMessage, newMessageWithInvite, newMessageWithRemove,
     signInSuccess, signInError, signUpSuccess, signUpError,
     fetchChatsSuccess, fetchChatsError, fetchChatSuccess, fetchChatError,
     createError, sendSuccess, sendError, inviteUsersError,
     fetchUsersSuccess, fetchUsersError, fetchMessagesSuccess, fetchMessagesError,
     searchUsersError, searchUsersSuccess, fetchOnlineUsersSuccess, startTypingResponse, endTypingResponse,
-    deleteChatSuccess, deleteChatError
+    deleteChatSuccess, deleteChatError, newMessageWithInfoUpdate
 } = require('./actions')
 
 const sockets = {}
@@ -240,8 +240,8 @@ module.exports = function (server) {
                                             msg
                                         ))
                                     }
-                                    else if (sockets[userMessage.owner.toString()]) {
-                                        sockets[userMessage.owner.toString()].send(newMessage(msg, action.chatId))
+                                    else if (sockets[ownerId]) {
+                                        sockets[ownerId].send(newMessage(msg, action.chatId))
                                     }
                                 }
                             ))
@@ -433,7 +433,39 @@ module.exports = function (server) {
 
                         delete sockets[userId]
                         break
+                    case UPDATE_CHAT_INFO:
+                        let message
 
+                        switch (action.field) {
+                            case CHAT_NAME:
+                                message = `${socket.user.name} ${socket.user.surname} renamed room to ${action.value}`
+                                break
+                            case CHAT_AVATAR:
+                                message = `${socket.user.name} ${socket.user.surname} changed avatar to ${action.value}`
+                                break
+                        }
+
+                        Promise.resolve()
+                            .getRoom(action.chatId)
+                            .checkIsRoom()
+                            .checkMember(userId)
+                            .changeRoomInfo(action.field, action.value)
+                            .createMessage(undefined, message)
+                            .then(userMessages => userMessages.forEach(
+                                userMessage => {
+                                    const ownerId = userMessage.owner.toString()
+                                    const msg = {
+                                        message,
+                                        id: userMessage._id,
+                                        time: userMessage.date.valueOf()
+                                    }
+
+                                    if (sockets[ownerId]) {
+                                        sockets[ownerId].send(newMessageWithInfoUpdate(msg, action.chatId, action.field, action.value))
+                                    }
+                                }
+                            ))
+                            .catch(logError)
                 }
             })
 

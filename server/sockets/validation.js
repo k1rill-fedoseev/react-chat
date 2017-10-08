@@ -6,8 +6,8 @@ const {
     TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHAT, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
     TRY_SEND, FETCH_MESSAGES, FETCH_USERS, TRY_SEARCH_USERS, TRY_INVITE_USERS,
     TRY_MARK_READ, FETCH_ONLINE_USERS, START_TYPING, END_TYPING, DELETE_MESSAGES,
-    REMOVE_USER, LEAVE_CHAT, EXIT_REQUEST, DELETE_CHAT
-} = require('./actions.js')
+    REMOVE_USER, LEAVE_CHAT, EXIT_REQUEST, DELETE_CHAT, UPDATE_CHAT_INFO, CHAT_NAME, CHAT_AVATAR
+} = require('./actions')
 
 module.exports = action => {
     try {
@@ -51,6 +51,17 @@ module.exports = action => {
                 break
             case TRY_CREATE_1_TO_1:
                 assert(validator.isMongoId(userId))
+                break
+            case UPDATE_CHAT_INFO:
+                assert(validator.isMongoId(chatId))
+                switch (action.field) {
+                    case CHAT_NAME:
+                        assert(validator.isLength(action.value, length.roomName))
+                        break
+                    case CHAT_AVATAR:
+                        assert(validator.isLength(action.value, length.avatar))
+                        break
+                }
                 break
             case REMOVE_USER:
                 assert(validator.isMongoId(chatId))

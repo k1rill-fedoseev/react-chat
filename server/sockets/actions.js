@@ -17,7 +17,11 @@ const DELETE_MESSAGES = 115
 const REMOVE_USER = 116
 const LEAVE_CHAT = 117
 const DELETE_CHAT = 118
-const EXIT_REQUEST = 119
+const UPDATE_CHAT_INFO = 119
+const EXIT_REQUEST = 120
+
+const CHAT_NAME = 0
+const CHAT_AVATAR = 1
 
 const NEW_MESSAGE = 200
 const FETCH_CHAT_SUCCESS = 201
@@ -68,6 +72,10 @@ module.exports = {
     EXIT_REQUEST,
     DELETE_CHAT,
     LEAVE_CHAT,
+    UPDATE_CHAT_INFO,
+
+    CHAT_NAME,
+    CHAT_AVATAR,
 
     newMessage: (message, chatId) => ({
         type: NEW_MESSAGE,
@@ -82,6 +90,11 @@ module.exports = {
     newMessageWithRemove: (message, chatId, removedUserId) => ({
         type: NEW_MESSAGE,
         message, chatId, removedUserId
+    }),
+
+    newMessageWithInfoUpdate: (message, chatId, changedField, value) => ({
+        type: NEW_MESSAGE,
+        message, chatId, changedField, value
     }),
 
     fetchChatSuccess: chat => ({

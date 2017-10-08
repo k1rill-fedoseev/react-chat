@@ -26,4 +26,4 @@
 ## Author
 
 _Kirill Fedoseev_
-[Vk](https://vk.com/kfedoseev])
+[Vk](https://vk.com/kfedoseev)

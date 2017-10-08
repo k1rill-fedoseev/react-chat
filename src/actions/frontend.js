@@ -22,7 +22,11 @@ export const SWITCH_MESSAGES_AND_CHAT_INFO = 20
 export const REMOVE_USER_CLICK = 21
 export const LEAVE_CHAT_CLICK = 22
 export const DELETE_CHAT_CLICK = 23
-export const EXIT_CLICK = 24
+export const CHANGE_CHAT_INFO_CLICK = 24
+export const EXIT_CLICK = 25
+
+export const CHAT_NAME = 0
+export const CHAT_AVATAR = 1
 
 export const switchClick = () => ({
     type: SWITCH_CLICK
@@ -130,6 +134,11 @@ export const leaveChatClick = () => ({
 
 export const deleteChatClick = () => ({
     type: DELETE_CHAT_CLICK
+})
+
+export const changeChatInfoClick = (field, value) => ({
+    type: CHANGE_CHAT_INFO_CLICK,
+    field, value
 })
 
 export const exitClick = () => ({

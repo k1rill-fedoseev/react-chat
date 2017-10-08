@@ -1,4 +1,7 @@
-import { CHAT_SELECT, DELETE_MESSAGES_CLICK, EXIT_CLICK, MESSAGE_SELECT, NEW_CLICK } from '../../actions/frontend'
+import {
+    CHAT_SELECT, DELETE_MESSAGES_CLICK, EXIT_CLICK, MESSAGE_SELECT, NEW_CLICK,
+    SWITCH_MESSAGES_AND_CHAT_INFO
+} from '../../actions/frontend'
 
 export default (state = {}, action) => {
     switch (action.type) {
@@ -6,6 +9,7 @@ export default (state = {}, action) => {
         case NEW_CLICK:
         case DELETE_MESSAGES_CLICK:
         case EXIT_CLICK:
+        case SWITCH_MESSAGES_AND_CHAT_INFO:
             return {}
         case MESSAGE_SELECT:
             const stateCopy = {...state}
