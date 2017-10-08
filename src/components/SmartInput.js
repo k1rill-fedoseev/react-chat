@@ -42,7 +42,7 @@ export default class SmartInput extends Component {
 
     render() {
         const {state, props} = this
-        const {label, value} = props
+        const {label, value, minLength, maxLength} = props
         const {isChanging, isValid} = state
 
         if (isChanging)
@@ -50,7 +50,7 @@ export default class SmartInput extends Component {
                 <div className="smart-input">
                     <span className="label" onClick={this.handleClick}>{label}: </span>
                     <div className="wrapper">
-                        <Input value={state.value} minLength={1} maxLength={30} onChange={this.handleChange}/>
+                        <Input value={state.value} minLength={minLength} maxLength={maxLength} onChange={this.handleChange}/>
                         {isValid && value !== state.value && <span className="fa" onClick={this.handleAccept}>&#61504;</span>}
                     </div>
                 </div>
@@ -58,7 +58,7 @@ export default class SmartInput extends Component {
 
         return (
             <div className="smart-input" onClick={this.handleClick}>
-                {label}: <span className="static-label">{value}</span>
+                {label}: <span className="static-label">{value || '<empty>'}</span>
             </div>
         )
     }

@@ -40,7 +40,7 @@ export default store => next => action => {
             break
         case CREATE_CLICK:
             if (state.ui.isRoomCreateTab)
-                socket.send(tryCreateRoom(action.name, action.desc, action.avatar, Object.keys(state.ui.selectedUsers)))
+                socket.send(tryCreateRoom(action.name, action.description, action.avatar, Object.keys(state.ui.selectedUsers)))
             else
                 socket.send(tryCreate1To1(Object.keys(state.ui.selectedUsers)[0]))
             break
@@ -49,7 +49,7 @@ export default store => next => action => {
             break
         case SIGN_UP_CLICK:
             socket.send(trySignUp(action.name, action.surname, action.username,
-                action.password, action.avatar, action.desc))
+                action.password, action.avatar, action.description))
             break
         case LOAD_MORE_CLICK:
             socket.send(fetchMessages(state.ui.selectedChat, state.ui.messagesLists[state.ui.selectedChat][0]))

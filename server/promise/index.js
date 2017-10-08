@@ -6,7 +6,7 @@ const config = require('../cfg')
 const Message = require('../models/message')
 const UserMessage = require('../models/userMessage')
 const OpenRoom = require('../models/openRoom')
-const { CHAT_AVATAR, CHAT_NAME } = require('../sockets/actions')
+const { CHAT_AVATAR, CHAT_NAME, CHAT_DESCRIPTION } = require('../sockets/actions')
 const {NotFoundError, WrongAuthData, MemberError, CheckError} = require('./errors')
 
 class MyPromise extends Promise {
@@ -480,8 +480,9 @@ class MyPromise extends Promise {
                 case CHAT_AVATAR:
                     room.avatar = value
                     break
-                default:
-                    throw CheckError(`Unknown field ${field}`)
+                case CHAT_DESCRIPTION:
+                    room.description = value
+                    break
             }
 
             return new MyPromise((resolve, reject) => {
@@ -613,7 +614,7 @@ class MyPromise extends Promise {
                     data.forEach(row => {
                         const [openRoom, message, isFullLoaded] = row
                         const {room, newMessages} = openRoom
-                        const {isRoom, name, avatar, _id, users, invites} = room
+                        const {isRoom, name, avatar, _id, users, invites, description} = room
 
                         if (message) {
                             const {from, date} = message.message
@@ -635,6 +636,7 @@ class MyPromise extends Promise {
                             name,
                             id: _id.toString(),
                             avatar,
+                            description,
                             newMessages,
                             users: users.map(user => user.toString()),
                             invites: invites.map(invite => invite
@@ -653,12 +655,13 @@ class MyPromise extends Promise {
     openRoomFilter() {
         return this.then(openRoom => {
             const {room, newMessages} = openRoom
-            const {isRoom, name, avatar, _id, users, invites} = room
+            const {isRoom, name, avatar, _id, users, invites, description} = room
 
             return {
                 name,
                 id: _id.toString(),
                 avatar,
+                description,
                 newMessages,
                 isRoom,
                 users: users.map(user => user.toString()),

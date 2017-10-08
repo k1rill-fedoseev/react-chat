@@ -10,7 +10,7 @@ const {
     TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHATS, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
     FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, TRY_SEND, TRY_INVITE_USERS, TRY_MARK_READ,
     TRY_SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING, DELETE_MESSAGES, REMOVE_USER,
-    EXIT_REQUEST, LEAVE_CHAT, DELETE_CHAT, CHAT_NAME, CHAT_AVATAR, UPDATE_CHAT_INFO,
+    EXIT_REQUEST, LEAVE_CHAT, DELETE_CHAT, CHAT_NAME, CHAT_AVATAR, CHAT_DESCRIPTION, UPDATE_CHAT_INFO,
     newMessage, newMessageWithInvite, newMessageWithRemove,
     signInSuccess, signInError, signUpSuccess, signUpError,
     fetchChatsSuccess, fetchChatsError, fetchChatSuccess, fetchChatError,
@@ -115,10 +115,10 @@ module.exports = function (server) {
                             .catch(errorHandler(signInError))
                         break
                     case TRY_SIGN_UP:
-                        const {name, surname, password, username, avatar, desc} = action
+                        const {name, surname, password, username, avatar, description} = action
 
                         Promise.resolve()
-                            .register(name, surname, username, password, avatar, desc)
+                            .register(name, surname, username, password, avatar, description)
                             .then(([token, user]) => {
                                 socket.user = user
                                 userId = user._id.toString()
@@ -159,7 +159,7 @@ module.exports = function (server) {
                         break
                     case TRY_CREATE_ROOM:
                         Promise.resolve()
-                            .createRoom(true, action.name, action.desc, userId, action.avatar)
+                            .createRoom(true, action.name, action.description, userId, action.avatar)
                             .then(room => {
                                 roomId = room._id.toString()
                                 return room
@@ -442,6 +442,9 @@ module.exports = function (server) {
                                 break
                             case CHAT_AVATAR:
                                 message = `${socket.user.name} ${socket.user.surname} changed avatar to ${action.value}`
+                                break
+                            case CHAT_DESCRIPTION:
+                                message = `${socket.user.name} ${socket.user.surname} changed description to ${action.value}`
                                 break
                         }
 

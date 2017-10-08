@@ -22,6 +22,7 @@ const EXIT_REQUEST = 120
 
 const CHAT_NAME = 0
 const CHAT_AVATAR = 1
+const CHAT_DESCRIPTION = 2
 
 const NEW_MESSAGE = 200
 const FETCH_CHAT_SUCCESS = 201
@@ -76,6 +77,7 @@ module.exports = {
 
     CHAT_NAME,
     CHAT_AVATAR,
+    CHAT_DESCRIPTION,
 
     newMessage: (message, chatId) => ({
         type: NEW_MESSAGE,

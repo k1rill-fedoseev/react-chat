@@ -9,7 +9,7 @@ export default store => next => action => {
                 document.cookie = `token=${action.token}`
             break
         case EXIT_CLICK:
-            document.cookie = 'token=kek'
+            document.cookie = 'token=0'
             break
     }
 

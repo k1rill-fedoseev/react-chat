@@ -25,14 +25,14 @@ export const trySignIn = (username, password) => ({
     username, password
 })
 
-export const trySignUp = (name, surname, username, password, avatar, desc) => ({
+export const trySignUp = (name, surname, username, password, avatar, description) => ({
     type: TRY_SIGN_UP,
-    name, surname, username, password, avatar, desc
+    name, surname, username, password, avatar, description
 })
 
-export const tryCreateRoom = (name, desc, avatar, userIds) => ({
+export const tryCreateRoom = (name, description, avatar, userIds) => ({
     type: TRY_CREATE_ROOM,
-    name, desc, avatar, userIds
+    name, description, avatar, userIds
 })
 
 export const tryCreate1To1 = userId => ({

@@ -14,7 +14,7 @@ class MainTab extends Component {
     }
 
     handleClick() {
-        const {chat, switchMessagesAndChatInfo} = this.props
+        const {switchMessagesAndChatInfo} = this.props
 
         switchMessagesAndChatInfo()
     }

@@ -2,7 +2,10 @@ import {
     DELETE_CHAT_SUCCESS, FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS,
     NEW_MESSAGE
 } from '../../actions/responses'
-import { CHAT_AVATAR, CHAT_NAME, EXIT_CLICK, LOAD_MORE_CLICK, MARK_READ } from '../../actions/frontend'
+import {
+    CHAT_AVATAR, CHAT_DESCRIPTION, CHAT_NAME, EXIT_CLICK, LOAD_MORE_CLICK,
+    MARK_READ
+} from '../../actions/frontend'
 
 export default (state = {}, action) => {
     let newState
@@ -72,7 +75,7 @@ export default (state = {}, action) => {
                 }
             }
         case NEW_MESSAGE:
-            if ((!action.invitedUserId && !action.removedUserId && !action.value && action.selectedChat === action.chatId) || !state[action.chatId])
+            if ((!action.invitedUserId && !action.removedUserId && action.changedField === undefined && action.selectedChat === action.chatId) || !state[action.chatId])
                 return state
 
             newState = {
@@ -117,6 +120,9 @@ export default (state = {}, action) => {
                         break
                     case CHAT_AVATAR:
                         newState[action.chatId].avatar = action.value
+                        break
+                    case CHAT_DESCRIPTION:
+                        newState[action.chatId].description = action.value
                         break
                 }
             }

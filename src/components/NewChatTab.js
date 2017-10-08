@@ -23,10 +23,10 @@ class NewChatTab extends Component {
     handleClick() {
         const {create} = this.props
         const {isAllValid} = this.state
-        const {name, desc, avatar} = this.values
+        const {name, description, avatar} = this.values
 
         if (isAllValid)
-            create(name, desc, avatar)
+            create(name, description, avatar)
     }
 
     handleChange(values, isAllValid) {
@@ -67,7 +67,7 @@ class NewChatTab extends Component {
                 </div>
                 <Form onChange={this.handleChange}>
                     {isRoomCreateTab && <Input name="name" label="Name" minLength={1} maxLength={30}/>}
-                    {isRoomCreateTab && <Input name="desc" label="Description" maxLength={256}/>}
+                    {isRoomCreateTab && <Input name="description" label="Description" maxLength={256}/>}
                     {isRoomCreateTab && <Input name="avatar" label="Avatar" maxlength={256}/>}
                     {!!selectedUsers.length &&
                     <label className="card-row">
@@ -90,7 +90,7 @@ export default connect(
         selectedUsers: Object.keys(state.ui.selectedUsers)
     }),
     dispatch => ({
-        create: (name, desc, avatar) => dispatch(createClick(name, desc, avatar)),
+        create: (name, description, avatar) => dispatch(createClick(name, description, avatar)),
         swap: () => dispatch(swapClick())
     })
 )(NewChatTab)

@@ -27,6 +27,7 @@ export const EXIT_CLICK = 25
 
 export const CHAT_NAME = 0
 export const CHAT_AVATAR = 1
+export const CHAT_DESCRIPTION = 2
 
 export const switchClick = () => ({
     type: SWITCH_CLICK
@@ -63,9 +64,9 @@ export const sendClick = message => ({
     message
 })
 
-export const createClick = (name, desc, avatar) => ({
+export const createClick = (name, description, avatar) => ({
     type: CREATE_CLICK,
-    name, desc, avatar
+    name, description, avatar
 })
 
 export const signInClick = (username, password) => ({
@@ -73,9 +74,9 @@ export const signInClick = (username, password) => ({
     username, password
 })
 
-export const signUpClick = (name, surname, username, password, avatar, desc) => ({
+export const signUpClick = (name, surname, username, password, avatar, description) => ({
     type: SIGN_UP_CLICK,
-    name, surname, username, password, avatar, desc
+    name, surname, username, password, avatar, description
 })
 
 export const loadMoreClick = () => ({

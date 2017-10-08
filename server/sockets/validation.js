@@ -6,13 +6,14 @@ const {
     TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHAT, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
     TRY_SEND, FETCH_MESSAGES, FETCH_USERS, TRY_SEARCH_USERS, TRY_INVITE_USERS,
     TRY_MARK_READ, FETCH_ONLINE_USERS, START_TYPING, END_TYPING, DELETE_MESSAGES,
-    REMOVE_USER, LEAVE_CHAT, EXIT_REQUEST, DELETE_CHAT, UPDATE_CHAT_INFO, CHAT_NAME, CHAT_AVATAR
+    REMOVE_USER, LEAVE_CHAT, EXIT_REQUEST, DELETE_CHAT, UPDATE_CHAT_INFO,
+    CHAT_NAME, CHAT_AVATAR, CHAT_DESCRIPTION
 } = require('./actions')
 
 module.exports = action => {
     try {
         const {
-            name, surname, password, username, avatar, desc, search, message,
+            name, surname, password, username, avatar, description, search, message,
             chatId, userId, userIds, messageIds, lastMessageId
         } = action
 
@@ -25,14 +26,14 @@ module.exports = action => {
                 assert(validator.isLength(name, length.name))
                 assert(validator.isLength(surname, length.surname))
                 assert(validator.isLength(avatar, length.avatar))
-                assert(validator.isLength(desc, length.desc))
+                assert(validator.isLength(description, length.description))
                 assert(validator.isLength(username, length.username))
                 assert(validator.isLength(password, length.password))
                 break
             case TRY_CREATE_ROOM:
                 assert(validator.isLength(name, length.roomName))
                 assert(validator.isLength(avatar, length.avatar))
-                assert(validator.isLength(desc, length.desc))
+                assert(validator.isLength(description, length.description))
                 assert(Array.isArray(userIds))
                 userIds.forEach(userId => {
                     assert(validator.isMongoId(userId))
@@ -61,6 +62,11 @@ module.exports = action => {
                     case CHAT_AVATAR:
                         assert(validator.isLength(action.value, length.avatar))
                         break
+                    case CHAT_DESCRIPTION:
+                        assert(validator.isLength(action.value, length.description))
+                        break
+                    default:
+                        assert(false)// :D
                 }
                 break
             case REMOVE_USER:

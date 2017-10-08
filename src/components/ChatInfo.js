@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { MemberAccount } from './Account'
-import { changeChatInfoClick, CHAT_AVATAR, CHAT_NAME, deleteChatClick, leaveChatClick } from '../actions/frontend'
-import Form from './Form'
-import Input from './Input'
+import {
+    changeChatInfoClick, CHAT_AVATAR, CHAT_DESCRIPTION, CHAT_NAME, deleteChatClick,
+    leaveChatClick
+} from '../actions/frontend'
 import SmartInput from './SmartInput'
 
 class ChatInfo extends Component {
@@ -17,8 +18,8 @@ class ChatInfo extends Component {
     }
 
     render() {
-        const {leave, chat, deleteChat, rename, changeAvatar} = this.props
-        const {isMember, name, avatar} = chat
+        const {leave, chat, deleteChat, rename, changeAvatar, changeDesc} = this.props
+        const {isMember, name, avatar, description} = chat
 
         if(!chat.isRoom)
             return (
@@ -29,8 +30,9 @@ class ChatInfo extends Component {
 
         return (
             <div className="chat-info">
-                <SmartInput label="Name" value={name} onAccept={rename}/>
-                <SmartInput label="Avatar" value={avatar} onAccept={changeAvatar}/>
+                <SmartInput label="Name" minLength={1} maxLength={30} value={name} onAccept={rename}/>
+                <SmartInput label="Avatar" maxLength={256} value={avatar === undefined ? '' : avatar} onAccept={changeAvatar}/>
+                <SmartInput label="Description" maxLength={256} value={description === undefined ? '' : description} onAccept={changeDesc}/>
                 <ul className="users">
                     {this.users()}
                 </ul>
@@ -51,6 +53,7 @@ export default connect(
         leave: () => dispatch(leaveChatClick()),
         deleteChat: () => dispatch(deleteChatClick()),
         rename: name => dispatch(changeChatInfoClick(CHAT_NAME, name)),
-        changeAvatar: avatar => dispatch(changeChatInfoClick(CHAT_AVATAR, avatar))
+        changeAvatar: avatar => dispatch(changeChatInfoClick(CHAT_AVATAR, avatar)),
+        changeDesc: description => dispatch(changeChatInfoClick(CHAT_DESCRIPTION, description)),
     })
 )(ChatInfo)

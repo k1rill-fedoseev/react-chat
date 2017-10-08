@@ -22,10 +22,10 @@ class SignUp extends Component {
     handleClick() {
         const {signUp} = this.props
         const {isAllValid} = this.props
-        const {name, surname, username, password, confirm, avatar, desc} = this.values
+        const {name, surname, username, password, confirm, avatar, description} = this.values
 
         if (isAllValid && password === confirm)
-            signUp(name, surname, username, password, avatar, desc)
+            signUp(name, surname, username, password, avatar, description)
     }
 
     handleChange(values, isAllValid) {
@@ -47,7 +47,7 @@ class SignUp extends Component {
                 <Input name="password" label="Password" type="password" minLength={3} maxLength={128}/>
                 <Input name="confirm" label="Confirm password" type="password" minLength={3} maxLength={128} equalTo='password'/>
                 <Input name="avatar" label="Avatar" maxLength={256}/>
-                <Input name="desc" label="Description" maxLength={256}/>
+                <Input name="description" label="Description" maxLength={256}/>
                 <div className="buttons">
                     <div className={`btn ${isAllValid
                         ? ''
@@ -67,7 +67,7 @@ export default connect(
     state => ({}),
     dispatch => ({
         toSignIn: () => dispatch(switchClick()),
-        signUp: (name, surname, username, password, avatar, desc) =>
-            dispatch(signUpClick(name, surname, username, password, avatar, desc))
+        signUp: (name, surname, username, password, avatar, description) =>
+            dispatch(signUpClick(name, surname, username, password, avatar, description))
     })
 )(SignUp)

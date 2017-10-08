@@ -504,6 +504,9 @@ sup {
 
 #messages .mes.system {
     justify-content: center;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #messages .mes.me {
@@ -865,4 +868,8 @@ input {
     position: relative;
     left: 5px;
     cursor: pointer;
+}
+
+.static-label {
+    word-wrap: break-word;
 }
