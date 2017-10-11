@@ -21,7 +21,7 @@ class SignUp extends Component {
 
     handleClick() {
         const {signUp} = this.props
-        const {isAllValid} = this.props
+        const {isAllValid} = this.state
         const {name, surname, username, password, confirm, avatar, description} = this.values
 
         if (isAllValid && password === confirm)
@@ -45,7 +45,7 @@ class SignUp extends Component {
                 <Input name="surname" label="Surname" minLength={2} maxLength={16}/>
                 <Input name="username" label="Username" minLength={1} maxLength={20}/>
                 <Input name="password" label="Password" type="password" minLength={3} maxLength={128}/>
-                <Input name="confirm" label="Confirm password" type="password" minLength={3} maxLength={128} equalTo='password'/>
+                <Input name="confirm" label="Confirm password" type="password" minLength={3} maxLength={128} equalTo="password"/>
                 <Input name="avatar" label="Avatar" maxLength={256}/>
                 <Input name="description" label="Description" maxLength={256}/>
                 <div className="buttons">

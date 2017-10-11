@@ -1,16 +1,18 @@
 const log4js = require('log4js')
 
 log4js.configure({
-    appenders: [
-        {
+    appenders: {
+        console: {
             type: 'console'
         },
-        {
-            type: 'file',
-            filename: 'log/chat.log',
-            level: 'ALL'
+        file: {
+            type: 'dateFile',
+            filename: 'log/chat.log'
         }
-    ]
+    },
+    categories: {
+        default: {appenders: ['file', 'console'], level: 'all'}
+    }
 })
 
-module.exports = (author) => log4js.getLogger(author || null)
+module.exports = author => log4js.getLogger(author || null)

@@ -26,3 +26,5 @@ export const START_TYPING_RESPONSE = 223
 export const END_TYPING_RESPONSE = 224
 export const DELETE_CHAT_SUCCESS = 225
 export const DELETE_CHAT_ERROR = 226
+
+export const VALIDATION_ERROR = 300

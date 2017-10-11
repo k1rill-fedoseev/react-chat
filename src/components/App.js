@@ -8,11 +8,12 @@ import SignIn from './SignIn'
 import SignUp from './SignUp'
 import Error from './Error'
 import MainTab from './MainTab'
+import UserProfile from './UserProfile'
 
 class App extends Component {
 
     render() {
-        const {isLogged, isSignInTab, newChatTab, inviteTab, isChatSelected} = this.props
+        const {isLogged, isSignInTab, newChatTab, inviteTab, isChatSelected, isProfileOpened} = this.props
 
         if (isLogged)
             return (
@@ -25,7 +26,9 @@ class App extends Component {
                         {newChatTab
                             ? <NewChatTab />
                             : isChatSelected && <MainTab/>}
-                        {(newChatTab || inviteTab) && <InviteTab />}
+                        {isProfileOpened
+                            ? <UserProfile/>
+                            : (newChatTab || inviteTab) && <InviteTab />}
                     </div>
                     <Error />
                 </div>
@@ -53,7 +56,8 @@ export default connect(
         isSignInTab: state.ui.isSignInTab,
         newChatTab: state.ui.newChatTab,
         inviteTab: state.ui.inviteTab,
-        isChatSelected: !!state.ui.selectedChat
+        isChatSelected: !!state.ui.selectedChat,
+        isProfileOpened: !!state.ui.userProfile
     }),
     dispatch => ({})
 )(App)

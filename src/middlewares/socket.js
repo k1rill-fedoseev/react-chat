@@ -1,5 +1,5 @@
 import {
-    CHANGE_CHAT_INFO_CLICK,
+    CHANGE_CHAT_INFO_CLICK, CHANGE_USER_INFO_CLICK,
     CREATE_CLICK, DELETE_CHAT_CLICK, DELETE_MESSAGES_CLICK, EXIT_CLICK, INVITE_ACCEPT_CLICK, LEAVE_CHAT_CLICK,
     LOAD_MORE_CLICK, MARK_READ,
     MESSAGE_INPUT_IS_EMPTY,
@@ -19,7 +19,7 @@ import {
     tryMarkRead,
     trySearchUsers, trySend,
     trySignIn,
-    trySignUp, updateChatInfo
+    trySignUp, updateChatInfo, updateUserInfo
 } from '../actions/requests'
 import {
     FETCH_CHAT_SUCCESS,
@@ -30,6 +30,8 @@ import {
 export default store => next => action => {
     const state = store.getState()
     let userIds = []
+    const unique = {}
+    let keys
 
     switch (action.type) {
         case INVITE_ACCEPT_CLICK:
@@ -48,6 +50,7 @@ export default store => next => action => {
             socket.send(trySignIn(action.username, action.password))
             break
         case SIGN_UP_CLICK:
+            console.log(action)
             socket.send(trySignUp(action.name, action.surname, action.username,
                 action.password, action.avatar, action.description))
             break
@@ -86,30 +89,30 @@ export default store => next => action => {
             action.chats.forEach(chat => {
                 if (!chat.isRoom) {
                     if (!state.db.users[chat.users[0]])
-                        userIds.push(chat.users[0])
-                    if (chat.users[1] && !state.db.users[chat.users[1]])
-                        userIds.push(chat.users[1])
+                        unique[chat.users[0]] = true
+                    else if (chat.users[1] && !state.db.users[chat.users[1]])
+                        unique[chat.users[1]] = true
                 }
             })
             action.messages.forEach(message => {
                 if (message.from && !state.db.users[message.from])
-                    userIds.push(message.from)
+                    unique[message.from] = true
             })
-            if (userIds.length)
-                socket.send(fetchUsers(userIds))
+            keys = Object.keys(unique)
+
+            if (keys.length)
+                socket.send(fetchUsers(keys))
             break
         case FETCH_CHAT_SUCCESS:
             if (!action.chat.isRoom && !state.db.users[action.chat.to])
                 socket.send(fetchUsers([action.chat.to]))
             break
         case FETCH_MESSAGES_SUCCESS:
-            const unique = {}
-
             action.messages.forEach(message => {
                 if (message.from && !state.db.users[message.from])
                     unique[message.from] = true
             })
-            const keys = Object.keys(unique)
+            keys = Object.keys(unique)
 
             if (keys.length)
                 socket.send(fetchUsers(keys))
@@ -147,6 +150,9 @@ export default store => next => action => {
             break
         case CHANGE_CHAT_INFO_CLICK:
             socket.send(updateChatInfo(state.ui.selectedChat, action.field, action.value))
+            break
+        case CHANGE_USER_INFO_CLICK:
+            socket.send(updateUserInfo(action.field, action.value, action.oldPassword))
             break
         case EXIT_CLICK:
             socket.send(exitRequest(state.ui.selectedChat))

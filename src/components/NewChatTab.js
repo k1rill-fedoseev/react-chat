@@ -21,11 +21,11 @@ class NewChatTab extends Component {
     }
 
     handleClick() {
-        const {create} = this.props
+        const {create, isRoomCreateTab} = this.props
         const {isAllValid} = this.state
         const {name, description, avatar} = this.values
 
-        if (isAllValid)
+        if (!isRoomCreateTab || isAllValid)
             create(name, description, avatar)
     }
 
@@ -73,7 +73,7 @@ class NewChatTab extends Component {
                     <label className="card-row">
                         Users: {this.userCardsList()}
                     </label>}
-                    <div className={`btn ${isAllValid
+                    <div className={`btn ${!isRoomCreateTab || isAllValid
                         ? ''
                         : 'disabled'}`} onClick={this.handleClick}>
                         Create

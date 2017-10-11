@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { exitClick } from '../actions/frontend'
+import { exitClick, profileClick } from '../actions/frontend'
 
 class ExitMenu extends Component {
 
     render() {
-        const {exit} = this.props
+        const {exit, profile} = this.props
 
         return (
             <div className="exit-menu">
+                <div className="exit-menu-btn" onClick={profile}>Profile</div>
                 <div className="exit-menu-btn" onClick={exit}>Exit</div>
             </div>
         )
@@ -18,6 +19,7 @@ class ExitMenu extends Component {
 export default connect(
     state => ({}),
     dispatch => ({
-        exit: () => dispatch(exitClick())
+        exit: () => dispatch(exitClick()),
+        profile: () => dispatch(profileClick())
     })
 )(ExitMenu)

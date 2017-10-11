@@ -11,13 +11,14 @@ const {
     FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, TRY_SEND, TRY_INVITE_USERS, TRY_MARK_READ,
     TRY_SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING, DELETE_MESSAGES, REMOVE_USER,
     EXIT_REQUEST, LEAVE_CHAT, DELETE_CHAT, CHAT_NAME, CHAT_AVATAR, CHAT_DESCRIPTION, UPDATE_CHAT_INFO,
+    UPDATE_USER_INFO, USER_AVATAR, USER_DESCRIPTION, USER_PASSWORD,
     newMessage, newMessageWithInvite, newMessageWithRemove,
     signInSuccess, signInError, signUpSuccess, signUpError,
     fetchChatsSuccess, fetchChatsError, fetchChatSuccess, fetchChatError,
     createError, sendSuccess, sendError, inviteUsersError,
     fetchUsersSuccess, fetchUsersError, fetchMessagesSuccess, fetchMessagesError,
     searchUsersError, searchUsersSuccess, fetchOnlineUsersSuccess, startTypingResponse, endTypingResponse,
-    deleteChatSuccess, deleteChatError, newMessageWithInfoUpdate
+    deleteChatSuccess, deleteChatError, newMessageWithInfoUpdate, validationError
 } = require('./actions')
 
 const sockets = {}
@@ -87,8 +88,10 @@ module.exports = function (server) {
                 : ''
 
             socket.on('message', action => {
-                if (!validate(action))
+                if (!validate(action)) {
+                    socket.send(validationError('Validation error'))
                     return
+                }
 
                 switch (action.type) {
                     case TRY_SIGN_IN:
@@ -185,10 +188,6 @@ module.exports = function (server) {
                     case TRY_CREATE_1_TO_1:
                         Promise.resolve()
                             .checkRoom(userId, action.userId)
-                            .then(isExists => {
-                                if (isExists)
-                                    throw 'Such 1-to-1 chat is already exists'
-                            })
                             .createRoom(false, null, null, userId)
                             .then(room => {
                                 roomId = room._id.toString()
@@ -469,6 +468,12 @@ module.exports = function (server) {
                                 }
                             ))
                             .catch(logError)
+                        break
+                    case UPDATE_USER_INFO:
+                        Promise.resolve(socket.user)
+                            .changeUserInfo(action.field, action.value, action.oldPassword)
+                            .catch(errorHandler(validationError))
+                        break
                 }
             })
 

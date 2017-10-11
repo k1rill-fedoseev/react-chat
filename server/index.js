@@ -1,5 +1,6 @@
-//TODO: Change info about users and rooms
-//TODO: requests counter
+//TODO: user profile
+//TODO: auto chat aliving
+//TODO: fetch if already exist
 
 const express = require('express')
 const mongoose = require('mongoose')

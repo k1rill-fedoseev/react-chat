@@ -13,6 +13,7 @@ import tempId from './tempId'
 import usersList from './usersList'
 import selectedMessages from './selectedMessages'
 import isSwitchedToChatInfo from './isSwitchedToChatInfo'
+import userProfile from './userProfile'
 
 export default combineReducers({
     error,
@@ -28,5 +29,6 @@ export default combineReducers({
     selectedUsers,
     selectedMessages,
     tempId,
-    usersList
+    usersList,
+    userProfile
 })

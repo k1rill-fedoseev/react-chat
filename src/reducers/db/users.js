@@ -2,7 +2,9 @@ import {
     FETCH_ONLINE_USERS_SUCCESS, FETCH_USERS_SUCCESS, SIGN_IN_SUCCESS,
     SIGN_UP_SUCCESS
 } from '../../actions/responses'
-import { EXIT_CLICK } from '../../actions/frontend'
+import {
+    CHANGE_USER_INFO_CLICK, EXIT_CLICK, USER_AVATAR, USER_DESCRIPTION
+} from '../../actions/frontend'
 
 export default (state = {}, action) => {
     let newState
@@ -16,7 +18,10 @@ export default (state = {}, action) => {
             return newState
         case SIGN_IN_SUCCESS:
         case SIGN_UP_SUCCESS:
-            return {[action.account.id]: action.account}
+            return {
+                ...state,
+                [action.account.id]: action.account
+            }
         case FETCH_ONLINE_USERS_SUCCESS:
             newState = {...state}
 
@@ -24,6 +29,27 @@ export default (state = {}, action) => {
                 if (state[userId] && state[userId].online !== action.users[userId])
                     newState[userId] = {...state[userId], online: action.users[userId]}
             return newState
+        case CHANGE_USER_INFO_CLICK:
+            switch(action.field){
+                case USER_AVATAR:
+                    return {
+                        ...state,
+                        [action.userId]: {
+                            ...state[action.userId],
+                            avatar: action.value
+                        }
+                    }
+                case USER_DESCRIPTION:
+                    return {
+                        ...state,
+                        [action.userId]: {
+                            ...state[action.userId],
+                            description: action.value
+                        }
+                    }
+                default:
+                    return state
+            }
         case EXIT_CLICK:
             return {}
         default:

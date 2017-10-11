@@ -18,11 +18,16 @@ const REMOVE_USER = 116
 const LEAVE_CHAT = 117
 const DELETE_CHAT = 118
 const UPDATE_CHAT_INFO = 119
-const EXIT_REQUEST = 120
+const UPDATE_USER_INFO = 120
+const EXIT_REQUEST = 121
 
 const CHAT_NAME = 0
 const CHAT_AVATAR = 1
 const CHAT_DESCRIPTION = 2
+
+const USER_AVATAR = 0
+const USER_DESCRIPTION = 1
+const USER_PASSWORD = 2
 
 const NEW_MESSAGE = 200
 const FETCH_CHAT_SUCCESS = 201
@@ -52,6 +57,8 @@ const END_TYPING_RESPONSE = 224
 const DELETE_CHAT_SUCCESS = 225
 const DELETE_CHAT_ERROR = 226
 
+const VALIDATION_ERROR = 300
+
 module.exports = {
     TRY_SIGN_IN,
     TRY_SIGN_UP,
@@ -74,10 +81,14 @@ module.exports = {
     DELETE_CHAT,
     LEAVE_CHAT,
     UPDATE_CHAT_INFO,
+    UPDATE_USER_INFO,
 
     CHAT_NAME,
     CHAT_AVATAR,
     CHAT_DESCRIPTION,
+    USER_AVATAR,
+    USER_DESCRIPTION,
+    USER_PASSWORD,
 
     newMessage: (message, chatId) => ({
         type: NEW_MESSAGE,
@@ -218,6 +229,11 @@ module.exports = {
 
     deleteChatError: error => ({
         type: DELETE_CHAT_ERROR,
+        error
+    }),
+
+    validationError: error => ({
+        type: VALIDATION_ERROR,
         error
     })
 }

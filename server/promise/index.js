@@ -6,7 +6,7 @@ const config = require('../cfg')
 const Message = require('../models/message')
 const UserMessage = require('../models/userMessage')
 const OpenRoom = require('../models/openRoom')
-const { CHAT_AVATAR, CHAT_NAME, CHAT_DESCRIPTION } = require('../sockets/actions')
+const {CHAT_AVATAR, CHAT_NAME, CHAT_DESCRIPTION, USER_AVATAR, USER_DESCRIPTION, USER_PASSWORD} = require('../sockets/actions')
 const {NotFoundError, WrongAuthData, MemberError, CheckError} = require('./errors')
 
 class MyPromise extends Promise {
@@ -221,7 +221,9 @@ class MyPromise extends Promise {
                     },
                     (err, user) => {
                         if (err)
-                            reject(err)
+                            reject(err.code === 11000
+                                ? new WrongAuthData(`User ${username} already exists`)
+                                : err)
                         else {
                             log.trace(username, password)
 
@@ -339,7 +341,9 @@ class MyPromise extends Promise {
                     (err, room) => {
                         err
                             ? reject(err)
-                            : resolve(!!room)
+                            : room
+                            ? reject(new CheckError('Such chat is already exists'))
+                            : resolve()
                     }
                 )
             })
@@ -495,6 +499,32 @@ class MyPromise extends Promise {
         })
     }
 
+    changeUserInfo(field, value, oldPassword) {
+        return this.then(user => {
+            switch (field) {
+                case USER_AVATAR:
+                    user.avatar = value
+                    break
+                case USER_DESCRIPTION:
+                    user.description = value
+                    break
+                case USER_PASSWORD:
+                    if(user.encrypt(oldPassword) !== user.hashedPassword)
+                        throw new WrongAuthData('Wrong old password')
+                    user.password = value
+                    break
+            }
+
+            return new MyPromise((resolve, reject) => {
+                user.save(err => {
+                    err
+                        ? reject(err)
+                        : resolve(user)
+                })
+            })
+        })
+    }
+
     deleteMessages(userId, messageIds) {
         return this.then(() =>
             MyPromise.all(messageIds.map(
@@ -593,6 +623,7 @@ class MyPromise extends Promise {
                 avatar: user.avatar,
                 name: user.name,
                 surname: user.surname,
+                description: user.description,
                 id: user._id.toString()
             })
         ))

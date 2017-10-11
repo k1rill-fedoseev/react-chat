@@ -33,18 +33,44 @@ class AccountClass extends Component {
     }
 }
 
+export class ProfileAccount extends Component {
+
+    render() {
+        const {user} = this.props
+
+        if (!user)
+            return null
+
+        const {name, surname, avatar, username} = user
+
+        return (
+            <div className="account">
+                <div className="avatar">
+                    <Avatar src={avatar}/>
+                </div>
+                <div className="info-fix">
+                    <div className="name">
+                        {name} {surname}
+                    </div>
+                    <div className="link">
+                        @{username}
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
 class InviteAccountClass extends Component {
 
     render() {
         const {user, select, checked} = this.props
-        if (!user)
-            return null
 
         const {name, surname, avatar, username} = user
         return (
             <li className="account">
                 <label>
-                    <input type='checkbox' className="check"
+                    <input type="checkbox" className="check"
                            onChange={select} checked={checked}/>
                     <div className="custom"/>
                     <div className="avatar">

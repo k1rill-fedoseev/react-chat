@@ -42,17 +42,18 @@ export default class Input extends Component {
     }
 
     render() {
-        const {label, type, value} = this.props
+        const {label, type, value, children} = this.props
 
         return (
             <label>
-                {label && `${label}:`} <input type={type} autoComplete="off" value={value}
+                {label ? `${label}:` : null} <input type={type} autoComplete="off" value={value}
                                 onChange={this.handleChange}
                                 style={{
                                     boxShadow: this.isValid
                                         ? ''
                                         : '0 0 10px 0 rgba(244, 67, 54, 0.65)'
                                 }}/>
+                {children}
             </label>
         )
     }

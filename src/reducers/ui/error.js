@@ -6,7 +6,7 @@ import {
     SEARCH_USERS_ERROR,
     SEND_ERROR,
     SIGN_IN_ERROR,
-    SIGN_UP_ERROR
+    SIGN_UP_ERROR, VALIDATION_ERROR
 } from '../../actions/responses'
 
 export default (state = '', action) => {
@@ -25,6 +25,7 @@ export default (state = '', action) => {
         case SEARCH_USERS_ERROR:
         case FETCH_ONLINE_USERS_ERROR:
         case DELETE_CHAT_ERROR:
+        case VALIDATION_ERROR:
             console.log(`[${Date.now()}] ERROR ${action.type} : ${action.error}`)
             return 'ERROR ' + action.type + ': ' + action.error
         default:

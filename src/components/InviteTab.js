@@ -43,7 +43,7 @@ class InviteTab extends Component {
         return (
             <div id="add-user">
                 <div className="up-line">
-                    <div className="title">Invite:</div>
+                    <div className="title">Invite</div>
                     <input type="text" id="invite-input" onChange={this.handleChange} value={search}/>
                     {!newChatTab && <span id="tick" onClick={accept}>
                         &#10004;

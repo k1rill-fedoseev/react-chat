@@ -7,7 +7,8 @@ const {
     TRY_SEND, FETCH_MESSAGES, FETCH_USERS, TRY_SEARCH_USERS, TRY_INVITE_USERS,
     TRY_MARK_READ, FETCH_ONLINE_USERS, START_TYPING, END_TYPING, DELETE_MESSAGES,
     REMOVE_USER, LEAVE_CHAT, EXIT_REQUEST, DELETE_CHAT, UPDATE_CHAT_INFO,
-    CHAT_NAME, CHAT_AVATAR, CHAT_DESCRIPTION
+    CHAT_NAME, CHAT_AVATAR, CHAT_DESCRIPTION, UPDATE_USER_INFO, USER_AVATAR,
+    USER_DESCRIPTION, USER_PASSWORD
 } = require('./actions')
 
 module.exports = action => {
@@ -69,6 +70,22 @@ module.exports = action => {
                         assert(false)// :D
                 }
                 break
+            case UPDATE_USER_INFO:
+                switch (action.field) {
+                    case USER_AVATAR:
+                        assert(validator.isLength(action.value, length.avatar))
+                        break
+                    case USER_DESCRIPTION:
+                        assert(validator.isLength(action.value, length.description))
+                        break
+                    case USER_PASSWORD:
+                        assert(validator.isLength(action.value, length.password))
+                        assert(validator.isLength(action.oldPassword, length.password))
+                        break
+                    default:
+                        assert(false)// :D
+                }
+                break
             case REMOVE_USER:
                 assert(validator.isMongoId(chatId))
                 assert(validator.isMongoId(userId))
@@ -106,7 +123,7 @@ module.exports = action => {
                 break
         }
     }
-    catch(e) {
+    catch (e) {
         log.debug(action)
         log.debug(e)
         return false

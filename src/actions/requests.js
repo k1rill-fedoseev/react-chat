@@ -18,7 +18,8 @@ export const REMOVE_USER = 116
 export const LEAVE_CHAT = 117
 export const DELETE_CHAT = 118
 export const UPDATE_CHAT_INFO = 119
-export const EXIT_REQUEST = 120
+export const UPDATE_USER_INFO = 120
+export const EXIT_REQUEST = 121
 
 export const trySignIn = (username, password) => ({
     type: TRY_SIGN_IN,
@@ -117,6 +118,11 @@ export const deleteChat = chatId => ({
 export const updateChatInfo = (chatId, field, value) => ({
     type: UPDATE_CHAT_INFO,
     chatId, field, value
+})
+
+export const updateUserInfo = (field, value, oldPassword) => ({
+    type: UPDATE_USER_INFO,
+    field, value, oldPassword
 })
 
 export const exitRequest = chatId => ({

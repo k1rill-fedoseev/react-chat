@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
-class Avatar extends Component {
+export default class Avatar extends Component {
 
     render() {
         return (
-            <img {...this.props} alt="" width={40} height={40}/>
+            <img alt="" width={40} height={40} {...this.props}/>
         )
     }
 }
-
-export default connect(
-    (state, ownProps) => ({}),
-    (dispatch, ownProps) => ({})
-)(Avatar)

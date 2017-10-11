@@ -18,7 +18,7 @@ class ChatInfo extends Component {
     }
 
     render() {
-        const {leave, chat, deleteChat, rename, changeAvatar, changeDesc} = this.props
+        const {leave, chat, deleteChat, rename, changeAvatar, changeDescription} = this.props
         const {isMember, name, avatar, description} = chat
 
         if(!chat.isRoom)
@@ -32,7 +32,7 @@ class ChatInfo extends Component {
             <div className="chat-info">
                 <SmartInput label="Name" minLength={1} maxLength={30} value={name} onAccept={rename}/>
                 <SmartInput label="Avatar" maxLength={256} value={avatar === undefined ? '' : avatar} onAccept={changeAvatar}/>
-                <SmartInput label="Description" maxLength={256} value={description === undefined ? '' : description} onAccept={changeDesc}/>
+                <SmartInput label="Description" maxLength={256} value={description === undefined ? '' : description} onAccept={changeDescription}/>
                 <ul className="users">
                     {this.users()}
                 </ul>
@@ -54,6 +54,6 @@ export default connect(
         deleteChat: () => dispatch(deleteChatClick()),
         rename: name => dispatch(changeChatInfoClick(CHAT_NAME, name)),
         changeAvatar: avatar => dispatch(changeChatInfoClick(CHAT_AVATAR, avatar)),
-        changeDesc: description => dispatch(changeChatInfoClick(CHAT_DESCRIPTION, description)),
+        changeDescription: description => dispatch(changeChatInfoClick(CHAT_DESCRIPTION, description)),
     })
 )(ChatInfo)

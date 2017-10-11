@@ -20,8 +20,11 @@ export default class SmartInput extends Component {
     }
 
     handleClick() {
+        const {value} = this.props
+
         this.setState(state => ({
-            isChanging: !state.isChanging
+            isChanging: !state.isChanging,
+            value
         }))
     }
 
@@ -49,16 +52,18 @@ export default class SmartInput extends Component {
             return (
                 <div className="smart-input">
                     <span className="label" onClick={this.handleClick}>{label}: </span>
-                    <div className="wrapper">
-                        <Input value={state.value} minLength={minLength} maxLength={maxLength} onChange={this.handleChange}/>
-                        {isValid && value !== state.value && <span className="fa" onClick={this.handleAccept}>&#61504;</span>}
-                    </div>
+                    <Input value={state.value} minLength={minLength} maxLength={maxLength}
+                           onChange={this.handleChange}>
+                        {isValid && value !== state.value &&
+                        <span className="fa" onClick={this.handleAccept}>&#61504;</span>}
+                    </Input>
                 </div>
             )
 
         return (
             <div className="smart-input" onClick={this.handleClick}>
-                {label}: <span className="static-label">{value || '<empty>'}</span>
+                <span className="label">{label}: </span>
+                <span className="static-label">{value || '<empty>'}</span>
             </div>
         )
     }

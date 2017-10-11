@@ -149,7 +149,7 @@ html {
 
 .chat-list, #add-user {
     flex-basis: 500px;
-    min-width: 200px;
+    min-width: 190px;
     background-color: #FFFFFF;
     border-radius: 3px;
     box-shadow: 0 0 25px 0 rgba(53, 152, 219, 0.2);
@@ -179,7 +179,7 @@ html {
     right: 15px;
 }
 
-.chat-list .label {
+.chat-list .label, .title {
     color: #3498DB;
     font-weight: bold;
     font-size: 18px;
@@ -332,7 +332,7 @@ html {
 
 #messages, #new-chat {
     flex-basis: 1150px;
-    min-width: 460px;
+    min-width: 330px;
     margin-right: 30px;
 }
 
@@ -361,7 +361,7 @@ html {
     align-items: center;
 }
 
-.plus-user {
+.close, .plus-user {
     font-size: 32px;
     cursor: pointer;
     color: #C9D6DF;
@@ -371,14 +371,14 @@ html {
     margin-left: 6px;
 }
 
-.plus-user, .delete-link, #tick, .fa {
+.close, .plus-user, .delete-link, #tick, .fa {
     -ms-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
 }
 
-.plus-user:hover {
+.close:hover, .plus-user:hover {
     color: #3498DB;
 }
 
@@ -386,16 +386,16 @@ html {
     flex-basis: 500px;
     flex-grow: 0;
     display: flex;
+    margin: 0;
 }
 
 #add-user .title {
     margin-right: 5px;
-    font-weight: bold;
-    font-size: 18px;
 }
 
-#add-user .plus-user {
+#add-user .plus-user, .close {
     transform: rotate(45deg);
+    margin: 0;
 }
 
 #tick {
@@ -403,7 +403,7 @@ html {
     cursor: pointer;
     transition: all ease-out 0.1s;
     line-height: 20px;
-    margin: 0 5px;
+    margin: 0 3px 0 5px;
     font-size: 18px;
 }
 
@@ -418,7 +418,8 @@ sup {
 #invite-input {
     flex-grow: 1;
     min-width: 0;
-    border: 1px solid #16315C;
+    border: 1px solid #16315CA9;
+    box-shadow: none;
 }
 
 #messages .up-line .name {
@@ -851,25 +852,48 @@ input {
 
 .smart-input {
     margin-bottom: 15px;
+    cursor: pointer;
+    line-height: 26px;
 }
 
-.wrapper {
-    display: inline-block;
-    position: absolute;
-}
-
-.smart-input label {
-    position: relative;
-    top: -3px;
-    left: 5px;
+.smart-input .label {
+    font-weight: bold;
 }
 
 .smart-input .fa {
     position: relative;
+    font-weight: normal;
     left: 5px;
+    line-height: 0;
     cursor: pointer;
 }
 
 .static-label {
     word-wrap: break-word;
+}
+
+.profile {
+    padding: 15px 15px 0;
+}
+
+.profile .account {
+    margin-bottom: 15px;
+}
+
+#new-chat .title {
+    color: #16315C;
+}
+
+.smart-input .main {
+    padding: 0;
+}
+
+.smart-input .main label {
+    left: 0;
+    top: 0;
+    font-weight: bold;
+}
+
+.smart-password-change {
+    cursor: auto;
 }
