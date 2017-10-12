@@ -1,6 +1,3 @@
-//TODO: auto chat aliving
-//TODO: fetch if already exist
-
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')

@@ -1,3 +1,10 @@
+export const CHAT_NAME = 0
+export const CHAT_AVATAR = 1
+export const CHAT_DESCRIPTION = 2
+export const USER_AVATAR = 0
+export const USER_DESCRIPTION = 1
+export const USER_PASSWORD = 2
+
 export const SWITCH_CLICK = 0
 export const NEW_CLICK = 1
 export const SWAP_CLICK = 2
@@ -27,13 +34,6 @@ export const CHANGE_USER_INFO_CLICK = 25
 export const OPEN_PROFILE_CLICK = 26
 export const CLOSE_PROFILE_CLICK = 27
 export const EXIT_CLICK = 28
-
-export const CHAT_NAME = 0
-export const CHAT_AVATAR = 1
-export const CHAT_DESCRIPTION = 2
-export const USER_AVATAR = 0
-export const USER_DESCRIPTION = 1
-export const USER_PASSWORD = 2
 
 export const switchClick = () => ({
     type: SWITCH_CLICK

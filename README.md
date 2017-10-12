@@ -11,6 +11,7 @@
 * See if users are online
 * See if users are typing messages
 * Single-page logic and live update
+* Update user and chat info
 
 ## Used libraries
 

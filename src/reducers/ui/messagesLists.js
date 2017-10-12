@@ -1,5 +1,5 @@
 import {
-    DELETE_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE,
+    DELETE_CHAT_SUCCESS, FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE,
     SEND_SUCCESS
 } from '../../actions/responses'
 import { DELETE_MESSAGES_CLICK, EXIT_CLICK, SEND_CLICK } from '../../actions/frontend'
@@ -32,6 +32,14 @@ export default (state = {}, action) => {
             })
 
             return messagesLists
+        case FETCH_CHAT_SUCCESS:
+            if(!state[action.chat.id])
+                return {
+                    ...state,
+                    [action.chat.id]: []
+                }
+
+            return state
         case SEND_CLICK:
             listCopy = [...state[action.selectedChat]]
             listCopy.push(`temp${action.tempId}`)

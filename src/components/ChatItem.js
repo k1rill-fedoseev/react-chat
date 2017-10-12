@@ -70,10 +70,11 @@ class ChatItem extends Component {
             <li className={'chat-item' + (isSelected
                 ? ' active'
                 : '')} onClick={select}>
-                {newMessages > 0 && <div className="new-mes">{newMessages}</div>}
                 <Avatar src={isRoom
                     ? avatar
-                    : to.avatar}/>
+                    : to.avatar}>
+                    {newMessages > 0 && <div className="new-mes">{newMessages}</div>}
+                </Avatar>
                 <div className="info">
                     <div className="name">{isRoom
                         ? name
@@ -99,9 +100,7 @@ class ChatItem extends Component {
 
 export default connect(
     (state, ownProps) => {
-        const messagesList = state.ui.messagesLists[ownProps.chatId]
-        if (!messagesList)
-            return {}
+        const messagesList = state.ui.messagesLists[ownProps.chatId] || []
 
         const lastMessage = messagesList.length
             ? state.db.messages[messagesList[messagesList.length - 1]]

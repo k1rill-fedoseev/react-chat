@@ -27,7 +27,9 @@ export default store => next => action => {
             action.isRoomCreateTab = state.ui.isRoomCreateTab
             break
         case FETCH_CHAT_SUCCESS:
-            action.newMessages = state.ui.messagesLists[action.chat.id].length
+            action.newMessages = state.ui.messagesLists[action.chat.id]
+                ? state.ui.messagesLists[action.chat.id].length
+                : 0
         case FETCH_CHATS_SUCCESS:
         case CHANGE_USER_INFO_CLICK:
             action.userId = state.ui.loggedAccount

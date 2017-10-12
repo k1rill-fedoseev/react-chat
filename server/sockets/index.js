@@ -188,30 +188,50 @@ module.exports = function (server) {
                     case TRY_CREATE_1_TO_1:
                         Promise.resolve()
                             .checkRoom(userId, action.userId)
-                            .createRoom(false, null, null, userId)
                             .then(room => {
-                                roomId = room._id.toString()
-                                return room
-                            })
-                            .existingUsersFilter(action.userId
-                                ? [action.userId]
-                                : [])
-                            .addUsers(userId)
-                            .then(args => args[0])
-                            .createMessage(undefined, config.messages.startMessage)
-                            .then(userMessages => userMessages.forEach(
-                                userMessage => {
-                                    if (sockets[userMessage.owner.toString()]) {
-                                        sockets[userMessage.owner.toString()].join(roomId)
-                                        sockets[userMessage.owner.toString()].send(newMessage({
-                                            message: config.messages.startMessage,
-                                            id: userMessage._id.toString(),
-                                            time: userMessage.date.valueOf()
-                                        }, roomId))
-                                    }
+                                if (room) {
+                                    Promise.resolve()
+                                        .updateOpenRoom(room._id.toString(), userId, 0)
+                                        .then(openRoom => {
+                                            openRoom.room = room
+                                            return openRoom
+                                        })
+                                        .openRoomFilter()
+                                        .then(room => {
+                                            socket.send(fetchChatSuccess(room))
+                                        })
+                                        .catch(errorHandler(createError))
                                 }
-                            ))
+                                else {
+                                    Promise.resolve()
+                                        .createRoom(false, null, null, userId)
+                                        .then(room => {
+                                            roomId = room._id.toString()
+                                            return room
+                                        })
+                                        .existingUsersFilter(action.userId
+                                            ? [action.userId]
+                                            : [])
+                                        .addUsers(userId)
+                                        .then(args => args[0])
+                                        .createMessage(undefined, config.messages.startMessage)
+                                        .then(userMessages => userMessages.forEach(
+                                            userMessage => {
+                                                if (sockets[userMessage.owner.toString()]) {
+                                                    sockets[userMessage.owner.toString()].join(roomId)
+                                                    sockets[userMessage.owner.toString()].send(newMessage({
+                                                        message: config.messages.startMessage,
+                                                        id: userMessage._id.toString(),
+                                                        time: userMessage.date.valueOf()
+                                                    }, roomId))
+                                                }
+                                            }
+                                        ))
+                                        .catch(errorHandler(createError))
+                                }
+                            })
                             .catch(errorHandler(createError))
+
                         break
                     case TRY_SEND:
                         const strippedMessage = socket.user.username === 'admin'

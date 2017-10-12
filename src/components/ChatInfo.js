@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { MemberAccount } from './Account'
+import { MemberAccount, SimpleMemberAccount } from './Account'
 import {
     changeChatInfoClick, CHAT_AVATAR, CHAT_DESCRIPTION, CHAT_NAME, deleteChatClick,
     leaveChatClick
@@ -17,6 +17,14 @@ class ChatInfo extends Component {
         )
     }
 
+    simpleUsers() {
+        const {users} = this.props.chat
+
+        return users.map((userId, index) =>
+            <SimpleMemberAccount key={userId} userId={userId}/>
+        )
+    }
+
     render() {
         const {leave, chat, deleteChat, rename, changeAvatar, changeDescription} = this.props
         const {isMember, name, avatar, description} = chat
@@ -24,6 +32,9 @@ class ChatInfo extends Component {
         if(!chat.isRoom)
             return (
                 <div className="chat-info">
+                    <ul className="users">
+                        {this.simpleUsers()}
+                    </ul>
                     <div className="btn delete-room" onClick={deleteChat}>Delete room</div>
                 </div>
             )

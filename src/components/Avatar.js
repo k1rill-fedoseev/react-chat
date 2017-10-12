@@ -5,10 +5,11 @@ import { openProfileClick } from '../actions/frontend'
 class Avatar extends Component {
 
     render() {
-        const {src, title, openProfile} = this.props
+        const {src, title, openProfile, children} = this.props
 
         return (
             <div className="avatar" onClick={openProfile}>
+                {children}
                 <img alt="" width={40} height={40} src={src} title={title}/>
             </div>
         )

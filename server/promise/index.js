@@ -186,10 +186,10 @@ class MyPromise extends Promise {
                         reject(err)
                     else if (openRoom) {
                         openRoom.newMessages += add
-                        openRoom.save(err => {
+                        openRoom.save((err, openRoom) => {
                             err
                                 ? reject(err)
-                                : resolve()
+                                : resolve(openRoom)
                         })
                     }
                     else {
@@ -197,10 +197,10 @@ class MyPromise extends Promise {
                             room: roomId,
                             owner: userId,
                             newMessages: add
-                        }, err => {
+                        }, (err, openRoom) => {
                             err
                                 ? reject(err)
-                                : resolve()
+                                : resolve(openRoom)
                         })
                     }
                 })
@@ -326,7 +326,7 @@ class MyPromise extends Promise {
     }
 
     checkRoom(userId, userId1) {
-        const users = userId1
+        const users = userId1 && userId !== userId1
             ? [userId, userId1]
             : [userId]
 
@@ -342,9 +342,7 @@ class MyPromise extends Promise {
                     (err, room) => {
                         err
                             ? reject(err)
-                            : room
-                            ? reject(new CheckError('Such chat is already exists'))
-                            : resolve()
+                            : resolve(room)
                     }
                 )
             })
@@ -363,7 +361,7 @@ class MyPromise extends Promise {
         return this.then(room => {
             if (room.isRoom)
                 return room
-            throw new CheckError(`${room._id.toString()} id not a room`)
+            throw new CheckError(`${room._id.toString()} is not a room`)
         })
     }
 

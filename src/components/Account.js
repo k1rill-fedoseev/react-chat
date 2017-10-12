@@ -114,6 +114,32 @@ class MemberAccountClass extends Component {
     }
 }
 
+class SimpleMemberAccountClass extends Component {
+
+    render() {
+        const {user} = this.props
+
+        if (!user)
+            return null
+
+        const {name, surname, avatar, username, id} = user
+
+        return (
+            <li className="account simple">
+                <Avatar src={avatar} userId={id}/>
+                <div className="info-fix">
+                    <div className="name">
+                        {name} {surname}
+                    </div>
+                    <div className="link">
+                        @{username}
+                    </div>
+                </div>
+            </li>
+        )
+    }
+}
+
 export const Account = connect(
     state => ({
         user: state.db.users[state.ui.loggedAccount]
@@ -146,3 +172,10 @@ export const MemberAccount = connect(
         removeUser: () => dispatch(removeUserClick(ownProps.userId))
     })
 )(MemberAccountClass)
+
+export const SimpleMemberAccount = connect(
+    (state, ownProps) => ({
+            user: state.db.users[ownProps.userId]
+    }),
+    (dispatch, ownProps) => ({})
+)(SimpleMemberAccountClass)
