@@ -20,8 +20,8 @@ export default (state = {}, action) => {
         case SIGN_UP_SUCCESS:
             return {
                 ...state,
-                [action.account.id]: {
-                    ...action.account,
+                [action.user.id]: {
+                    ...action.user,
                     online: true
                 }
             }

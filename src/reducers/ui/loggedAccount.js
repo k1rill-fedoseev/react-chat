@@ -5,7 +5,7 @@ export default (state = '', action) => {
     switch (action.type) {
         case SIGN_IN_SUCCESS:
         case SIGN_UP_SUCCESS:
-            return action.account.id
+            return action.user.id
         case EXIT_CLICK:
             return ''
         default:

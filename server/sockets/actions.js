@@ -122,8 +122,7 @@ module.exports = {
 
     signInSuccess: (user, token) => ({
         type: SIGN_IN_SUCCESS,
-        account: user,
-        token
+        user, token
     }),
 
     signInError: error => ({
@@ -133,8 +132,7 @@ module.exports = {
 
     signUpSuccess: (user, token) => ({
         type: SIGN_UP_SUCCESS,
-        account: user,
-        token
+        user, token
     }),
 
     signUpError: error => ({

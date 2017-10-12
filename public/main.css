@@ -702,6 +702,8 @@ input {
     box-shadow: 0 0 15px 0 rgba(53, 152, 219, 0.15);
     padding: 4px 8px;
     outline: none;
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
 .card {

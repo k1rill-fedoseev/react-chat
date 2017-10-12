@@ -610,6 +610,7 @@ class MyPromise extends Promise {
                 name: user.name,
                 surname: user.surname,
                 avatar: user.avatar,
+                description: user.description,
                 id: user._id.toString()
             }
         ])
