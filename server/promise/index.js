@@ -335,6 +335,7 @@ class MyPromise extends Promise {
                 Room.findOne({
                         isRoom: false,
                         users: {
+                            $size: users.length,
                             $all: users
                         }
                     },

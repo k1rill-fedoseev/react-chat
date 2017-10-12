@@ -897,3 +897,7 @@ input {
 .smart-password-change {
     cursor: auto;
 }
+
+.smart-input.no-click {
+    cursor: auto;
+}

@@ -6,14 +6,14 @@ import { messageSelect } from '../actions/frontend'
 class Message extends Component {
 
     messageBlock() {
-        const {select, isSelected} = this.props
+        const {select, isSelected, sender} = this.props
         const {message} = this.props.message
 
         return (
             <div className="message">
-                <div className="mes-text">
-                    {message}
-                </div>
+                {sender && sender.username === 'admin'
+                    ? <div className="mes-text" dangerouslySetInnerHTML={{__html: message}}/>
+                    : <div className="mes-text">{message}</div>}
                 <span className="delete-link" onClick={select} style={isSelected && {opacity: 1}}>+</span>
             </div>
         )
@@ -37,7 +37,9 @@ class Message extends Component {
 
         if (!from && !me)
             return (
-                <li className={`mes system ${isSelected ? 'temp' : ''}`}>
+                <li className={`mes system ${isSelected
+                    ? 'temp'
+                    : ''}`}>
                     {this.messageBlock()}
                 </li>
             )
@@ -45,13 +47,15 @@ class Message extends Component {
         if (!sender)
             return null
 
-        const {name, surname, avatar, username} = sender
+        const {name, surname, avatar, username, id} = sender
 
         return (
-            <li className={`mes ${me ? 'me' : ''} ${isSelected || isTemp ? 'temp' : ''}`}>
-                <div className="avatar">
-                    <Avatar src={avatar} title={`${name} ${surname}\n\n@${username}`}/>
-                </div>
+            <li className={`mes ${me
+                ? 'me'
+                : ''} ${isSelected || isTemp
+                ? 'temp'
+                : ''}`}>
+                <Avatar src={avatar} title={`${name} ${surname}\n\n@${username}`} userId={id}/>
                 {isTemp
                     ? this.messageSimpleBlock()
                     : this.messageBlock()}
@@ -70,7 +74,9 @@ export default connect(
             message,
             isTemp,
             isSelected: state.ui.selectedMessages[ownProps.messageId],
-            sender: state.db.users[me ? state.ui.loggedAccount : message.from],
+            sender: state.db.users[me
+                ? state.ui.loggedAccount
+                : message.from],
             me
         }
     },

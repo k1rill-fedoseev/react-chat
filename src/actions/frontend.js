@@ -24,7 +24,7 @@ export const LEAVE_CHAT_CLICK = 22
 export const DELETE_CHAT_CLICK = 23
 export const CHANGE_CHAT_INFO_CLICK = 24
 export const CHANGE_USER_INFO_CLICK = 25
-export const PROFILE_CLICK = 26
+export const OPEN_PROFILE_CLICK = 26
 export const CLOSE_PROFILE_CLICK = 27
 export const EXIT_CLICK = 28
 
@@ -153,8 +153,9 @@ export const changeUserInfoClick = (field, value, oldPassword) => ({
     field, value, oldPassword
 })
 
-export const profileClick = () => ({
-    type: PROFILE_CLICK
+export const openProfileClick = userId => ({
+    type: OPEN_PROFILE_CLICK,
+    userId
 })
 
 export const closeProfileClick = () => ({

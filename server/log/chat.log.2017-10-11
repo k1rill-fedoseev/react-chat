@@ -1,0 +1,135 @@
+[2017-10-11 17:07:01.768] [TRACE] userModel - Generated new token 63a7bf604c573f1fec8184165783d72158edc4c3 for user admin
+[2017-10-11 19:22:12.013] [INFO] main - Running server on 3001 port
+[2017-10-11 19:22:12.027] [INFO] main - Connected to db
+[2017-10-11 19:22:35.625] [ERROR] sockets - ReferenceError: room is not defined
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:519:17)
+    at Promise (<anonymous>)
+    at MyPromise (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:12:1)
+    at then.user (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:518:20)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2017-10-11 19:23:02.131] [INFO] main - Running server on 3001 port
+[2017-10-11 19:23:02.159] [INFO] main - Connected to db
+[2017-10-11 19:27:23.406] [INFO] main - Running server on 3001 port
+[2017-10-11 19:27:23.420] [INFO] main - Connected to db
+[2017-10-11 19:30:01.719] [INFO] main - Running server on 3001 port
+[2017-10-11 19:30:01.747] [INFO] main - Connected to db
+[2017-10-11 19:34:08.175] [DEBUG] validator - { type: 120, field: 2, oldPassword: '123' }
+[2017-10-11 19:34:08.177] [DEBUG] validator - TypeError: This library (validator.js) validates strings only
+    at assertString (C:\Users\1\WebstormProjects\react_chat\node_modules\validator\lib\util\assertString.js:11:11)
+    at Object.isLength (C:\Users\1\WebstormProjects\react_chat\node_modules\validator\lib\isLength.js:19:30)
+    at module.exports.action (C:\Users\1\WebstormProjects\react_chat\server\sockets\validation.js:82:42)
+    at Socket.socket.on.action (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:91:22)
+    at emitOne (events.js:115:13)
+    at Socket.emit (events.js:210:7)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\socket.io\lib\socket.js:514:12
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+[2017-10-11 19:36:59.753] [DEBUG] sockets - Error: Wrong username or password
+    at User.findOne (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:265:40)
+    at model.Query.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\model.js:3919:16)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:273:21
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+[2017-10-11 19:37:17.135] [TRACE] userModel - Generated new token af9e48035e0a775e70c9d3a37956be6c2a91c9c3 for user admin
+[2017-10-11 19:37:24.783] [ERROR] sockets - Error: Wrong old password
+    at then.user (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:513:31)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2017-10-11 19:38:05.221] [INFO] main - Running server on 3001 port
+[2017-10-11 19:38:05.237] [INFO] main - Connected to db
+[2017-10-11 19:38:12.904] [DEBUG] sockets - Error: Wrong old password
+    at then.user (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:513:31)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2017-10-11 19:38:26.272] [DEBUG] sockets - Error: Wrong old password
+    at then.user (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:513:31)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2017-10-11 19:38:31.716] [DEBUG] sockets - Error: Wrong old password
+    at then.user (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:513:31)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2017-10-11 19:39:18.978] [DEBUG] sockets - Error: Wrong old password
+    at then.user (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:513:31)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2017-10-11 19:40:10.497] [DEBUG] sockets - Error: Wrong old password
+    at then.user (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:513:31)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[2017-10-11 19:57:37.767] [DEBUG] validator - { type: 103 }
+[2017-10-11 19:57:37.768] [DEBUG] validator - TypeError: This library (validator.js) validates strings only
+    at assertString (C:\Users\1\WebstormProjects\react_chat\node_modules\validator\lib\util\assertString.js:11:11)
+    at Object.isMongoId (C:\Users\1\WebstormProjects\react_chat\node_modules\validator\lib\isMongoId.js:19:30)
+    at module.exports.action (C:\Users\1\WebstormProjects\react_chat\server\sockets\validation.js:55:34)
+    at Socket.socket.on.action (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:91:22)
+    at emitOne (events.js:115:13)
+    at Socket.emit (events.js:210:7)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\socket.io\lib\socket.js:514:12
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+[2017-10-11 19:58:30.012] [INFO] main - Running server on 3001 port
+[2017-10-11 19:58:30.028] [INFO] main - Connected to db
+[2017-10-11 19:58:39.481] [DEBUG] sockets - Error: Such chat is already exists
+    at Room.findOne (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:345:38)
+    at model.Query.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\model.js:3919:16)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:273:21
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+[2017-10-11 20:00:54.577] [TRACE] PASSWORD - keker 123
+[2017-10-11 20:00:54.577] [TRACE] userModel - Generated new token 2b4669efae3b6ba6694327350b6410dc0f535d73 for user keker
+[2017-10-11 20:02:16.310] [DEBUG] validator - { type: 106, userIds: [ null ] }
+[2017-10-11 20:02:16.313] [DEBUG] validator - TypeError: This library (validator.js) validates strings only
+    at assertString (C:\Users\1\WebstormProjects\react_chat\node_modules\validator\lib\util\assertString.js:11:11)
+    at Object.isMongoId (C:\Users\1\WebstormProjects\react_chat\node_modules\validator\lib\isMongoId.js:19:30)
+    at userIds.forEach.userId (C:\Users\1\WebstormProjects\react_chat\server\sockets\validation.js:113:38)
+    at Array.forEach (<anonymous>)
+    at module.exports.action (C:\Users\1\WebstormProjects\react_chat\server\sockets\validation.js:112:25)
+    at Socket.socket.on.action (C:\Users\1\WebstormProjects\react_chat\server\sockets\index.js:91:22)
+    at emitOne (events.js:115:13)
+    at Socket.emit (events.js:210:7)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\socket.io\lib\socket.js:514:12
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+[2017-10-11 20:06:04.362] [DEBUG] sockets - Error: Such chat is already exists
+    at Room.findOne (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:345:38)
+    at model.Query.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\model.js:3919:16)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:273:21
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+[2017-10-11 20:06:15.610] [DEBUG] sockets - Error: Such chat is already exists
+    at Room.findOne (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:345:38)
+    at model.Query.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\model.js:3919:16)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:273:21
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+[2017-10-11 20:12:03.047] [INFO] main - Running server on 3001 port
+[2017-10-11 20:12:03.068] [INFO] main - Connected to db
+[2017-10-11 20:12:22.414] [DEBUG] sockets - Error: Such chat is already exists
+    at Room.findOne (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:346:38)
+    at model.Query.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\model.js:3919:16)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:273:21
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+[2017-10-11 20:20:07.570] [INFO] main - Running server on 3001 port
+[2017-10-11 20:20:07.588] [INFO] main - Connected to db
+[2017-10-11 20:21:40.846] [INFO] main - Running server on 3001 port
+[2017-10-11 20:21:40.864] [INFO] main - Connected to db
+[2017-10-11 20:21:50.355] [INFO] main - Running server on 3001 port
+[2017-10-11 20:21:50.371] [INFO] main - Connected to db
+[2017-10-11 20:24:23.447] [INFO] main - Running server on 3001 port
+[2017-10-11 20:24:23.461] [INFO] main - Connected to db
+[2017-10-11 20:24:55.410] [DEBUG] sockets - Error: Wrong username or password
+    at User.findOne (C:\Users\1\WebstormProjects\react_chat\server\promise\index.js:265:40)
+    at model.Query.<anonymous> (C:\Users\1\WebstormProjects\react_chat\node_modules\mongoose\lib\model.js:3919:16)
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:273:21
+    at C:\Users\1\WebstormProjects\react_chat\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+[2017-10-11 20:24:58.133] [TRACE] userModel - Generated new token bd387d03723bc503eb65dd84ac2c9664c3e65d90 for user admin

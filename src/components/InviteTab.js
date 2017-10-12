@@ -1,16 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { InviteAccount } from './Account'
-import { inviteAcceptClick, inviteClick, searchChange } from '../actions/frontend'
+import { inviteAcceptClick, inviteClick, saveSearch, searchChange } from '../actions/frontend'
 
 class InviteTab extends Component {
 
-    constructor() {
+    constructor(props) {
         super()
-
-        this.state = {
-            search: ''
-        }
 
         this.handleChange = this.handleChange.bind(this)
     }
@@ -19,13 +15,8 @@ class InviteTab extends Component {
         const {search} = this.props
         const {value} = e.target
 
-        if (value.length <= 256) {
-            this.setState({
-                search: value
-            })
-
+        if (value.length <= 256)
             search(value)
-        }
     }
 
     inviteAccounts() {
@@ -37,14 +28,13 @@ class InviteTab extends Component {
     }
 
     render() {
-        const {selectedUsersCount, newChatTab, accept, cancel} = this.props
-        const {search} = this.state
+        const {selectedUsersCount, newChatTab, accept, cancel, searchString} = this.props
 
         return (
             <div id="add-user">
                 <div className="up-line">
                     <div className="title">Invite</div>
-                    <input type="text" id="invite-input" onChange={this.handleChange} value={search}/>
+                    <input type="text" id="invite-input" onChange={this.handleChange} value={searchString}/>
                     {!newChatTab && <span id="tick" onClick={accept}>
                         &#10004;
                         <sup>{selectedUsersCount || null}</sup>
@@ -61,6 +51,7 @@ class InviteTab extends Component {
 
 export default connect(
     state => ({
+        searchString: state.ui.search,
         newChatTab: state.ui.newChatTab,
         usersList: state.ui.usersList,
         selectedUsersCount: Object.keys(state.ui.selectedUsers).length

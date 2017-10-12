@@ -52,7 +52,8 @@ module.exports = action => {
                 assert(chatId === '' || validator.isMongoId(chatId))
                 break
             case TRY_CREATE_1_TO_1:
-                assert(validator.isMongoId(userId))
+                if(userId)
+                    assert(validator.isMongoId(userId))
                 break
             case UPDATE_CHAT_INFO:
                 assert(validator.isMongoId(chatId))

@@ -1,4 +1,3 @@
-//TODO: user profile
 //TODO: auto chat aliving
 //TODO: fetch if already exist
 

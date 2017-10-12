@@ -20,7 +20,10 @@ export default (state = {}, action) => {
         case SIGN_UP_SUCCESS:
             return {
                 ...state,
-                [action.account.id]: action.account
+                [action.account.id]: {
+                    ...action.account,
+                    online: true
+                }
             }
         case FETCH_ONLINE_USERS_SUCCESS:
             newState = {...state}

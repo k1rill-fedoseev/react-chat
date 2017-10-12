@@ -12,13 +12,11 @@ class AccountClass extends Component {
         if (!user)
             return null
 
-        const {name, surname, avatar} = user
+        const {name, surname, avatar, id} = user
 
         return (
             <div className="account">
-                <div className="avatar">
-                    <Avatar src={avatar}/>
-                </div>
+                <Avatar src={avatar}  userId={id}/>
                 <div className="info">
                     <div className="name">
                         {name} {surname}
@@ -36,18 +34,11 @@ class AccountClass extends Component {
 export class ProfileAccount extends Component {
 
     render() {
-        const {user} = this.props
-
-        if (!user)
-            return null
-
-        const {name, surname, avatar, username} = user
+        const {name, surname, avatar, username} = this.props.user
 
         return (
             <div className="account">
-                <div className="avatar">
-                    <Avatar src={avatar}/>
-                </div>
+                <Avatar src={avatar}/>
                 <div className="info-fix">
                     <div className="name">
                         {name} {surname}
@@ -66,16 +57,17 @@ class InviteAccountClass extends Component {
     render() {
         const {user, select, checked} = this.props
 
-        const {name, surname, avatar, username} = user
+        if (!user)
+            return null
+
+        const {name, surname, avatar, username, id} = user
         return (
             <li className="account">
                 <label>
                     <input type="checkbox" className="check"
                            onChange={select} checked={checked}/>
                     <div className="custom"/>
-                    <div className="avatar">
-                        <Avatar src={avatar}/>
-                    </div>
+                    <Avatar src={avatar} userId={id}/>
                     <div className="info-fix">
                         <div className="name">
                             {name} {surname}
@@ -98,13 +90,11 @@ class MemberAccountClass extends Component {
         if (!user || (!invitedBy && !isCreator))
             return null
 
-        const {name, surname, avatar, username} = user
+        const {name, surname, avatar, username, id} = user
 
         return (
             <li className="account">
-                <div className="avatar">
-                    <Avatar src={avatar}/>
-                </div>
+                <Avatar src={avatar} userId={id}/>
                 <div className="info-fix">
                     <div className="name">
                         {name} {surname}

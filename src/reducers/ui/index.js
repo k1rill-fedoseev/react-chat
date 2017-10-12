@@ -14,6 +14,7 @@ import usersList from './usersList'
 import selectedMessages from './selectedMessages'
 import isSwitchedToChatInfo from './isSwitchedToChatInfo'
 import userProfile from './userProfile'
+import search from './search'
 
 export default combineReducers({
     error,
@@ -25,6 +26,7 @@ export default combineReducers({
     messagesLists,
     chatsList,
     newChatTab,
+    search,
     selectedChat,
     selectedUsers,
     selectedMessages,

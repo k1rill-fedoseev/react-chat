@@ -22,8 +22,8 @@ class ChatItem extends Component {
         }, 30000)
     }
 
-    subscribe({to}) {
-        if (to)
+    subscribe({to, isMe}) {
+        if (to && !isMe)
             subscribe(to.id)
     }
 
@@ -70,12 +70,10 @@ class ChatItem extends Component {
             <li className={'chat-item' + (isSelected
                 ? ' active'
                 : '')} onClick={select}>
-                <div className="avatar">
-                    {newMessages > 0 && <div className="new-mes">{newMessages}</div>}
-                    <Avatar src={isRoom
-                        ? avatar
-                        : to.avatar}/>
-                </div>
+                {newMessages > 0 && <div className="new-mes">{newMessages}</div>}
+                <Avatar src={isRoom
+                    ? avatar
+                    : to.avatar}/>
                 <div className="info">
                     <div className="name">{isRoom
                         ? name
@@ -117,6 +115,7 @@ export default connect(
         return {
             isSelected: ownProps.chatId === state.ui.selectedChat,
             chat,
+            isMe: !chat.isRoom && chat.users[0] === state.ui.loggedAccount,
             message: lastMessage.message,
             time: lastMessage.time,
             to: state.db.users[chat.to],

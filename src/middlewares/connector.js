@@ -1,6 +1,6 @@
 import {
     CHANGE_USER_INFO_CLICK,
-    DELETE_MESSAGES_CLICK, LOAD_MORE_CLICK, MARK_READ, PROFILE_CLICK, REMOVE_USER_CLICK, SEND_CLICK,
+    DELETE_MESSAGES_CLICK, LOAD_MORE_CLICK, MARK_READ, OPEN_PROFILE_CLICK, REMOVE_USER_CLICK, SEND_CLICK,
     USER_SELECT
 } from '../actions/frontend'
 import { DELETE_CHAT_SUCCESS, FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, NEW_MESSAGE } from '../actions/responses'
@@ -29,9 +29,12 @@ export default store => next => action => {
         case FETCH_CHAT_SUCCESS:
             action.newMessages = state.ui.messagesLists[action.chat.id].length
         case FETCH_CHATS_SUCCESS:
-        case PROFILE_CLICK:
         case CHANGE_USER_INFO_CLICK:
             action.userId = state.ui.loggedAccount
+            break
+        case OPEN_PROFILE_CLICK:
+            if (!action.userId)
+                action.userId = state.ui.loggedAccount
             break
         case DELETE_CHAT_SUCCESS:
             action.messagesList = state.ui.messagesLists[action.chatId]
