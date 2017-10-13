@@ -8,7 +8,7 @@ export default class ProfileField extends Component {
         return (
             <div className="smart-input no-click">
                 <span className="label">{label}: </span>
-                <span className="static-label">{value}</span>
+                <span className="static-label">{value || '<empty>'}</span>
             </div>
         )
     }

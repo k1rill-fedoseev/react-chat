@@ -7,7 +7,7 @@ log4js.configure({
         },
         file: {
             type: 'dateFile',
-            filename: 'log/chat.log'
+            filename: '../logs/chat.log'
         }
     },
     categories: {

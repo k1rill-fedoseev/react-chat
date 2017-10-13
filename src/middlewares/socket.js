@@ -136,11 +136,18 @@ export default store => next => action => {
         case SWITCH_MESSAGES_AND_CHAT_INFO:
             state.db.chats[state.ui.selectedChat].users.forEach(userId => {
                 if (!state.db.users[userId])
-                    userIds.push(userId)
+                    unique[userId] = true
             })
 
-            if (userIds.length)
-                socket.send(fetchUsers(userIds))
+            Object.keys(state.db.chats[state.ui.selectedChat].invites).forEach(userId => {
+                userId = state.db.chats[state.ui.selectedChat].invites[userId]
+                if (!state.db.users[userId])
+                    unique[userId] = true
+            })
+            keys = Object.keys(unique)
+
+            if (keys.length)
+                socket.send(fetchUsers(keys))
             break
         case REMOVE_USER_CLICK:
             socket.send(removeUser(state.ui.selectedChat, action.userId))

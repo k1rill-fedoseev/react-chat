@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { removeUserClick, userSelect } from '../actions/frontend'
+import { openProfileClick, removeUserClick, userSelect } from '../actions/frontend'
 import Avatar from './Avatar'
 import ExitMenu from './ExitMenu'
 
@@ -16,7 +16,7 @@ class AccountClass extends Component {
 
         return (
             <div className="account">
-                <Avatar src={avatar}  userId={id}/>
+                <Avatar src={avatar} userId={id}/>
                 <div className="info">
                     <div className="name">
                         {name} {surname}
@@ -85,7 +85,7 @@ class InviteAccountClass extends Component {
 class MemberAccountClass extends Component {
 
     render() {
-        const {user, invitedBy, isCreator, isRemovable, removeUser} = this.props
+        const {user, invitedBy, isCreator, isRemovable, removeUser, openProfile} = this.props
 
         if (!user || (!invitedBy && !isCreator))
             return null
@@ -106,7 +106,8 @@ class MemberAccountClass extends Component {
                 <div className="invited-by">
                     {isCreator
                         ? 'Created the chat'
-                        : `Invited by ${invitedBy.name} ${invitedBy.surname}`}
+                        : <span className="profile-link"
+                                onClick={openProfile}>Invited by {invitedBy.name} {invitedBy.surname}</span>}
                 </div>
                 {!isCreator && isRemovable && <span className="confirm-delete" onClick={removeUser}>&#61460;</span>}
             </li>
@@ -158,24 +159,22 @@ export const InviteAccount = connect(
 )(InviteAccountClass)
 
 export const MemberAccount = connect(
-    (state, ownProps) => {
-        const isCreator = ownProps.userId === ownProps.creatorId
-
-        return {
-            user: state.db.users[ownProps.userId],
-            invitedBy: state.db.users[ownProps.invitedById],
-            isCreator,
-            isRemovable: state.ui.loggedAccount === ownProps.invitedById || state.ui.loggedAccount === ownProps.creatorId
-        }
-    },
+    (state, ownProps) => ({
+        user: state.db.users[ownProps.userId],
+        invitedBy: state.db.users[ownProps.invitedById],
+        isCreator: ownProps.userId === ownProps.creatorId,
+        isRemovable: ownProps.canRemove
+        && (state.ui.loggedAccount === ownProps.invitedById || state.ui.loggedAccount === ownProps.creatorId)
+    }),
     (dispatch, ownProps) => ({
-        removeUser: () => dispatch(removeUserClick(ownProps.userId))
+        removeUser: () => dispatch(removeUserClick(ownProps.userId)),
+        openProfile: () => dispatch(openProfileClick())
     })
 )(MemberAccountClass)
 
 export const SimpleMemberAccount = connect(
     (state, ownProps) => ({
-            user: state.db.users[ownProps.userId]
+        user: state.db.users[ownProps.userId]
     }),
     (dispatch, ownProps) => ({})
 )(SimpleMemberAccountClass)

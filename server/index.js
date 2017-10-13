@@ -1,3 +1,8 @@
+//TODO: multi logging in sockets(my own library)
+//TODO: search only not-included users
+//TODO: forwarding messages
+//TODO: smart online update
+
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')

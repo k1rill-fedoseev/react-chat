@@ -1,15 +1,14 @@
-const mongoose = require('mongoose'),
-    ObjectId = mongoose.Schema.Types.ObjectId
+const mongoose = require('mongoose')
+const ObjectId = mongoose.Schema.Types.ObjectId
 
 const messageSchema = mongoose.Schema({
     from: {
         type: ObjectId,
-        ref: 'user'
+        ref: 'User'
     },
     message: {
         type: String,
-        required: true,
-        maxlength: 1024
+        required: true
     },
     date: {
         type: Date,
@@ -17,4 +16,4 @@ const messageSchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('message', messageSchema)
+module.exports = mongoose.model('Message', messageSchema)

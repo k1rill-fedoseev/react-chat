@@ -1,15 +1,16 @@
-const mongoose = require('mongoose'),
-    ObjectId = mongoose.Schema.Types.ObjectId
+const mongoose = require('mongoose')
+const ObjectId = mongoose.Schema.Types.ObjectId
 
 const openRoomSchema = mongoose.Schema({
     owner: {
         type: ObjectId,
-        ref: 'user',
+        ref: 'User',
         required: true
     },
     room: {
         type: ObjectId,
-        ref: 'room'
+        ref: 'Room',
+        required: true
     },
     newMessages: {
         type: Number,
@@ -19,4 +20,4 @@ const openRoomSchema = mongoose.Schema({
 
 openRoomSchema.index({owner: 1, room: 1})
 
-module.exports = mongoose.model('openroom', openRoomSchema)
+module.exports = mongoose.model('OpenRoom', openRoomSchema)

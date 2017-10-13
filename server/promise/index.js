@@ -1,11 +1,12 @@
-const User = require('../models/user')
-const Room = require('../models/room')
 const log = require('../log')('PASSWORD')
 const mongoose = require('mongoose')
 const config = require('../cfg')
 const Message = require('../models/message')
 const UserMessage = require('../models/userMessage')
 const OpenRoom = require('../models/openRoom')
+const User = require('../models/user')
+const Room = require('../models/room')
+const UserRoom = require('../models/userRoom')
 const {CHAT_AVATAR, CHAT_NAME, CHAT_DESCRIPTION, USER_AVATAR, USER_DESCRIPTION, USER_PASSWORD} = require('../sockets/actions')
 const {NotFoundError, WrongAuthData, MemberError, CheckError} = require('./errors')
 
@@ -306,13 +307,12 @@ class MyPromise extends Promise {
     createRoom(isRoom, name, description, userId, avatar) {
         return this.then(() =>
             new MyPromise((resolve, reject) => {
-                Room.create({
-                        isRoom,
+                (isRoom ? Room : UserRoom).create({
                         name: name || undefined,
                         description: description || undefined,
                         creator: userId,
                         users: [userId],
-                        invites: [undefined],
+                        invites: [null],
                         avatar: avatar || undefined
                     },
                     (err, room) => {

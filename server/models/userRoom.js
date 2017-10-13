@@ -2,11 +2,6 @@ const mongoose = require('mongoose')
 const ObjectId = mongoose.Schema.Types.ObjectId
 
 const roomSchema = mongoose.Schema({
-    name: String,
-    description: {
-        type: String,
-        default: 'No description'
-    },
     users: [{
         type: ObjectId,
         ref: 'User',
@@ -18,7 +13,7 @@ const roomSchema = mongoose.Schema({
     }],
     isRoom: {
         type: Boolean,
-        default: true
+        default: false
     },
     created: {
         type: Date,
@@ -28,11 +23,7 @@ const roomSchema = mongoose.Schema({
         type: ObjectId,
         ref: 'User',
         required: true
-    },
-    avatar: {
-        type: String,
-        default: 'images/chat.png'
     }
 })
 
-module.exports = mongoose.model('Room', roomSchema, 'rooms')
+module.exports = mongoose.model('UserRoom', roomSchema, 'rooms')

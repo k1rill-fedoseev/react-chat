@@ -1,8 +1,8 @@
-const mongoose = require('mongoose'),
-    crypto = require('crypto'),
-    log = require('../log')('userModel'),
-    config = require('../cfg'),
-    ObjectId = mongoose.Schema.Types.ObjectId
+const mongoose = require('mongoose')
+const crypto = require('crypto')
+const log = require('../log')('userModel')
+const config = require('../cfg')
+const ObjectId = mongoose.Schema.Types.ObjectId
 
 const userSchema = mongoose.Schema({
     name: {
@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        default: ''
+        default: 'No description'
     },
     username: {
         type: String,
@@ -35,7 +35,7 @@ const userSchema = mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: 'http://kiratty.com/uploads/posts/2015-01/1420306955_39.latte-art.jpg'
+        default: 'images/avatar.jpg'
     },
     lastOnline: {
         type: Date,
@@ -67,7 +67,7 @@ userSchema.methods = {
         this._token = crypto.randomBytes(config.token.size).toString('hex')
         this.hashedToken = this.encrypt(this._token, config.token.key)
 
-        log.trace('Generated new token ' + this._token + ' for user ' + this.username)
+        log.trace(`Generated new token ${this._token} for user ${this.username}`)
 
         return this._token
     }
@@ -79,4 +79,4 @@ userSchema.statics = {
         .digest('hex')
 }
 
-module.exports = mongoose.model('user', userSchema)
+module.exports = mongoose.model('User', userSchema)

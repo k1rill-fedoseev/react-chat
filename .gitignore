@@ -9,7 +9,7 @@
 # production
 /build
 
-/server/log/chat.log
+logs
 package-lock.json
 /.idea
 

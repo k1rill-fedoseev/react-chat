@@ -913,3 +913,7 @@ input {
 .account.simple .info-fix {
     margin-right: 0;
 }
+
+.profile-link {
+    cursor: pointer;
+}
