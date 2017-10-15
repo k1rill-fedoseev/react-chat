@@ -1,6 +1,7 @@
 import {
     CHANGE_USER_INFO_CLICK,
-    DELETE_MESSAGES_CLICK, LOAD_MORE_CLICK, MARK_READ, OPEN_PROFILE_CLICK, REMOVE_USER_CLICK, SEND_CLICK,
+    DELETE_MESSAGES_CLICK, LOAD_MORE_CLICK, MARK_READ, MESSAGE_INPUT_CHANGE, OPEN_PROFILE_CLICK, REMOVE_USER_CLICK,
+    SEND_CLICK,
     USER_SELECT
 } from '../actions/frontend'
 import { DELETE_CHAT_SUCCESS, FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, NEW_MESSAGE } from '../actions/responses'
@@ -16,6 +17,7 @@ export default store => next => action => {
         case MARK_READ:
         case LOAD_MORE_CLICK:
         case REMOVE_USER_CLICK:
+        case MESSAGE_INPUT_CHANGE:
             action.selectedChat = state.ui.selectedChat
             break
         case NEW_MESSAGE:

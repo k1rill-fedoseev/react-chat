@@ -1,9 +1,7 @@
 import {
-    CHANGE_CHAT_INFO_CLICK, CHANGE_USER_INFO_CLICK,
+    CHANGE_CHAT_INFO_CLICK, CHANGE_USER_INFO_CLICK, CHAT_SELECT,
     CREATE_CLICK, DELETE_CHAT_CLICK, DELETE_MESSAGES_CLICK, EXIT_CLICK, INVITE_ACCEPT_CLICK, LEAVE_CHAT_CLICK,
-    LOAD_MORE_CLICK, MARK_READ,
-    MESSAGE_INPUT_IS_EMPTY,
-    MESSAGE_INPUT_IS_NOT_EMPTY, REMOVE_USER_CLICK,
+    LOAD_MORE_CLICK, MARK_READ, MESSAGE_INPUT_CHANGE, REMOVE_USER_CLICK,
     SEARCH_CHANGE,
     SEND_CLICK, SIGN_IN_CLICK,
     SIGN_UP_CLICK, SWITCH_MESSAGES_AND_CHAT_INFO
@@ -39,6 +37,7 @@ export default store => next => action => {
             break
         case SEND_CLICK:
             socket.send(trySend(state.ui.tempId, state.ui.selectedChat, action.message))
+            socket.send(endTyping(state.ui.selectedChat))
             break
         case CREATE_CLICK:
             if (state.ui.isRoomCreateTab)
@@ -120,11 +119,17 @@ export default store => next => action => {
             if (keys.length)
                 socket.send(fetchUsers(keys))
             break
-        case MESSAGE_INPUT_IS_NOT_EMPTY:
-            socket.send(startTyping(action.chatId))
+        case MESSAGE_INPUT_CHANGE:
+            if (!state.ui.messagesInputs[state.ui.selectedChat] && action.value)
+                socket.send(startTyping(state.ui.selectedChat))
+            else if (state.ui.messagesInputs[state.ui.selectedChat] && !action.value)
+                socket.send(endTyping(state.ui.selectedChat))
             break
-        case MESSAGE_INPUT_IS_EMPTY:
-            socket.send(endTyping(action.chatId))
+        case CHAT_SELECT:
+            if (state.ui.messagesInputs[state.ui.selectedChat])
+                socket.send(endTyping(state.ui.selectedChat))
+            if (state.ui.messagesInputs[action.chatId])
+                socket.send(startTyping(action.chatId))
             break
         case DELETE_MESSAGES_CLICK:
             socket.send(deleteMessages(Object.keys(state.ui.selectedMessages)))

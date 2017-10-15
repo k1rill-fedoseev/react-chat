@@ -217,8 +217,8 @@ class MyPromise extends Promise {
                         password,
                         name,
                         surname,
-                        description,
-                        avatar
+                        description: description || undefined,
+                        avatar: avatar || undefined
                     },
                     (err, user) => {
                         if (err)
@@ -276,10 +276,26 @@ class MyPromise extends Promise {
             new MyPromise((resolve, reject) => {
                 const attempt = User.encrypt(token, config.token.key)
 
-                User.findOne({hashedToken: attempt},
+                User.findOne({hashedTokens: attempt},
                     (err, user) => {
                         (err || !user)
                             ? reject(err || new WrongAuthData('Wrong token'))
+                            : resolve(user)
+                    }
+                )
+            })
+        )
+    }
+
+    deleteToken(token) {
+        return this.then(user =>
+            new MyPromise((resolve, reject) => {
+                const attempt = User.encrypt(token, config.token.key)
+
+                user.hashedTokens = user.hashedTokens.filter(hashedToken => hashedToken !== attempt)
+                user.save((err, user) => {
+                        (err)
+                            ? reject(err)
                             : resolve(user)
                     }
                 )
@@ -307,7 +323,9 @@ class MyPromise extends Promise {
     createRoom(isRoom, name, description, userId, avatar) {
         return this.then(() =>
             new MyPromise((resolve, reject) => {
-                (isRoom ? Room : UserRoom).create({
+                (isRoom
+                    ? Room
+                    : UserRoom).create({
                         name: name || undefined,
                         description: description || undefined,
                         creator: userId,
@@ -508,7 +526,7 @@ class MyPromise extends Promise {
                     user.description = value
                     break
                 case USER_PASSWORD:
-                    if(user.encrypt(oldPassword) !== user.hashedPassword)
+                    if (user.encrypt(oldPassword) !== user.hashedPassword)
                         throw new WrongAuthData('Wrong old password')
                     user.password = value
                     break

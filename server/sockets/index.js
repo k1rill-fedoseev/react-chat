@@ -21,8 +21,6 @@ const {
     deleteChatSuccess, deleteChatError, newMessageWithInfoUpdate, validationError
 } = require('./actions')
 
-const sockets = {}
-
 const errorHandlerSocket = socket => actionCreator => err => {
     if (err instanceof MyError) {
         log.debug(err)
@@ -52,7 +50,7 @@ module.exports = function (server) {
                     .then(user => {
                         socket.user = user
                         const userId = user._id.toString()
-                        sockets[userId] = socket
+                        socket.join(userId)
 
                         Promise.resolve()
                             .getUserRooms(userId)
@@ -99,8 +97,9 @@ module.exports = function (server) {
                             .auth(action.username, action.password)
                             .then(([token, user]) => {
                                 socket.user = user
+                                socket.token = token
                                 userId = user._id.toString()
-                                sockets[userId] = socket
+                                socket.join(userId)
 
                                 Promise.resolve()
                                     .getUserRooms(user._id.toString())
@@ -124,8 +123,9 @@ module.exports = function (server) {
                             .register(name, surname, username, password, avatar, description)
                             .then(([token, user]) => {
                                 socket.user = user
+                                socket.token = token
                                 userId = user._id.toString()
-                                sockets[userId] = socket
+                                socket.join(userId)
 
                                 Promise.resolve()
                                     .getUserRooms(user._id.toString())
@@ -142,6 +142,12 @@ module.exports = function (server) {
                             })
                             .catch(errorHandler(signUpError))
                         break
+                }
+
+                if(!userId)
+                    return
+
+                switch (action.type) {
                     case FETCH_CHATS:
                         Promise.resolve()
                             .getOpenRooms(userId)
@@ -173,14 +179,16 @@ module.exports = function (server) {
                             .createMessage(undefined, config.messages.startMessage)
                             .then(userMessages => userMessages.forEach(
                                 userMessage => {
-                                    if (sockets[userMessage.owner.toString()]) {
-                                        sockets[userMessage.owner.toString()].join(roomId)
-                                        sockets[userMessage.owner.toString()].send(newMessage({
-                                            message: config.messages.startMessage,
-                                            id: userMessage._id,
-                                            time: userMessage.date.valueOf()
-                                        }, roomId))
-                                    }
+                                    io.to(userMessage.owner.toString()).send(
+                                        newMessage(
+                                            {
+                                                message: config.messages.startMessage,
+                                                id: userMessage._id,
+                                                time: userMessage.date.valueOf()
+                                            },
+                                            roomId
+                                        )
+                                    )
                                 }
                             ))
                             .catch(errorHandler(createError))
@@ -217,14 +225,16 @@ module.exports = function (server) {
                                         .createMessage(undefined, config.messages.startMessage)
                                         .then(userMessages => userMessages.forEach(
                                             userMessage => {
-                                                if (sockets[userMessage.owner.toString()]) {
-                                                    sockets[userMessage.owner.toString()].join(roomId)
-                                                    sockets[userMessage.owner.toString()].send(newMessage({
-                                                        message: config.messages.startMessage,
-                                                        id: userMessage._id.toString(),
-                                                        time: userMessage.date.valueOf()
-                                                    }, roomId))
-                                                }
+                                                io.to(userMessage.owner.toString()).send(
+                                                    newMessage(
+                                                        {
+                                                            message: config.messages.startMessage,
+                                                            id: userMessage._id.toString(),
+                                                            time: userMessage.date.valueOf()
+                                                        },
+                                                        roomId
+                                                    )
+                                                )
                                             }
                                         ))
                                         .catch(errorHandler(createError))
@@ -252,16 +262,13 @@ module.exports = function (server) {
                                         time: userMessage.date.valueOf()
                                     }
 
-                                    if (sockets[ownerId] === socket) {
+                                    socket.to(userMessage.owner.toString()).send(newMessage(msg, action.chatId))
+                                    if(ownerId === userId)
                                         socket.send(sendSuccess(
                                             action.tempId,
                                             action.chatId,
                                             msg
                                         ))
-                                    }
-                                    else if (sockets[ownerId]) {
-                                        sockets[ownerId].send(newMessage(msg, action.chatId))
-                                    }
                                 }
                             ))
                             .catch(errorHandler(sendError))
@@ -302,15 +309,13 @@ module.exports = function (server) {
                                 return newUsers.map(
                                     newUser => {
                                         const message = `${socket.user.name} ${socket.user.surname} invited ${newUser.name} ${newUser.surname}`
-                                        if (sockets[newUser._id.toString()])
-                                            sockets[newUser._id.toString()].join(action.chatId)
 
                                         return () => Promise.resolve(room)
                                             .createMessage(undefined, message)
                                             .then(userMessages => userMessages.forEach(
                                                 userMessage => {
-                                                    if (sockets[userMessage.owner.toString()])
-                                                        sockets[userMessage.owner.toString()].send(newMessageWithInvite(
+                                                    io.to(userMessage.owner.toString()).send(
+                                                        newMessageWithInvite(
                                                             {
                                                                 message,
                                                                 id: userMessage._id,
@@ -319,7 +324,8 @@ module.exports = function (server) {
                                                             action.chatId,
                                                             newUser._id.toString(),
                                                             userId
-                                                        ))
+                                                        )
+                                                    )
                                                 }
                                             ))
                                             .catch(logError)
@@ -341,17 +347,33 @@ module.exports = function (server) {
                         const users = {}
 
                         action.userIds.forEach(userId => {
-                            users[userId] = !!sockets[userId]
+                            users[userId] = !!io.sockets.adapter.rooms[userId]
                         })
                         socket.send(fetchOnlineUsersSuccess(users))
                         break
                     case START_TYPING:
-                        if (io.sockets.adapter.rooms[action.chatId] && io.sockets.adapter.rooms[action.chatId].sockets[socket.id])
-                            socket.to(action.chatId).send(startTypingResponse(action.chatId, userId))
+                        Promise.resolve()
+                            .getRoom(action.chatId)
+                            .checkMember(userId)
+                            .then(room => {
+                                room.users.forEach(userId1 => {
+                                    if (userId !== userId1.toString())
+                                        io.to(userId1.toString()).send(startTypingResponse(action.chatId, userId))
+                                })
+                            })
+                            .catch(logError)
                         break
                     case END_TYPING:
-                        if (io.sockets.adapter.rooms[action.chatId] && io.sockets.adapter.rooms[action.chatId].sockets[socket.id])
-                            socket.to(action.chatId).send(endTypingResponse(action.chatId, userId))
+                        Promise.resolve()
+                            .getRoom(action.chatId)
+                            .checkMember(userId)
+                            .then(room => {
+                                room.users.forEach(userId1 => {
+                                    if (userId !== userId1.toString())
+                                        io.to(userId1.toString()).send(endTypingResponse(action.chatId, userId))
+                                })
+                            })
+                            .catch(logError)
                         break
                     case DELETE_MESSAGES:
                         Promise.resolve()
@@ -375,8 +397,8 @@ module.exports = function (server) {
                                     .then(userMessages => {
                                         userMessages.forEach(
                                             userMessage => {
-                                                if (sockets[userMessage.owner.toString()])
-                                                    sockets[userMessage.owner.toString()].send(newMessageWithRemove(
+                                                io.to(userMessage.owner.toString()).send(
+                                                    newMessageWithRemove(
                                                         {
                                                             message,
                                                             id: userMessage._id,
@@ -384,16 +406,13 @@ module.exports = function (server) {
                                                         },
                                                         action.chatId,
                                                         action.userId
-                                                    ))
+                                                    )
+                                                )
                                             }
                                         )
                                         return room
                                     })
                                     .removeUser(action.userId)
-                                    .then(() => {
-                                        if (sockets[action.userId])
-                                            sockets[action.userId].leave(action.chatId)
-                                    })
                                     .catch(logError)
                             })
                             .catch(logError)
@@ -411,8 +430,8 @@ module.exports = function (server) {
                                     .then(userMessages => {
                                         userMessages.forEach(
                                             userMessage => {
-                                                if (sockets[userMessage.owner.toString()])
-                                                    sockets[userMessage.owner.toString()].send(newMessageWithRemove(
+                                                io.to(userMessage.owner.toString()).send(
+                                                    newMessageWithRemove(
                                                         {
                                                             message,
                                                             id: userMessage._id,
@@ -420,15 +439,13 @@ module.exports = function (server) {
                                                         },
                                                         action.chatId,
                                                         userId
-                                                    ))
+                                                    )
+                                                )
                                             }
                                         )
                                         return room
                                     })
                                     .removeUser(userId)
-                                    .then(() => {
-                                        socket.leave(action.chatId)
-                                    })
                                     .catch(logError)
                             })
                             .catch(logError)
@@ -443,14 +460,25 @@ module.exports = function (server) {
                             .catch(errorHandler(deleteChatError))
                         break
                     case EXIT_REQUEST:
+                        Promise.resolve(socket.user)
+                            .deleteToken(socket.token)
+
                         if (action.chatId)
-                            socket.to(action.chatId).send(endTypingResponse(action.chatId, userId))
+                            Promise.resolve()
+                                .getRoom(action.chatId)
+                                .checkMember(userId)
+                                .then(room => {
+                                    room.users.forEach(userId1 => {
+                                        if (userId !== userId1.toString())
+                                            io.to(userId1.toString()).send(endTypingResponse(action.chatId, userId))
+                                    })
+                                })
+                                .catch(logError)
 
                         Object.keys(socket.adapter.rooms).forEach(roomId => {
                             socket.leave(roomId)
                         })
 
-                        delete sockets[userId]
                         break
                     case UPDATE_CHAT_INFO:
                         let message
@@ -475,16 +503,18 @@ module.exports = function (server) {
                             .createMessage(undefined, message)
                             .then(userMessages => userMessages.forEach(
                                 userMessage => {
-                                    const ownerId = userMessage.owner.toString()
-                                    const msg = {
-                                        message,
-                                        id: userMessage._id,
-                                        time: userMessage.date.valueOf()
-                                    }
-
-                                    if (sockets[ownerId]) {
-                                        sockets[ownerId].send(newMessageWithInfoUpdate(msg, action.chatId, action.field, action.value))
-                                    }
+                                    io.to(userMessage.owner.toString()).send(
+                                        newMessageWithInfoUpdate(
+                                            {
+                                                message,
+                                                id: userMessage._id,
+                                                time: userMessage.date.valueOf()
+                                            },
+                                            action.chatId,
+                                            action.field,
+                                            action.value
+                                        )
+                                    )
                                 }
                             ))
                             .catch(logError)
@@ -494,13 +524,6 @@ module.exports = function (server) {
                             .changeUserInfo(action.field, action.value, action.oldPassword)
                             .catch(errorHandler(validationError))
                         break
-                }
-            })
-
-            socket.on('disconnect', () => {
-                if (userId) {
-                    //maybe send end typing
-                    delete sockets[userId]
                 }
             })
         }

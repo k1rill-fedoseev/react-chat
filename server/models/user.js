@@ -25,10 +25,10 @@ const userSchema = mongoose.Schema({
     },
     hashedPassword: String,
     salt: String,
-    hashedToken: {
+    hashedTokens: [{
         type: String,
         index: true
-    },
+    }],
     created: {
         type: Date,
         default: Date.now
@@ -52,8 +52,6 @@ userSchema.virtual('password').set(
         this.hashedPassword = this.encrypt(password)
     }).get(() => this._password)
 
-userSchema.virtual('token').get(() => this._token)
-
 userSchema.methods = {
     genSalt: function (length) {
         return this.salt = crypto.randomBytes(length).toString('hex')
@@ -63,13 +61,14 @@ userSchema.methods = {
             .update(data)
             .digest('hex')
     },
-    genToken: function()  {
-        this._token = crypto.randomBytes(config.token.size).toString('hex')
-        this.hashedToken = this.encrypt(this._token, config.token.key)
+    genToken: function () {
+        const token = crypto.randomBytes(config.token.size).toString('hex')
+        this.hashedTokens.push(this.encrypt(token, config.token.key))
+        this.hashedTokens = this.hashedTokens.slice(-config.token.maxCount)
 
-        log.trace(`Generated new token ${this._token} for user ${this.username}`)
+            log.trace(`Generated new token ${token} for user ${this.username}`)
 
-        return this._token
+        return token
     }
 }
 

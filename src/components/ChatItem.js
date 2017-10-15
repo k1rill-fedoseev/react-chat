@@ -8,6 +8,12 @@ import EllipsisText from './EllipsisText'
 
 class ChatItem extends Component {
 
+    constructor(props) {
+        super()
+
+        this.handleClick = this.handleClick.bind(this)
+    }
+
     updateInterval({time}) {
         clearInterval(this.intervalId)
 
@@ -58,8 +64,15 @@ class ChatItem extends Component {
             clearTimeout(this.timeoutId)
     }
 
+    handleClick() {
+        const {isSelected, select} = this.props
+
+        if(!isSelected)
+            select()
+    }
+
     render() {
-        const {isSelected, chat, select, message, to, typingUser, typingUsersCount, time} = this.props
+        const {isSelected, chat, message, to, typingUser, typingUsersCount, time} = this.props
 
         if (!chat || (!chat.isRoom && !to))
             return null
@@ -69,7 +82,7 @@ class ChatItem extends Component {
         return (
             <li className={'chat-item' + (isSelected
                 ? ' active'
-                : '')} onClick={select}>
+                : '')} onClick={this.handleClick}>
                 <Avatar src={isRoom
                     ? avatar
                     : to.avatar}>

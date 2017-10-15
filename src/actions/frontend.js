@@ -21,19 +21,18 @@ export const CLEAR_ERROR = 12
 export const SEARCH_CHANGE = 13
 export const MARK_READ = 14
 export const SORT_CHATS_LIST = 15
-export const MESSAGE_INPUT_IS_EMPTY = 16
-export const MESSAGE_INPUT_IS_NOT_EMPTY = 17
-export const MESSAGE_SELECT = 18
-export const DELETE_MESSAGES_CLICK = 19
-export const SWITCH_MESSAGES_AND_CHAT_INFO = 20
-export const REMOVE_USER_CLICK = 21
-export const LEAVE_CHAT_CLICK = 22
-export const DELETE_CHAT_CLICK = 23
-export const CHANGE_CHAT_INFO_CLICK = 24
-export const CHANGE_USER_INFO_CLICK = 25
-export const OPEN_PROFILE_CLICK = 26
-export const CLOSE_PROFILE_CLICK = 27
-export const EXIT_CLICK = 28
+export const MESSAGE_INPUT_CHANGE = 16
+export const MESSAGE_SELECT = 17
+export const DELETE_MESSAGES_CLICK = 18
+export const SWITCH_MESSAGES_AND_CHAT_INFO = 19
+export const REMOVE_USER_CLICK = 20
+export const LEAVE_CHAT_CLICK = 21
+export const DELETE_CHAT_CLICK = 22
+export const CHANGE_CHAT_INFO_CLICK = 23
+export const CHANGE_USER_INFO_CLICK = 24
+export const OPEN_PROFILE_CLICK = 25
+export const CLOSE_PROFILE_CLICK = 26
+export const EXIT_CLICK = 27
 
 export const switchClick = () => ({
     type: SWITCH_CLICK
@@ -107,14 +106,9 @@ export const sortChatsList = chatsList => ({
     chatsList
 })
 
-export const messageInputIsEmpty = chatId => ({
-    type: MESSAGE_INPUT_IS_EMPTY,
-    chatId
-})
-
-export const messageInputIsNotEmpty = chatId => ({
-    type: MESSAGE_INPUT_IS_NOT_EMPTY,
-    chatId
+export const messageInputChange = value => ({
+    type: MESSAGE_INPUT_CHANGE,
+    value
 })
 
 export const messageSelect = messageId => ({

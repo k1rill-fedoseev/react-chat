@@ -1,4 +1,4 @@
-//TODO: multi logging in sockets(my own library)
+//TODO: replace messageinputs to redux
 //TODO: search only not-included users
 //TODO: forwarding messages
 //TODO: smart online update
