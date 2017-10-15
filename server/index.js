@@ -25,7 +25,7 @@ server.listen(process.env.PORT || config.port, () => {
     log.info(`Running server on ${process.env.PORT || config.port} port`)
 })
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGODB_URI)
 
 mongoose.connection
     .on('connected',
