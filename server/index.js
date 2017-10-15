@@ -2,6 +2,7 @@
 //TODO: forwarding messages
 //TODO: smart online update
 
+const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
@@ -32,8 +33,8 @@ mongoose.connection
         err => log.error('Error with db connection ' + err)
     )
 
-app.use(favicon('../build/favicon.ico'));
+app.use(favicon(path.join(__dirname, '../build/favicon.ico')));
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-app.use(express.static('../build'));
+app.use(express.static(path.join(__dirname, '../build')));
