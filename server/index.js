@@ -13,7 +13,7 @@ const server = require('http').Server(app)
 
 const mongoUri = 'mongodb://heroku_cmhlhw1n:tr0q96nqjh0lpmh8fvahkck1a0@ds121225.mlab.com:21225/heroku_cmhlhw1n'
 
-//favicon = require('serve-favicon');
+favicon = require('serve-favicon');
 
 require('./sockets')(server)
 
@@ -32,8 +32,8 @@ mongoose.connection
         err => log.error('Error with db connection ' + err)
     )
 
-//app.use(favicon('public/favicon.ico'));
+app.use(favicon('../build/favicon.ico'));
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-//app.use(express.static(__dirname + '/public'));
+app.use(express.static('../build'));

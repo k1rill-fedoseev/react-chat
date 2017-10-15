@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { messageInputChange, messageInputIsEmpty, messageInputIsNotEmpty, sendClick } from '../actions/frontend'
+import { messageInputChange, sendClick } from '../actions/frontend'
 
 class MessageInput extends Component {
 

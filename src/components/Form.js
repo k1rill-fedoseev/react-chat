@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Input from './Input'
 
 export default class Form extends Component {
 
@@ -16,7 +17,7 @@ export default class Form extends Component {
         this.inputsCount = 0
 
         React.Children.forEach(children, child => {
-            if (child && child.type.name === 'Input')
+            if (child && child.type === Input)
                 this.inputsCount++
         })
     }
@@ -53,7 +54,7 @@ export default class Form extends Component {
 
         return React.Children.map(
             children,
-            child => child && child.type.name === 'Input'
+            child => child && child.type === Input
                 ? React.cloneElement(child, {
                     onChange: (value, status) =>
                         this.handleInputChange(child.props.name, value, status),

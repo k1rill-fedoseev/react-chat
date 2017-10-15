@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { InviteAccount } from './Account'
-import { inviteAcceptClick, inviteClick, saveSearch, searchChange } from '../actions/frontend'
+import { inviteAcceptClick, inviteClick, searchChange } from '../actions/frontend'
 
 class InviteTab extends Component {
 

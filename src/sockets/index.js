@@ -10,7 +10,7 @@ const fetchOnlineIfNeed = () => {
         socket.send(fetchOnlineUsers(userIds))
 }
 
-const socket = io(':3001', {
+const socket = io({
     transports: ['websocket']
 })
 
@@ -32,4 +32,3 @@ socket.on('message', (action) => {
 })
 
 export default socket
-//export const send = socket.send
