@@ -5,10 +5,10 @@ log4js.configure({
         console: {
             type: 'console'
         },
-        file: {
+        /*file: {
             type: 'dateFile',
             filename: '../logs/chat.log'
-        }
+        }*/
     },
     categories: {
         default: {appenders: ['file', 'console'], level: 'all'}
