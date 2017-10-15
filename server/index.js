@@ -32,8 +32,8 @@ mongoose.connection
         err => log.error('Error with db connection ' + err)
     )
 
-app.use(favicon('../build/favicon.ico'));
+app.use(favicon('build/favicon.ico'));
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-app.use(express.static('../build'));
+app.use(express.static('build'));
