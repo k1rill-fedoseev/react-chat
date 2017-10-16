@@ -133,17 +133,24 @@ html {
     font-size: 10px;
 }
 
-.content {
+.content-wrapper {
     position: fixed;
-    top: 0;
+    overflow-x: auto;
     left: 0;
-    bottom: 0;
     right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.content {
     padding: 90px 20px 20px;
     background-color: #F1F2F4;
     display: flex;
     justify-content: center;
-    overflow-x: auto;
+    min-width: 600px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .content > div {
@@ -157,7 +164,7 @@ html {
 
 .chat-list, #add-user {
     flex-basis: 500px;
-    min-width: 190px;
+    min-width: 170px;
     background-color: #FFFFFF;
     border-radius: 3px;
     box-shadow: 0 0 25px 0 rgba(53, 152, 219, 0.2);
@@ -339,7 +346,7 @@ html {
 
 #messages, #new-chat {
     flex-basis: 1150px;
-    min-width: 330px;
+    min-width: 300px;
 }
 
 #messages, #new-chat, #add-user {
@@ -377,7 +384,7 @@ html {
     margin-left: 6px;
 }
 
-.close, .plus-user, .delete-link, #tick, .fa {
+.close, .plus-user, .delete-link, .tick, .fa {
     -ms-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -398,13 +405,15 @@ html {
     margin-right: 5px;
 }
 
-#add-user .plus-user, .close {
+.close {
     transform: rotate(45deg);
     margin: 0;
 }
 
-#tick {
+.tick {
     color: #C9D6DF;
+    font-family: FontAwesome;
+    font-weight: normal;
     cursor: pointer;
     transition: all ease-out 0.1s;
     line-height: 20px;
@@ -412,7 +421,7 @@ html {
     font-size: 18px;
 }
 
-#tick:hover {
+.tick:hover {
     color: #3498DB;
 }
 
@@ -423,7 +432,7 @@ sup {
 #invite-input {
     flex-grow: 1;
     min-width: 0;
-    border: 1px solid #16315CA9;
+    border: 1px solid rgba(22, 49, 92, 169);
     box-shadow: none;
 }
 
@@ -600,16 +609,16 @@ sup {
 
 .message .delete-link {
     position: absolute;
-    display: block;
     color: #F44336;
     right: 0;
-    top: -12px;
+    top: -5px;
     z-index: 10;
     transform: rotate(45deg);
     cursor: pointer;
     font-weight: bold;
     font-size: 26px;
     opacity: 0;
+    line-height: 0.7;
 }
 
 .mes.system .delete-link {
@@ -691,6 +700,11 @@ sup {
 
 label {
     margin-bottom: 15px;
+}
+
+.smart-input label {
+    position: absolute;
+    margin: -3px 0 15px 3px;
 }
 
 input {
@@ -861,7 +875,7 @@ input {
 .smart-input {
     margin-bottom: 15px;
     cursor: pointer;
-    line-height: 26px;
+    height: 30px;
 }
 
 .smart-input .label {
@@ -893,14 +907,15 @@ input {
     color: #16315C;
 }
 
-.smart-input .main {
+.smart-password-change .main {
     padding: 0;
 }
 
-.smart-input .main label {
+.smart-password-change .main label {
     left: 0;
     top: 0;
     font-weight: bold;
+    height: 30px;
 }
 
 .smart-password-change {
@@ -917,4 +932,18 @@ input {
 
 .profile-link {
     cursor: pointer;
+}
+
+@media(max-width: 730px) {
+    .content > div {
+        margin-right: 5px;
+    }
+
+    #messages .mes .message {
+        margin-right: 10px;
+    }
+
+    #messages .mes.me .message {
+        margin-left: 10px;
+    }
 }

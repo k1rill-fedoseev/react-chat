@@ -35,11 +35,11 @@ class InviteTab extends Component {
                 <div className="up-line">
                     <div className="title">Invite</div>
                     <input type="text" id="invite-input" onChange={this.handleChange} value={searchString}/>
-                    {!newChatTab && <span id="tick" onClick={accept}>
+                    {!newChatTab && <span className="tick" onClick={accept}>
                         &#10004;
                         <sup>{selectedUsersCount || null}</sup>
                     </span>}
-                    {!newChatTab && <div className="plus-user" onClick={cancel}>+</div>}
+                    {!newChatTab && <div className="close" onClick={cancel}>+</div>}
                 </div>
                 <ul className="users">
                     {this.inviteAccounts()}

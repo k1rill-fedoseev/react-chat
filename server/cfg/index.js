@@ -1,5 +1,5 @@
 module.exports = {
-    port: 80,
+    port: 3001,
     token: {
         size: 20,
         key: 'dfb3963626664b932d4dba14cc1bfe4478d7f0c8',

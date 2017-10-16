@@ -47,7 +47,7 @@ export default class SmartInput extends Component {
 
         if (isChanging)
             return (
-                <div className="smart-input smart-password-change">
+                <div className="smart-password-change">
                     <Form onChange={this.handleChange}>
                         <Input type="password" name="oldPassword" label="Old password" minLength={3}
                                maxLength={128}/>

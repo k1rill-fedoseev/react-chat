@@ -6,13 +6,17 @@ import { getUserIds } from '../helpers/onlineController'
 const fetchOnlineIfNeed = () => {
     const userIds = getUserIds()
 
-    if(Object.keys(userIds).length)
+    if (Object.keys(userIds).length)
         socket.send(fetchOnlineUsers(userIds))
 }
 
-const socket = io({
-    transports: ['websocket']
-})
+const socket = process.env.NODE_ENV === 'development'
+    ? io(':3001', {
+        transports: ['websocket']
+    })
+    : io({
+        transports: ['websocket']
+    })
 
 let intervalId
 

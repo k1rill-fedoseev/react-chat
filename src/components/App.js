@@ -21,14 +21,16 @@ class App extends Component {
                     <div className="header">
                         <Account />
                     </div>
-                    <div className="content">
-                        <ChatsList />
-                        {newChatTab
-                            ? <NewChatTab />
-                            : isChatSelected && <MainTab/>}
-                        {isProfileOpened
-                            ? <UserProfile/>
-                            : (newChatTab || inviteTab) && <InviteTab />}
+                    <div className="content-wrapper">
+                        <div className="content">
+                            <ChatsList />
+                            {newChatTab
+                                ? <NewChatTab />
+                                : isChatSelected && <MainTab/>}
+                            {isProfileOpened
+                                ? <UserProfile/>
+                                : (newChatTab || inviteTab) && <InviteTab />}
+                        </div>
                     </div>
                     <Error />
                 </div>
@@ -37,11 +39,13 @@ class App extends Component {
         return (
             <div>
                 <div className="header"/>
-                <div className="content">
-                    {isSignInTab
-                        ? <SignIn />
-                        : <SignUp />
-                    }
+                <div className="content-wrapper">
+                    <div className="content">
+                        {isSignInTab
+                            ? <SignIn />
+                            : <SignUp />
+                        }
+                    </div>
                 </div>
                 <Error />
             </div>

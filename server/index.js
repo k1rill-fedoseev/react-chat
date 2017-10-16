@@ -3,10 +3,8 @@
 //TODO: smart online update
 //TODO: cant invite user that have already left
 
-//TODO: fix tick
-//TODO: ascii validation
-//TODO: outline validation
-//TODO: mobile render fix
+//TODO: ascii validations
+//TODO: logs to file
 
 const path = require('path')
 const express = require('express')
@@ -18,14 +16,20 @@ const log = require('./log')('main')
 const app = express()
 const server = require('http').Server(app)
 const favicon = require('serve-favicon')
+const PORT = process.env.DEV
+    ? config.port
+    : process.env.PORT
+const MONGODB_URI = process.env.DEV
+    ? 'mongodb://localhost/chat'
+    : process.env.MONGODB_URI
 
 require('./sockets')(server)
 
-server.listen(process.env.PORT || config.port, () => {
-    log.info(`Running server on ${process.env.PORT || config.port} port`)
+server.listen(PORT, () => {
+    log.info(`Running server on ${PORT} port`)
 })
 
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(MONGODB_URI)
 
 mongoose.connection
     .on('connected',
