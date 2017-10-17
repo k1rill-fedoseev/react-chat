@@ -105,9 +105,9 @@ export default store => next => action => {
         case FETCH_CHAT_SUCCESS:
             if (!action.chat.isRoom)
                 if (!state.db.users[action.chat.users[0]])
-                    unique[action.chat.users[0]] = true
+                    socket.send(fetchUsers([action.chat.users[0]]))
                 else if (action.chat.users[1] && !state.db.users[action.chat.users[1]])
-                    unique[action.chat.users[1]] = true
+                    socket.send(fetchUsers([action.chat.users[1]]))
             break
         case FETCH_MESSAGES_SUCCESS:
             action.messages.forEach(message => {
