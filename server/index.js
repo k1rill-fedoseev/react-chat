@@ -3,7 +3,6 @@
 //TODO: smart online update
 //TODO: cant invite user that have already left
 
-//TODO: ascii validations
 //TODO: logs to file
 
 const path = require('path')

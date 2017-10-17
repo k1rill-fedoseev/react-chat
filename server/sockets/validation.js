@@ -25,14 +25,18 @@ module.exports = action => {
                 break
             case TRY_SIGN_UP:
                 assert(validator.isLength(name, length.name))
+                assert(validator.isAlphanumeric(name))
                 assert(validator.isLength(surname, length.surname))
+                assert(validator.isAlphanumeric(surname))
                 assert(validator.isLength(avatar, length.avatar))
                 assert(validator.isLength(description, length.description))
                 assert(validator.isLength(username, length.username))
+                assert(validator.isAlphanumeric(username))
                 assert(validator.isLength(password, length.password))
                 break
             case TRY_CREATE_ROOM:
                 assert(validator.isLength(name, length.roomName))
+                assert(validator.isAlphanumeric(name))
                 assert(validator.isLength(avatar, length.avatar))
                 assert(validator.isLength(description, length.description))
                 assert(Array.isArray(userIds))
@@ -124,9 +128,9 @@ module.exports = action => {
                 break
         }
     }
-    catch (e) {
+    catch (err) {
         log.debug(action)
-        log.debug(e)
+        log.debug(err)
         return false
     }
     return true

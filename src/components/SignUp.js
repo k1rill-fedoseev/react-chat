@@ -41,9 +41,9 @@ class SignUp extends Component {
 
         return (
             <Form onChange={this.handleChange}>
-                <Input name="name" label="Name" minLength={2} maxLength={16}/>
-                <Input name="surname" label="Surname" minLength={2} maxLength={16}/>
-                <Input name="username" label="Username" minLength={1} maxLength={20}/>
+                <Input name="name" label="Name" minLength={2} maxLength={16} isAlphanumeric/>
+                <Input name="surname" label="Surname" minLength={2} maxLength={16} isAlphanumeric/>
+                <Input name="username" label="Username" minLength={1} maxLength={20} isAlphanumeric/>
                 <Input name="password" label="Password" type="password" minLength={3} maxLength={128}/>
                 <Input name="confirm" label="Confirm password" type="password" minLength={3} maxLength={128} equalTo="password"/>
                 <Input name="avatar" label="Avatar" maxLength={256}/>

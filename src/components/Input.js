@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import validator from 'validator'
 
 export default class Input extends Component {
 
@@ -18,9 +19,10 @@ export default class Input extends Component {
     }
 
     validate(value, props = this.props) {
-        const {equalTo, match, minLength = 0, maxLength = Infinity} = props
+        const {equalTo, match, minLength, maxLength, isAlphanumeric} = props
 
-        return (!equalTo || match === value) && value.length >= minLength && value.length <= maxLength
+        return (!equalTo || match === value) && validator.isLength(value, {min: minLength, max: maxLength})
+            && (!isAlphanumeric || validator.isAlphanumeric(value))
     }
 
     componentWillReceiveProps(props) {
@@ -46,13 +48,15 @@ export default class Input extends Component {
 
         return (
             <label>
-                {label ? `${label}:` : null} <input type={type} autoComplete="off" value={value}
-                                onChange={this.handleChange}
-                                style={{
-                                    boxShadow: this.isValid
-                                        ? ''
-                                        : '0 0 10px 0 rgba(244, 67, 54, 0.65)'
-                                }}/>
+                {label
+                    ? `${label}:`
+                    : null} <input type={type} autoComplete="off" value={value}
+                                   onChange={this.handleChange}
+                                   style={{
+                                       boxShadow: this.isValid
+                                           ? ''
+                                           : '0 0 10px 0 rgba(244, 67, 54, 0.65)'
+                                   }}/>
                 {children}
             </label>
         )

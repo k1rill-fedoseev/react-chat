@@ -41,7 +41,7 @@ class SignIn extends Component {
 
         return (
             <Form onChange={this.handleChange}>
-                <Input name="username" label="Username" minLength={1} maxLength={20}/>
+                <Input name="username" label="Username" minLength={1} maxLength={20} isAlphanumeric/>
                 <Input name="password" label="Password" type="password" minLength={3} maxLength={128}/>
                 <div className="buttons">
                     <div className={`btn ${isAllValid

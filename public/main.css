@@ -875,7 +875,7 @@ input {
 .smart-input {
     margin-bottom: 15px;
     cursor: pointer;
-    height: 30px;
+    min-height: 30px;
 }
 
 .smart-input .label {
