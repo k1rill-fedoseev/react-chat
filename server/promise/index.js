@@ -680,19 +680,28 @@ class MyPromise extends Promise {
                         else
                             messages.push({})
 
-                        rooms.push({
-                            isRoom,
-                            name,
-                            id: _id.toString(),
-                            avatar,
-                            description,
-                            newMessages,
-                            users: users.map(user => user.toString()),
-                            invites: invites.map(invite => invite
-                                ? invite.toString()
-                                : ''),
-                            isFullLoaded
-                        })
+                        if (isRoom)
+                            rooms.push({
+                                isRoom,
+                                name,
+                                id: _id.toString(),
+                                avatar,
+                                description,
+                                newMessages,
+                                users: users.map(user => user.toString()),
+                                invites: invites.map(invite => invite
+                                    ? invite.toString()
+                                    : ''),
+                                isFullLoaded
+                            })
+                        else
+                            rooms.push({
+                                isRoom,
+                                id: _id.toString(),
+                                newMessages,
+                                users: users.map(user => user.toString()),
+                                isFullLoaded
+                            })
                     })
 
                     return [rooms, messages]
@@ -706,17 +715,26 @@ class MyPromise extends Promise {
             const {room, newMessages} = openRoom
             const {isRoom, name, avatar, _id, users, invites, description} = room
 
+            if (isRoom)
+                return {
+                    name,
+                    id: _id.toString(),
+                    avatar,
+                    description,
+                    newMessages,
+                    isRoom,
+                    users: users.map(user => user.toString()),
+                    invites: invites.map(invite => invite
+                        ? invite.toString()
+                        : ''),
+                    isFullLoaded: true
+                }
+
             return {
-                name,
                 id: _id.toString(),
-                avatar,
-                description,
                 newMessages,
                 isRoom,
                 users: users.map(user => user.toString()),
-                invites: invites.map(invite => invite
-                    ? invite.toString()
-                    : ''),
                 isFullLoaded: true
             }
         })

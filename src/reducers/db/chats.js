@@ -17,11 +17,13 @@ export default (state = {}, action) => {
             action.chats.forEach(chat => {
                 const invites = {}
 
-                chat.invites.forEach((invite, index) => {
-                    if (invite)
-                        invites[chat.users[index]] = invite
-                })
-                chat.invites = invites
+                if(chat.invites) {
+                    chat.invites.forEach((invite, index) => {
+                        if (invite)
+                            invites[chat.users[index]] = invite
+                    })
+                    chat.invites = invites
+                }
 
                 newState[chat.id] = chat
                 newState[chat.id].isMember = chat.users.includes(action.userId)

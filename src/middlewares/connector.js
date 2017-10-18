@@ -14,10 +14,13 @@ export default store => next => action => {
             action.tempId = state.ui.tempId
         case DELETE_MESSAGES_CLICK:
             action.selectedMessages = state.ui.selectedMessages
-        case MARK_READ:
         case LOAD_MORE_CLICK:
         case REMOVE_USER_CLICK:
         case MESSAGE_INPUT_CHANGE:
+            action.selectedChat = state.ui.selectedChat
+            break
+        case MARK_READ:
+            action.newMessages = state.db.chats[state.ui.selectedChat].newMessages
             action.selectedChat = state.ui.selectedChat
             break
         case NEW_MESSAGE:

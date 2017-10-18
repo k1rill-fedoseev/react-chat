@@ -3,7 +3,7 @@
 //TODO: smart online update
 //TODO: cant invite user that have already left
 
-//TODO: logs to file
+//TODO: online in profile / account
 
 const path = require('path')
 const express = require('express')

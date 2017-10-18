@@ -35,7 +35,7 @@ class MessagesList extends Component {
     handleScroll(e) {
         const {id} = this.props.chat
 
-        scroll(id, e.target.scrollTop, e.target.scrollTopMax)
+        scroll(id, e.target.scrollTop, e.target.scrollHeight - e.target.offsetHeight)
     }
 
     componentWillReceiveProps(props) {
@@ -51,13 +51,12 @@ class MessagesList extends Component {
         const {isEnd, position} = getInfo(id)
 
         if (isEnd)
-            this.node.scrollTop = this.node.scrollTopMax
+            this.node.scrollTop = this.node.scrollHeight - this.node.offsetHeight
         else
             this.node.scrollTop = position
     }
 
     componentDidMount() {
-        this.node = findDOMNode(this)
         this.componentDidUpdate()
     }
 
@@ -65,7 +64,7 @@ class MessagesList extends Component {
         const {isFullLoaded} = this.props.chat
 
         return (
-            <ul id="chat" onScroll={this.handleScroll}>
+            <ul id="chat" ref={node => this.node = node} onScroll={this.handleScroll}>
                 {!isFullLoaded && <LoadMore/>}
                 {this.messagesList()}
             </ul>

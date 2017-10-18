@@ -8,6 +8,7 @@ class MessageInput extends Component {
         super()
 
         this.handleChange = this.handleChange.bind(this)
+        this.handleKeyDown = this.handleKeyDown.bind(this)
         this.handleClick = this.handleClick.bind(this)
     }
 
@@ -19,11 +20,20 @@ class MessageInput extends Component {
         inputChange(value)
     }
 
+    handleKeyDown(e) {
+        if(e.which === 13) {
+            this.handleClick()
+            e.preventDefault()
+        }
+    }
+
     handleClick() {
         const {send, value} = this.props
 
-        if(value && value.length <= 1024)
+        if(value && value.length <= 1024) {
             send(value)
+            this.textarea.focus()
+        }
     }
 
     render() {
@@ -33,8 +43,8 @@ class MessageInput extends Component {
             <div className="input">
                 <div className="fix">
                         <textarea className="text" id="mes-input" placeholder="Type your message ..."
-                                  value={value}
-                                  onChange={this.handleChange}/>
+                                  value={value} onKeyDown={this.handleKeyDown}
+                                  onChange={this.handleChange} ref={textarea => this.textarea = textarea}/>
                 </div>
                 <div className={`send-btn ${isMember && value && value.length <= 1024
                     ? ''

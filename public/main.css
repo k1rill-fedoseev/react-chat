@@ -897,6 +897,7 @@ input {
 .profile {
     padding: 15px 15px 0;
     overflow-y: auto;
+    flex-grow: 1;
 }
 
 .profile .account {
