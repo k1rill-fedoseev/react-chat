@@ -3,11 +3,11 @@ const scrolls = {}
 export const scroll = (chatId, position, maxPosition) => {
     scrolls[chatId] = {
         position,
-        isEnd: position === maxPosition
+        isEnd: position >= maxPosition
     }
 }
 
-export const getInfo =
+export const getScrollInfo =
     chatId =>
         scrolls[chatId]
         ? scrolls[chatId]

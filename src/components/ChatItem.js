@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { chatSelect, markRead } from '../actions/frontend'
+import { chatSelect, markReadFrontend } from '../actions/frontend'
 import { parseMs } from '../helpers/index'
 import { subscribe, unsubscribe } from '../helpers/onlineController'
 import Avatar from './Avatar'
@@ -58,16 +58,16 @@ class ChatItem extends Component {
             this.updateInterval(props)
         this.subscribe(props)
 
-        if (newMessages && isSelected)
+        if (newMessages && isSelected && !this.props.isSelected)
             this.timeoutId = setTimeout(markRead, 2500)
-        else
+        else if (!isSelected)
             clearTimeout(this.timeoutId)
     }
 
     handleClick() {
         const {isSelected, select} = this.props
 
-        if(!isSelected)
+        if (!isSelected)
             select()
     }
 
@@ -141,6 +141,6 @@ export default connect(
     },
     (dispatch, ownProps) => ({
         select: () => dispatch(chatSelect(ownProps.chatId)),
-        markRead: () => dispatch(markRead())
+        markRead: () => dispatch(markReadFrontend())
     })
 )(ChatItem)

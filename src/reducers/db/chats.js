@@ -4,7 +4,7 @@ import {
 } from '../../actions/responses'
 import {
     CHAT_AVATAR, CHAT_DESCRIPTION, CHAT_NAME, EXIT_CLICK, LOAD_MORE_CLICK,
-    MARK_READ
+    MARK_READ_FRONTEND
 } from '../../actions/frontend'
 
 export default (state = {}, action) => {
@@ -41,10 +41,11 @@ export default (state = {}, action) => {
 
             newState = {...state}
 
-            chat.invites.forEach((invite, index) => {
-                if (invite)
-                    invites[chat.users[index]] = invite
-            })
+            if(chat.invites)
+                chat.invites.forEach((invite, index) => {
+                    if (invite)
+                        invites[chat.users[index]] = invite
+                })
 
             newState[chat.id] = {
                 ...chat,
@@ -130,7 +131,7 @@ export default (state = {}, action) => {
             }
 
             return newState
-        case MARK_READ:
+        case MARK_READ_FRONTEND:
             return {
                 ...state,
                 [action.selectedChat]: {

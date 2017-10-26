@@ -14,14 +14,20 @@ export default (state = {}, action) => {
                 : []
             listCopy.push(action.message.id)
 
-            return {...state, [action.chatId]: listCopy}
+            return {
+                ...state,
+                [action.chatId]: listCopy
+            }
         case FETCH_MESSAGES_SUCCESS:
             listCopy = [...state[action.chatId]]
             listCopy.unshift(...action.messages
                 .reverse()
                 .map(mes => mes.id))
 
-            return {...state, [action.chatId]: listCopy}
+            return {
+                ...state,
+                [action.chatId]: listCopy
+            }
         case FETCH_CHATS_SUCCESS:
             const messagesLists = {}
 
@@ -33,7 +39,7 @@ export default (state = {}, action) => {
 
             return messagesLists
         case FETCH_CHAT_SUCCESS:
-            if(!state[action.chat.id])
+            if (!state[action.chat.id])
                 return {
                     ...state,
                     [action.chat.id]: []
@@ -44,7 +50,10 @@ export default (state = {}, action) => {
             listCopy = [...state[action.selectedChat]]
             listCopy.push(`temp${action.tempId}`)
 
-            return {...state, [action.selectedChat]: listCopy}
+            return {
+                ...state,
+                [action.selectedChat]: listCopy
+            }
         case SEND_SUCCESS:
             listCopy = [...state[action.chatId]]
 
@@ -55,7 +64,10 @@ export default (state = {}, action) => {
                 }
             }
 
-            return {...state, [action.chatId]: listCopy}
+            return {
+                ...state,
+                [action.chatId]: listCopy
+            }
         case DELETE_MESSAGES_CLICK:
             return {
                 ...state,

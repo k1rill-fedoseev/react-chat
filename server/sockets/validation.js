@@ -36,7 +36,6 @@ module.exports = action => {
                 break
             case TRY_CREATE_ROOM:
                 assert(validator.isLength(name, length.roomName))
-                assert(validator.isAlphanumeric(name))
                 assert(validator.isLength(avatar, length.avatar))
                 assert(validator.isLength(description, length.description))
                 assert(Array.isArray(userIds))

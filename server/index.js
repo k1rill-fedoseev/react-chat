@@ -1,9 +1,13 @@
 //TODO: search only not-included users
 //TODO: forwarding messages
 //TODO: smart online update
+//TODO: 1-to-1 chats dont show users that are already in chats
 //TODO: cant invite user that have already left
+//TODO: return to room
+//TODO: error handlers to 1 catch
 
-//TODO: online in profile / account
+//TODO: online controller for chat info
+//TODO: last online
 
 const path = require('path')
 const express = require('express')
@@ -36,7 +40,7 @@ mongoose.connection
     .on('disconnected',
         () => log.warn('Disconnected from db'))
     .on('error',
-        err => log.error('Error with db connection ' + err)
+        err => log.error(`Error with db connection ${err}`)
     )
 
 app.use(favicon(path.join(__dirname, '../build/favicon.ico')))

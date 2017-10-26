@@ -2,182 +2,149 @@ const socketIo = require('socket.io')
 const config = require('../cfg')
 const log = require('../log')('sockets')
 const stripTags = require('striptags')
-const Promise = require('../promise')
 const validate = require('./validation')
-const {MyError} = require('../promise/errors.js')
+const {MyError, CheckError} = require('../models/errors')
+const User = require('../models/user')
+const UserMessage = require('../models/userMessage')
+const Message = require('../models/message')
+const Room = require('../models/room')
+const OpenRoom = require('../models/openRoom')
+const UserRoom = require('../models/userRoom')
 
 const {
-    TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHATS, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
-    FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, TRY_SEND, TRY_INVITE_USERS, TRY_MARK_READ,
-    TRY_SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING, DELETE_MESSAGES, REMOVE_USER,
+    SIGN_IN, SIGN_UP, FETCH_CHATS, CREATE_ROOM, CREATE_USER_ROOM,
+    FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, SEND_MESSAGE, INVITE_USERS, MARK_READ,
+    SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING, DELETE_MESSAGES, REMOVE_USER,
     EXIT_REQUEST, LEAVE_CHAT, DELETE_CHAT, CHAT_NAME, CHAT_AVATAR, CHAT_DESCRIPTION, UPDATE_CHAT_INFO,
-    UPDATE_USER_INFO, USER_AVATAR, USER_DESCRIPTION, USER_PASSWORD,
-    newMessage, newMessageWithInvite, newMessageWithRemove,
-    signInSuccess, signInError, signUpSuccess, signUpError,
-    fetchChatsSuccess, fetchChatsError, fetchChatSuccess, fetchChatError,
-    createError, sendSuccess, sendError, inviteUsersError,
-    fetchUsersSuccess, fetchUsersError, fetchMessagesSuccess, fetchMessagesError,
-    searchUsersError, searchUsersSuccess, fetchOnlineUsersSuccess, startTypingResponse, endTypingResponse,
-    deleteChatSuccess, deleteChatError, newMessageWithInfoUpdate, validationError
+    UPDATE_USER_INFO, USER_AVATAR, USER_DESCRIPTION, USER_PASSWORD, ERROR,
+    newMessage, newMessageWithInvite, newMessageWithRemove, signInSuccess, signUpSuccess,
+    fetchChatsSuccess, fetchChatSuccess, sendSuccess, fetchUsersSuccess,
+    fetchMessagesSuccess, searchUsersSuccess, fetchOnlineUsersSuccess, startTypingResponse,
+    endTypingResponse, deleteChatSuccess, newMessageWithInfoUpdate, error
 } = require('./actions')
 
-const errorHandlerSocket = socket => actionCreator => err => {
-    if (err instanceof MyError) {
-        log.debug(err)
-        socket.send(actionCreator(err.message))
-    }
-    else {
-        log.error(err)
-        socket.send(actionCreator('Server error'))
-    }
-}
+const checkUnique = function (arr) {
+    const exists = {}
 
-const logError = err => {
-    log.error(err)
+    return arr.forEach(elem => {
+        if (!exists[elem])
+            exists[elem] = true
+        else
+            throw new CheckError('UserIds should be unique')
+    })
 }
 
 module.exports = function (server) {
     const io = socketIo(server)
 
     io.use(
-        (socket, next) => {
-            const token = new RegExp(config.cookie.name + '=\\w*(?=;?)')
-                .exec(socket.handshake.headers.cookie)
-            if (token && token[0]) {
-                socket.token = token[0].slice(config.cookie.name.length + 1)
-                Promise.resolve()
-                    .tokenCheck(socket.token)
-                    .then(user => {
-                        socket.user = user
-                        const userId = user._id.toString()
-                        socket.join(userId)
+        async (socket, next) => {
+            try {
+                const token = new RegExp(config.cookie.name + '=\\w*(?=;?)')
+                    .exec(socket.handshake.headers.cookie)
+                if (token && token[0]) {
+                    socket.token = token[0].slice(config.cookie.name.length + 1)
 
-                        Promise.resolve()
-                            .getUserRooms(userId)
-                            .then(rooms => {
-                                rooms.forEach(room => socket.join(room._id.toString()))
-                            })
-                            .catch(logError)
+                    socket.user = await User.tokenCheck(socket.token)
 
-                        return [user]
-                    })
-                    .usersFilter()
-                    .then(([user]) => {
-                        socket.send(signInSuccess(user))
-                        next()
-                    })
-                    .catch(err => {
-                        if (!err instanceof MyError)
-                            logError(err)
-                        next()
-                    })
+                    socket.join(socket.user._id.toString())
+                    socket.send(signInSuccess(socket.user.filter()))
+                }
             }
-            else
-                next()
+            catch (err) {
+                if (err instanceof MyError) {
+                    log.debug(err)
+                    socket.send(error(SIGN_IN, err.message))
+                }
+                else {
+                    log.error(err)
+                    socket.send(error(SIGN_IN, 'Server error'))
+                }
+            }
+            next()
         })
 
     io.on('connection',
         socket => {
-            const errorHandler = errorHandlerSocket(socket)
-
-            let roomId
             let userId = socket.user
                 ? socket.user._id.toString()
                 : ''
 
-            socket.on('message', action => {
+            socket.on('message', async action => {
                 if (!validate(action)) {
-                    socket.send(validationError('Validation error'))
+                    socket.send(error(action.type, 'Validation error'))
                     return
                 }
 
-                switch (action.type) {
-                    case TRY_SIGN_IN:
-                        Promise.resolve()
-                            .auth(action.username, action.password)
-                            .then(([token, user]) => {
-                                socket.user = user
-                                socket.token = token
-                                userId = user._id.toString()
-                                socket.join(userId)
+                try {
+                    switch (action.type) {
+                        case SIGN_IN: {
+                            const user = await User.auth(action.username, action.password)
+                            await user.genToken().save()
 
-                                Promise.resolve()
-                                    .getUserRooms(user._id.toString())
-                                    .then(rooms => {
-                                        rooms.forEach(room => socket.join(room._id.toString()))
-                                    })
-                                    .catch(logError)
+                            userId = user._id.toString()
 
-                                return [token, user]
-                            })
-                            .tokenUserFilter()
-                            .then(([token, user]) => {
-                                socket.send(signInSuccess(user, token))
-                            })
-                            .catch(errorHandler(signInError))
-                        break
-                    case TRY_SIGN_UP:
-                        const {name, surname, password, username, avatar, description} = action
+                            socket.user = user
+                            socket.token = user.token
+                            socket.join(userId)
 
-                        Promise.resolve()
-                            .register(name, surname, username, password, avatar, description)
-                            .then(([token, user]) => {
-                                socket.user = user
-                                socket.token = token
-                                userId = user._id.toString()
-                                socket.join(userId)
+                            socket.send(signInSuccess(user.filter(), user.token))
+                            break
+                        }
+                        case SIGN_UP: {
+                            const {name, surname, password, username, avatar, description} = action
 
-                                Promise.resolve()
-                                    .getUserRooms(user._id.toString())
-                                    .then(rooms => {
-                                        rooms.forEach(room => socket.join(room._id.toString()))
-                                    })
-                                    .catch(logError)
+                            const user = await User.register(name, surname, username, password, avatar, description)
+                            await user.genToken().save()
 
-                                return [token, user]
-                            })
-                            .tokenUserFilter()
-                            .then(([token, user]) => {
-                                socket.send(signUpSuccess(user, token))
-                            })
-                            .catch(errorHandler(signUpError))
-                        break
+                            userId = user._id.toString()
+
+                            socket.user = user
+                            socket.token = user.token
+                            socket.join(userId)
+
+                            socket.send(signUpSuccess(user.filter(), user.token))
+                            break
+                        }
+                    }
+                }
+                catch (err) {
+                    if (err instanceof MyError) {
+                        log.debug(err)
+                        socket.send(error(action.type, err.message))
+                    }
+                    else {
+                        log.error(err)
+                        socket.send(error(action.type, 'Server error'))
+                    }
                 }
 
-                if(!userId)
+                if (!userId)
                     return
 
-                switch (action.type) {
-                    case FETCH_CHATS:
-                        Promise.resolve()
-                            .getOpenRooms(userId)
-                            .openRoomsFilter()
-                            .then(arr => {
-                                socket.send(fetchChatsSuccess(...arr))
-                            })
-                            .catch(errorHandler(fetchChatsError))
-                        break
-                    case FETCH_CHAT:
-                        Promise.resolve()
-                            .getOpenRoom(userId, action.chatId)
-                            .openRoomFilter()
-                            .then(room => {
-                                socket.send(fetchChatSuccess(room))
-                            })
-                            .catch(errorHandler(fetchChatError))
-                        break
-                    case TRY_CREATE_ROOM:
-                        Promise.resolve()
-                            .createRoom(true, action.name, action.description, userId, action.avatar)
-                            .then(room => {
-                                roomId = room._id.toString()
-                                return room
-                            })
-                            .existingUsersFilter(action.userIds)
-                            .addUsers(userId)
-                            .then(args => args[0])
-                            .createMessage(undefined, config.messages.startMessage)
-                            .then(userMessages => userMessages.forEach(
+                try {
+                    switch (action.type) {
+                        case FETCH_CHATS: {
+
+                            const openRooms = await OpenRoom.getRooms(userId)
+                            const [rooms, messages] = await OpenRoom.filter(openRooms)
+
+                            socket.send(fetchChatsSuccess(rooms, messages))
+                            break
+                        }
+                        case FETCH_CHAT: {
+                            const openRoom = await OpenRoom.get(userId, action.chatId)
+
+                            socket.send(fetchChatSuccess(openRoom.filter()))
+                            break
+                        }
+                        case CREATE_ROOM: {
+                            checkUnique([userId, ...action.userIds])
+                            await User.getUsers(action.userIds)
+                            const room = await Room.createRoom(userId, action.name, action.description, action.avatar, action.userIds)
+
+                            const userMessages = await Message.createMessage(room, undefined, config.messages.startMessage)
+                            userMessages.forEach(
                                 userMessage => {
                                     io.to(userMessage.owner.toString()).send(
                                         newMessage(
@@ -186,344 +153,295 @@ module.exports = function (server) {
                                                 id: userMessage._id,
                                                 time: userMessage.date.valueOf()
                                             },
-                                            roomId
+                                            room._id.toString()
                                         )
                                     )
                                 }
-                            ))
-                            .catch(errorHandler(createError))
-                        break
-                    case TRY_CREATE_1_TO_1:
-                        Promise.resolve()
-                            .checkRoom(userId, action.userId)
-                            .then(room => {
-                                if (room) {
-                                    Promise.resolve()
-                                        .updateOpenRoom(room._id.toString(), userId, 0)
-                                        .then(openRoom => {
-                                            openRoom.room = room
-                                            return openRoom
-                                        })
-                                        .openRoomFilter()
-                                        .then(room => {
-                                            socket.send(fetchChatSuccess(room))
-                                        })
-                                        .catch(errorHandler(createError))
-                                }
-                                else {
-                                    Promise.resolve()
-                                        .createRoom(false, null, null, userId)
-                                        .then(room => {
-                                            roomId = room._id.toString()
-                                            return room
-                                        })
-                                        .existingUsersFilter(action.userId
-                                            ? [action.userId]
-                                            : [])
-                                        .addUsers(userId)
-                                        .then(args => args[0])
-                                        .createMessage(undefined, config.messages.startMessage)
-                                        .then(userMessages => userMessages.forEach(
-                                            userMessage => {
-                                                io.to(userMessage.owner.toString()).send(
-                                                    newMessage(
-                                                        {
-                                                            message: config.messages.startMessage,
-                                                            id: userMessage._id.toString(),
-                                                            time: userMessage.date.valueOf()
-                                                        },
-                                                        roomId
-                                                    )
-                                                )
-                                            }
-                                        ))
-                                        .catch(errorHandler(createError))
-                                }
-                            })
-                            .catch(errorHandler(createError))
+                            )
+                            break
+                        }
+                        case CREATE_USER_ROOM: {
+                            checkUnique([userId, action.userId])
+                            if (action.userId)
+                                await User.get(action.userId)
+                            let room = await UserRoom.getIfExists(userId, action.userId)
 
-                        break
-                    case TRY_SEND:
-                        const strippedMessage = socket.user.username === 'admin'
-                            ? action.message
-                            : stripTags(action.message)
+                            if (room) {
+                                const openRoom = await OpenRoom.update(room._id.toString(), userId, 0)
+                                openRoom._doc.room = room
+                                socket.send(fetchChatSuccess(openRoom.filter()))
+                            }
+                            else {
+                                room = await UserRoom.createUserRoom(userId, action.userId)
 
-                        Promise.resolve()
-                            .getRoom(action.chatId)
-                            .checkMember(userId)
-                            .createMessage(userId, strippedMessage)
-                            .then(userMessages => userMessages.forEach(
-                                userMessage => {
-                                    const ownerId = userMessage.owner.toString()
-                                    const msg = {
-                                        message: strippedMessage,
-                                        id: userMessage._id,
-                                        from: userId,
-                                        time: userMessage.date.valueOf()
-                                    }
-
-                                    socket.to(userMessage.owner.toString()).send(newMessage(msg, action.chatId))
-                                    if(ownerId === userId)
-                                        socket.send(sendSuccess(
-                                            action.tempId,
-                                            action.chatId,
-                                            msg
-                                        ))
-                                }
-                            ))
-                            .catch(errorHandler(sendError))
-                        break
-                    case FETCH_MESSAGES:
-                        Promise.resolve()
-                            .getMessages(userId, action.chatId, action.lastMessageId)
-                            .messagesFilter()
-                            .then(([messages, isFullLoaded]) => {
-                                socket.send(fetchMessagesSuccess(action.chatId, messages, isFullLoaded))
-                            })
-                            .catch(errorHandler(fetchMessagesError))
-                        break
-                    case FETCH_USERS:
-                        Promise.resolve()
-                            .getUsers(action.userIds)
-                            .usersFilter()
-                            .then(users => {
-                                socket.send(fetchUsersSuccess(users))
-                            })
-                            .catch(errorHandler(fetchUsersError))
-                        break
-                    case TRY_SEARCH_USERS:
-                        Promise.resolve()
-                            .searchUsers(action.search)
-                            .then(users => {
-                                socket.send(searchUsersSuccess(users))
-                            })
-                            .catch(errorHandler(searchUsersError))
-                        break
-                    case TRY_INVITE_USERS:
-                        Promise.resolve()
-                            .getRoom(action.chatId)
-                            .checkMember(userId)
-                            .existingUsersFilter(action.userIds)
-                            .addUsers(userId)
-                            .then(([room, newUsers]) => {
-                                return newUsers.map(
-                                    newUser => {
-                                        const message = `${socket.user.name} ${socket.user.surname} invited ${newUser.name} ${newUser.surname}`
-
-                                        return () => Promise.resolve(room)
-                                            .createMessage(undefined, message)
-                                            .then(userMessages => userMessages.forEach(
-                                                userMessage => {
-                                                    io.to(userMessage.owner.toString()).send(
-                                                        newMessageWithInvite(
-                                                            {
-                                                                message,
-                                                                id: userMessage._id,
-                                                                time: userMessage.date.valueOf()
-                                                            },
-                                                            action.chatId,
-                                                            newUser._id.toString(),
-                                                            userId
-                                                        )
-                                                    )
-                                                }
-                                            ))
-                                            .catch(logError)
-                                    }
-                                )
-                                    .reduce(
-                                        (chain, promise) => chain.then(promise),
-                                        Promise.resolve()
+                                const userMessages = await Message.createMessage(room, undefined, config.messages.startMessage)
+                                userMessages.forEach(userMessage => {
+                                    io.to(userMessage.owner.toString()).send(
+                                        newMessage(
+                                            {
+                                                message: config.messages.startMessage,
+                                                id: userMessage._id.toString(),
+                                                time: userMessage.date.valueOf()
+                                            },
+                                            room._id.toString()
+                                        )
                                     )
-                            })
-                            .catch(errorHandler(inviteUsersError))
-                        break
-                    case TRY_MARK_READ:
-                        Promise.resolve()
-                            .markRead(action.chatId, userId)
-                            .catch(logError)
-                        break
-                    case FETCH_ONLINE_USERS:
-                        const users = {}
-
-                        action.userIds.forEach(userId => {
-                            users[userId] = !!io.sockets.adapter.rooms[userId]
-                        })
-                        socket.send(fetchOnlineUsersSuccess(users))
-                        break
-                    case START_TYPING:
-                        Promise.resolve()
-                            .getRoom(action.chatId)
-                            .checkMember(userId)
-                            .then(room => {
-                                room.users.forEach(userId1 => {
-                                    if (userId !== userId1.toString())
-                                        io.to(userId1.toString()).send(startTypingResponse(action.chatId, userId))
                                 })
+                            }
+                            break
+                        }
+                        case SEND_MESSAGE: {
+                            const strippedMessage = socket.user.username === 'admin'
+                                ? action.message
+                                : stripTags(action.message)
+
+                            const room = await Room.get(action.chatId)
+                            room.checkMember(userId)
+
+                            const userMessages = await Message.createMessage(room, userId, strippedMessage)
+                            userMessages.forEach(userMessage => {
+                                const ownerId = userMessage.owner.toString()
+                                const msg = {
+                                    message: strippedMessage,
+                                    id: userMessage._id,
+                                    from: userId,
+                                    time: userMessage.date.valueOf()
+                                }
+
+                                socket.to(userMessage.owner.toString()).send(newMessage(msg, action.chatId))
+                                if (ownerId === userId)
+                                    socket.send(sendSuccess(
+                                        action.tempId,
+                                        action.chatId,
+                                        msg
+                                    ))
                             })
-                            .catch(logError)
-                        break
-                    case END_TYPING:
-                        Promise.resolve()
-                            .getRoom(action.chatId)
-                            .checkMember(userId)
-                            .then(room => {
+                            break
+                        }
+                        case FETCH_MESSAGES: {
+                            const messages = await UserMessage.getPacket(userId, action.chatId, action.lastMessageId)
+                            const [filteredMessages, isFullLoaded] = UserMessage.filter(messages)
+
+                            socket.send(fetchMessagesSuccess(action.chatId, filteredMessages, isFullLoaded))
+                            break
+                        }
+                        case FETCH_USERS: {
+                            const users = await User.getUsers(action.userIds)
+                            const filteredUsers = User.filter(users)
+
+                            socket.send(fetchUsersSuccess(filteredUsers))
+                            break
+                        }
+                        case SEARCH_USERS: {
+                            const foundUsers = await User.search(action.search)
+
+                            socket.send(searchUsersSuccess(foundUsers))
+                            break
+                        }
+                        case INVITE_USERS: {
+                            const room = await Room.get(action.chatId)
+                            room.checkMember(userId)
+                            checkUnique([...action.userIds, ...room.users.map(userId => userId.toString())])
+
+                            const users = await User.getUsers(action.userIds)
+
+                            await room.addUsers(userId, action.userIds).save()
+
+                            for (let i = 0; i < users.length; ++i) {
+                                const message = `${socket.user.name} ${socket.user.surname} invited ${users[i].name} ${users[i].surname}`
+
+                                const userMessages = await Message.createMessage(room, undefined, message)
+                                userMessages.forEach(userMessage => {
+                                    io.to(userMessage.owner.toString()).send(
+                                        newMessageWithInvite(
+                                            {
+                                                message: message,
+                                                id: userMessage._id.toString(),
+                                                time: userMessage.date.valueOf()
+                                            },
+                                            action.chatId,
+                                            users[i]._id.toString(),
+                                            userId
+                                        )
+                                    )
+                                })
+                            }
+                            break
+                        }
+                        case MARK_READ: {
+                            const openRoom = await OpenRoom.get(userId, action.chatId)
+                            await openRoom.markRead().save()
+                            break
+                        }
+                        case FETCH_ONLINE_USERS: {
+                            const users = {}
+
+                            action.userIds.forEach(userId => {
+                                users[userId] = !!io.sockets.adapter.rooms[userId]
+                            })
+                            socket.send(fetchOnlineUsersSuccess(users))
+                            break
+                        }
+                        case START_TYPING: {
+                            const room = await Room.get(action.chatId)
+                            room.checkMember(userId)
+                            room.users.forEach(userId1 => {
+                                if (userId !== userId1.toString())
+                                    io.to(userId1.toString()).send(startTypingResponse(action.chatId, userId))
+                            })
+                            break
+                        }
+                        case END_TYPING: {
+                            const room = await Room.get(action.chatId)
+                            room.checkMember(userId)
+                            room.users.forEach(userId1 => {
+                                if (userId !== userId1.toString())
+                                    io.to(userId1.toString()).send(endTypingResponse(action.chatId, userId))
+                            })
+                            break
+                        }
+                        case DELETE_MESSAGES: {
+                            await UserMessage.remove(userId, action.messageIds)
+                            break
+                        }
+                        case REMOVE_USER: {
+                            const room = await Room.get(action.chatId)
+                            room.checkIsRoom().checkRemovable(userId, action.userId)
+
+                            const user = await User.get(action.userId)
+                            const message = `${socket.user.name} ${socket.user.surname} removed ${user.name} ${user.surname}`
+                            const userMessages = await Message.createMessage(room, undefined, message)
+
+                            userMessages.forEach(userMessage => {
+                                io.to(userMessage.owner.toString()).send(
+                                    newMessageWithRemove(
+                                        {
+                                            message,
+                                            id: userMessage._id,
+                                            time: userMessage.date.valueOf()
+                                        },
+                                        action.chatId,
+                                        action.userId
+                                    )
+                                )
+                            })
+
+                            await room.removeUser(action.userId).save()
+                            break
+                        }
+                        case LEAVE_CHAT: {
+                            const room = await Room.get(action.chatId)
+                            room.checkIsRoom().checkMember(userId)
+
+                            const message = `${socket.user.name} ${socket.user.surname} left room`
+                            const userMessages = await Message.createMessage(room, undefined, message)
+
+                            userMessages.forEach(userMessage => {
+                                io.to(userMessage.owner.toString()).send(
+                                    newMessageWithRemove(
+                                        {
+                                            message,
+                                            id: userMessage._id,
+                                            time: userMessage.date.valueOf()
+                                        },
+                                        action.chatId,
+                                        userId
+                                    )
+                                )
+                            })
+
+                            await room.removeUser(userId).save()
+                            break
+                        }
+                        case DELETE_CHAT: {
+                            await UserMessage.removeAllMessages(userId, action.chatId)
+                            await OpenRoom.remove(userId, action.chatId)
+
+                            socket.send(deleteChatSuccess(action.chatId))
+                            break
+                        }
+                        case EXIT_REQUEST: {
+                            await socket.user.removeToken(socket.token).save()
+
+                            if (action.chatId) {
+                                const room = await Room.get(action.chatId)
+                                room.checkMember(userId)
+
                                 room.users.forEach(userId1 => {
                                     if (userId !== userId1.toString())
                                         io.to(userId1.toString()).send(endTypingResponse(action.chatId, userId))
                                 })
-                            })
-                            .catch(logError)
-                        break
-                    case DELETE_MESSAGES:
-                        Promise.resolve()
-                            .deleteMessages(userId, action.messageIds)
-                            .catch(logError)
-                        break
-                    case REMOVE_USER:
-                        let room
+                            }
 
-                        Promise.resolve()
-                            .getRoom(action.chatId)
-                            .checkIsRoom()
-                            .checkRemovable(userId, action.userId)
-                            .then(foundRoom => room = foundRoom)
-                            .getUser(action.userId)
-                            .then(user => {
-                                const message = `${socket.user.name} ${socket.user.surname} removed ${user.name} ${user.surname}`
-
-                                return Promise.resolve(room)
-                                    .createMessage(undefined, message)
-                                    .then(userMessages => {
-                                        userMessages.forEach(
-                                            userMessage => {
-                                                io.to(userMessage.owner.toString()).send(
-                                                    newMessageWithRemove(
-                                                        {
-                                                            message,
-                                                            id: userMessage._id,
-                                                            time: userMessage.date.valueOf()
-                                                        },
-                                                        action.chatId,
-                                                        action.userId
-                                                    )
-                                                )
-                                            }
-                                        )
-                                        return room
-                                    })
-                                    .removeUser(action.userId)
-                                    .catch(logError)
-                            })
-                            .catch(logError)
-                        break
-                    case LEAVE_CHAT:
-                        Promise.resolve()
-                            .getRoom(action.chatId)
-                            .checkIsRoom()
-                            .checkMember(userId)
-                            .then(room => {
-                                const message = `${socket.user.name} ${socket.user.surname} left room`
-
-                                return Promise.resolve(room)
-                                    .createMessage(undefined, message)
-                                    .then(userMessages => {
-                                        userMessages.forEach(
-                                            userMessage => {
-                                                io.to(userMessage.owner.toString()).send(
-                                                    newMessageWithRemove(
-                                                        {
-                                                            message,
-                                                            id: userMessage._id,
-                                                            time: userMessage.date.valueOf()
-                                                        },
-                                                        action.chatId,
-                                                        userId
-                                                    )
-                                                )
-                                            }
-                                        )
-                                        return room
-                                    })
-                                    .removeUser(userId)
-                                    .catch(logError)
-                            })
-                            .catch(logError)
-                        break
-                    case DELETE_CHAT:
-                        Promise.resolve()
-                            .deleteAllMessages(userId, action.chatId)
-                            .deleteOpenRoom(userId, action.chatId)
-                            .then(() => {
-                                socket.send(deleteChatSuccess(action.chatId))
-                            })
-                            .catch(errorHandler(deleteChatError))
-                        break
-                    case EXIT_REQUEST:
-                        Promise.resolve(socket.user)
-                            .deleteToken(socket.token)
-
-                        if (action.chatId)
-                            Promise.resolve()
-                                .getRoom(action.chatId)
-                                .checkMember(userId)
-                                .then(room => {
-                                    room.users.forEach(userId1 => {
-                                        if (userId !== userId1.toString())
-                                            io.to(userId1.toString()).send(endTypingResponse(action.chatId, userId))
-                                    })
-                                })
-                                .catch(logError)
-
-                        Object.keys(socket.adapter.rooms).forEach(roomId => {
-                            socket.leave(roomId)
-                        })
-
-                        break
-                    case UPDATE_CHAT_INFO:
-                        let message
-
-                        switch (action.field) {
-                            case CHAT_NAME:
-                                message = `${socket.user.name} ${socket.user.surname} renamed room to ${action.value}`
-                                break
-                            case CHAT_AVATAR:
-                                message = `${socket.user.name} ${socket.user.surname} changed avatar to ${action.value}`
-                                break
-                            case CHAT_DESCRIPTION:
-                                message = `${socket.user.name} ${socket.user.surname} changed description to ${action.value}`
-                                break
+                            socket.leave(userId)
+                            break
                         }
+                        case UPDATE_CHAT_INFO: {
+                            const room = await Room.get(action.chatId)
+                            room.checkIsRoom().checkMember(userId)
+                            let message
 
-                        Promise.resolve()
-                            .getRoom(action.chatId)
-                            .checkIsRoom()
-                            .checkMember(userId)
-                            .changeRoomInfo(action.field, action.value)
-                            .createMessage(undefined, message)
-                            .then(userMessages => userMessages.forEach(
-                                userMessage => {
-                                    io.to(userMessage.owner.toString()).send(
-                                        newMessageWithInfoUpdate(
-                                            {
-                                                message,
-                                                id: userMessage._id,
-                                                time: userMessage.date.valueOf()
-                                            },
-                                            action.chatId,
-                                            action.field,
-                                            action.value
-                                        )
+                            switch (action.field) {
+                                case CHAT_NAME:
+                                    message = `${socket.user.name} ${socket.user.surname} renamed room to ${action.value}`
+                                    room.name = action.value
+                                    break
+                                case CHAT_AVATAR:
+                                    message = `${socket.user.name} ${socket.user.surname} changed avatar to ${action.value}`
+                                    room.avatar = action.value
+                                    break
+                                case CHAT_DESCRIPTION:
+                                    message = `${socket.user.name} ${socket.user.surname} changed description to ${action.value}`
+                                    room.description = action.value
+                                    break
+                            }
+
+                            await room.save()
+                            const userMessages = await Message.createMessage(room, undefined, message)
+                            userMessages.forEach(userMessage => {
+                                io.to(userMessage.owner.toString()).send(
+                                    newMessageWithInfoUpdate(
+                                        {
+                                            message,
+                                            id: userMessage._id,
+                                            time: userMessage.date.valueOf()
+                                        },
+                                        action.chatId,
+                                        action.field,
+                                        action.value
                                     )
-                                }
-                            ))
-                            .catch(logError)
-                        break
-                    case UPDATE_USER_INFO:
-                        Promise.resolve(socket.user)
-                            .changeUserInfo(action.field, action.value, action.oldPassword)
-                            .catch(errorHandler(validationError))
-                        break
+                                )
+                            })
+                            break
+                        }
+                        case UPDATE_USER_INFO: {
+                            switch (action.field) {
+                                case USER_AVATAR:
+                                    socket.user.avatar = action.value
+                                    break
+                                case USER_DESCRIPTION:
+                                    socket.user.description = action.value
+                                    break
+                                case USER_PASSWORD:
+                                    socket.user.checkPassword(action.oldPassword)
+                                    socket.user.password = action.value
+                                    break
+                            }
+
+                            await socket.user.save()
+                            break
+                        }
+                    }
+                }
+                catch (err) {
+                    if (err instanceof MyError) {
+                        log.debug(err)
+                        socket.send(error(action.type, err.message))
+                    }
+                    else {
+                        log.error(err)
+                        socket.send(error(action.type, 'Server error'))
+                    }
                 }
             })
         }

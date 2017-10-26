@@ -90,10 +90,10 @@ class MemberAccountClass extends Component {
         if (!user || (!invitedBy && !isCreator))
             return null
 
-        const {name, surname, avatar, username, id} = user
+        const {name, surname, avatar, username, id, online} = user
 
         return (
-            <li className="account">
+            <li className="account profile-account">
                 <Avatar src={avatar} userId={id}/>
                 <div className="info-fix">
                     <div className="name">
@@ -109,6 +109,7 @@ class MemberAccountClass extends Component {
                         : <span className="profile-link"
                                 onClick={openProfile}>Invited by {invitedBy.name} {invitedBy.surname}</span>}
                 </div>
+                {online && <div className="tmblr online"/>}
                 {!isCreator && isRemovable && <span className="confirm-delete" onClick={removeUser}>&#61460;</span>}
             </li>
         )

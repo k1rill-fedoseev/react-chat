@@ -1,7 +1,7 @@
 import {
     CHANGE_CHAT_INFO_CLICK, CHANGE_USER_INFO_CLICK, CHAT_SELECT,
     CREATE_CLICK, DELETE_CHAT_CLICK, DELETE_MESSAGES_CLICK, EXIT_CLICK, INVITE_ACCEPT_CLICK, LEAVE_CHAT_CLICK,
-    LOAD_MORE_CLICK, MARK_READ, MESSAGE_INPUT_CHANGE, REMOVE_USER_CLICK,
+    LOAD_MORE_CLICK, MARK_READ_FRONTEND, MESSAGE_INPUT_CHANGE, REMOVE_USER_CLICK,
     SEARCH_CHANGE,
     SEND_CLICK, SIGN_IN_CLICK,
     SIGN_UP_CLICK, SWITCH_MESSAGES_AND_CHAT_INFO
@@ -12,12 +12,12 @@ import {
     deleteMessages,
     endTyping, exitRequest,
     fetchChat, fetchChats,
-    fetchMessages, fetchUsers, leaveChat, removeUser, startTyping, tryCreate1To1, tryCreateRoom,
-    tryInviteUsers,
-    tryMarkRead,
-    trySearchUsers, trySend,
-    trySignIn,
-    trySignUp, updateChatInfo, updateUserInfo
+    fetchMessages, fetchUsers, leaveChat, removeUser, startTyping, createUserRoom, createRoom,
+    inviteUsers,
+    markRead,
+    searchUsers, sendMessage,
+    signIn,
+    signUp, updateChatInfo, updateUserInfo
 } from '../actions/requests'
 import {
     FETCH_CHAT_SUCCESS,
@@ -33,45 +33,44 @@ export default store => next => action => {
 
     switch (action.type) {
         case INVITE_ACCEPT_CLICK:
-            socket.send(tryInviteUsers(state.ui.selectedChat, Object.keys(state.ui.selectedUsers)))
+            socket.send(inviteUsers(state.ui.selectedChat, Object.keys(state.ui.selectedUsers)))
             break
         case SEND_CLICK:
-            socket.send(trySend(state.ui.tempId, state.ui.selectedChat, action.message))
+            socket.send(sendMessage(state.ui.tempId, state.ui.selectedChat, action.message))
             socket.send(endTyping(state.ui.selectedChat))
             break
         case CREATE_CLICK:
             if (state.ui.isRoomCreateTab)
-                socket.send(tryCreateRoom(action.name, action.description, action.avatar, Object.keys(state.ui.selectedUsers)))
+                socket.send(createRoom(action.name, action.description, action.avatar, Object.keys(state.ui.selectedUsers)))
             else
-                socket.send(tryCreate1To1(Object.keys(state.ui.selectedUsers)[0]))
+                socket.send(createUserRoom(Object.keys(state.ui.selectedUsers)[0]))
             break
         case SIGN_IN_CLICK:
-            socket.send(trySignIn(action.username, action.password))
+            socket.send(signIn(action.username, action.password))
             break
         case SIGN_UP_CLICK:
-            console.log(action)
-            socket.send(trySignUp(action.name, action.surname, action.username,
+            socket.send(signUp(action.name, action.surname, action.username,
                 action.password, action.avatar, action.description))
             break
         case LOAD_MORE_CLICK:
             socket.send(fetchMessages(state.ui.selectedChat, state.ui.messagesLists[state.ui.selectedChat][0]))
             break
         case SEARCH_CHANGE:
-            socket.send(trySearchUsers(action.search))
+            socket.send(searchUsers(action.search))
             break
         case NEW_MESSAGE:
             if (!state.db.chats[action.chatId])
                 socket.send(fetchChat(action.chatId))
             else if (state.ui.selectedChat === action.chatId)
-                socket.send(tryMarkRead(action.chatId))
+                socket.send(markRead(action.chatId))
 
             if (action.message.from && !state.db.users[action.message.from])
                 socket.send(fetchUsers([action.message.from]))
             else if (action.invitedUserId && !state.db.users[action.invitedUserId])
                 socket.send(fetchUsers([action.invitedUserId]))
             break
-        case MARK_READ:
-            socket.send(tryMarkRead(state.ui.selectedChat))
+        case MARK_READ_FRONTEND:
+            socket.send(markRead(state.ui.selectedChat))
             break
         case SIGN_IN_SUCCESS:
         case SIGN_UP_SUCCESS:
@@ -120,15 +119,15 @@ export default store => next => action => {
                 socket.send(fetchUsers(keys))
             break
         case MESSAGE_INPUT_CHANGE:
-            if (!state.ui.messagesInputs[state.ui.selectedChat] && action.value)
+            if (!state.ui.messagesInputs[state.ui.selectedChat] && action.value && state.db.chats[state.ui.selectedChat].isMember)
                 socket.send(startTyping(state.ui.selectedChat))
-            else if (state.ui.messagesInputs[state.ui.selectedChat] && !action.value)
+            else if (state.ui.messagesInputs[state.ui.selectedChat] && !action.value && state.db.chats[state.ui.selectedChat].isMember)
                 socket.send(endTyping(state.ui.selectedChat))
             break
         case CHAT_SELECT:
-            if (state.ui.messagesInputs[state.ui.selectedChat])
+            if (state.ui.messagesInputs[state.ui.selectedChat] && state.db.chats[state.ui.selectedChat].isMember)
                 socket.send(endTyping(state.ui.selectedChat))
-            if (state.ui.messagesInputs[action.chatId])
+            if (state.ui.messagesInputs[action.chatId] && state.db.chats[action.chatId].isMember)
                 socket.send(startTyping(action.chatId))
             break
         case DELETE_MESSAGES_CLICK:
@@ -144,7 +143,7 @@ export default store => next => action => {
                     unique[userId] = true
             })
 
-            if(state.db.chats[state.ui.selectedChat].invites) {
+            if (state.db.chats[state.ui.selectedChat].invites) {
                 Object.keys(state.db.chats[state.ui.selectedChat].invites).forEach(userId => {
                     userId = state.db.chats[state.ui.selectedChat].invites[userId]
                     if (!state.db.users[userId])
@@ -172,7 +171,10 @@ export default store => next => action => {
             socket.send(updateUserInfo(action.field, action.value, action.oldPassword))
             break
         case EXIT_CLICK:
-            socket.send(exitRequest(state.ui.selectedChat))
+            const chat = state.db.chats[state.ui.selectedChat] || false
+            socket.send(exitRequest(chat.isMember
+                ? chat.id
+                : ''))
             break
     }
 

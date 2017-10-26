@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
 import { connect } from 'react-redux'
 import Message from './Message'
 import LoadMore from './LoadMore'
 import Divider from './Divider'
-import { getInfo, scroll } from '../helpers/scrollController'
+import { getScrollInfo, scroll } from '../helpers/scrollController'
 
 class MessagesList extends Component {
 
@@ -48,7 +47,7 @@ class MessagesList extends Component {
 
     componentDidUpdate() {
         const {id} = this.props.chat
-        const {isEnd, position} = getInfo(id)
+        const {isEnd, position} = getScrollInfo(id)
 
         if (isEnd)
             this.node.scrollTop = this.node.scrollHeight - this.node.offsetHeight

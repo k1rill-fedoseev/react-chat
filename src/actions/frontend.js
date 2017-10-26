@@ -19,7 +19,7 @@ export const SIGN_UP_CLICK = 10
 export const LOAD_MORE_CLICK = 11
 export const CLEAR_ERROR = 12
 export const SEARCH_CHANGE = 13
-export const MARK_READ = 14
+export const MARK_READ_FRONTEND = 14
 export const SORT_CHATS_LIST = 15
 export const MESSAGE_INPUT_CHANGE = 16
 export const MESSAGE_SELECT = 17
@@ -97,8 +97,8 @@ export const searchChange = search => ({
     search
 })
 
-export const markRead = () => ({
-    type: MARK_READ
+export const markReadFrontend = () => ({
+    type: MARK_READ_FRONTEND
 })
 
 export const sortChatsList = chatsList => ({

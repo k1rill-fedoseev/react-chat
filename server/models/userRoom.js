@@ -9,7 +9,7 @@ const roomSchema = mongoose.Schema({
     }],
     invites: [{
         type: ObjectId,
-        ref: 'User',
+        ref: 'User'
     }],
     isRoom: {
         type: Boolean,
@@ -25,5 +25,39 @@ const roomSchema = mongoose.Schema({
         required: true
     }
 })
+
+const getIfExists = function (userId, userId1) {
+    const users = userId1
+        ? [userId, userId1]
+        : [userId]
+
+    return this.findOne({
+        isRoom: false,
+        users: {
+            $size: users.length,
+            $all: users
+        }
+    })
+}
+
+const createUserRoom = function (userId, userId1) {
+    if (userId1)
+        return this.create({
+            creator: userId,
+            users: [userId, userId1],
+            invites: [null, userId]
+        })
+
+    return this.create({
+        creator: userId,
+        users: [userId],
+        invites: [null]
+    })
+}
+
+roomSchema.statics = {
+    getIfExists,
+    createUserRoom
+}
 
 module.exports = mongoose.model('UserRoom', roomSchema, 'rooms')

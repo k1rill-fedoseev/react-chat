@@ -21,10 +21,14 @@ class MessageInput extends Component {
     }
 
     handleKeyDown(e) {
-        if(e.which === 13) {
+        const {inputChange, value} = this.props
+
+        if(e.which === 13 && !e.ctrlKey)     {
             this.handleClick()
             e.preventDefault()
         }
+        else if(e.which === 13)
+            inputChange(value || '' + '\n')
     }
 
     handleClick() {
