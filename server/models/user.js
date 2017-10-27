@@ -58,6 +58,7 @@ userSchema.virtual('password')
 
 const genSalt = function (length) {
     this.salt = crypto.randomBytes(length).toString('hex')
+
     return this
 }
 
@@ -80,6 +81,8 @@ const genToken = function () {
 const checkPassword = function (password) {
     if(this.hashedPassword !== this.encrypt(password))
         throw new WrongAuthData('Wrong password')
+
+    return this
 }
 
 const removeToken = function (token) {
@@ -99,7 +102,16 @@ const removeAllTokens = function () {
 const changePassword = function(oldPassword, newPassword) {
     if (this.encrypt(oldPassword) !== this.hashedPassword)
         throw new WrongAuthData('Wrong old password')
+
     this.password = newPassword
+
+    return this
+}
+
+const updateLastOnline = function() {
+    this.lastOnline = Date.now()
+
+    return this
 }
 
 const filterUser = function () {
@@ -121,6 +133,7 @@ userSchema.methods = {
     removeToken,
     removeAllTokens,
     changePassword,
+    updateLastOnline,
     filter: filterUser
 }
 

@@ -28,12 +28,23 @@ export default (state = {}, action) => {
         case FETCH_ONLINE_USERS_SUCCESS:
             newState = {...state}
 
-            for (let userId in action.users)
-                if (state[userId] && state[userId].online !== action.users[userId])
-                    newState[userId] = {...state[userId], online: action.users[userId]}
+            Object.keys(action.users).forEach(userId => {
+                const user = state[userId]
+                const isOnline = action.users[userId] === true
+                const lastOnline = isOnline
+                    ? user.lastOnline
+                    : action.users[userId]
+
+                if (state[userId] && (user.online !== isOnline || user.lastOnline !== lastOnline))
+                    newState[userId] = {
+                        ...user,
+                        online: isOnline,
+                        lastOnline
+                    }
+            })
             return newState
         case CHANGE_USER_INFO_CLICK:
-            switch(action.field){
+            switch (action.field) {
                 case USER_AVATAR:
                     return {
                         ...state,

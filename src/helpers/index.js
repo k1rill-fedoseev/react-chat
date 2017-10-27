@@ -18,7 +18,7 @@ export const parseMs = (ms) => {
     else if (ms < 86400)
         return Math.round(ms / 3600) + ' hrs'
     else {
-        let days = Math.round(ms / 86400)
+        const days = Math.round(ms / 86400)
         if (days === 1)
             return '1 day'
         return days + ' days'

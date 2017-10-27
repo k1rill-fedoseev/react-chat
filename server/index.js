@@ -1,13 +1,7 @@
 //TODO: search only not-included users
 //TODO: forwarding messages
-//TODO: smart online update
-//TODO: 1-to-1 chats dont show users that are already in chats
 //TODO: cant invite user that have already left
 //TODO: return to room
-//TODO: error handlers to 1 catch
-
-//TODO: online controller for chat info
-//TODO: last online
 
 const path = require('path')
 const express = require('express')

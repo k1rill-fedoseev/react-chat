@@ -80,7 +80,7 @@ module.exports = function (server) {
                     switch (action.type) {
                         case SIGN_IN: {
                             const user = await User.auth(action.username, action.password)
-                            await user.genToken().save()
+                            await user.genToken().updateLastOnline().save()
 
                             userId = user._id.toString()
 
@@ -114,6 +114,7 @@ module.exports = function (server) {
                         socket.send(error(action.type, err.message))
                     }
                     else {
+                        log.error(action)
                         log.error(err)
                         socket.send(error(action.type, 'Server error'))
                     }
@@ -123,6 +124,8 @@ module.exports = function (server) {
                     return
 
                 try {
+                    await socket.user.updateLastOnline().save()
+
                     switch (action.type) {
                         case FETCH_CHATS: {
 
@@ -276,9 +279,14 @@ module.exports = function (server) {
                         case FETCH_ONLINE_USERS: {
                             const users = {}
 
-                            action.userIds.forEach(userId => {
-                                users[userId] = !!io.sockets.adapter.rooms[userId]
-                            })
+                            await Promise.all(action.userIds.map(async userId => {
+                                if (io.sockets.adapter.rooms[userId])
+                                    users[userId] = true
+                                else {
+                                    const user = await User.get(userId)
+                                    users[userId] = user.lastOnline.getTime()
+                                }
+                            }))
                             socket.send(fetchOnlineUsersSuccess(users))
                             break
                         }
@@ -439,6 +447,7 @@ module.exports = function (server) {
                         socket.send(error(action.type, err.message))
                     }
                     else {
+                        log.error(action)
                         log.error(err)
                         socket.send(error(action.type, 'Server error'))
                     }

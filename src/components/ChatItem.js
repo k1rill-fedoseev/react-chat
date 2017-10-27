@@ -14,7 +14,7 @@ class ChatItem extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    updateInterval({time}) {
+    updateInterval(time) {
         clearInterval(this.intervalId)
 
         this.setState({
@@ -28,17 +28,13 @@ class ChatItem extends Component {
         }, 30000)
     }
 
-    subscribe({to, isMe}) {
-        if (to && !isMe)
-            subscribe(to.id)
-    }
-
     componentWillMount() {
-        const {time} = this.props
+        const {time, to, isMe} = this.props
 
         if (time !== 0)
-            this.updateInterval(this.props)
-        this.subscribe(this.props)
+            this.updateInterval(time)
+        if (to && !isMe)
+            subscribe(to.id)
     }
 
     componentWillUnmount() {
@@ -51,12 +47,13 @@ class ChatItem extends Component {
     }
 
     componentWillReceiveProps(props) {
-        const {isSelected, markRead, chat, time} = props
+        const {isSelected, markRead, chat, time, to, isMe} = props
         const {newMessages} = chat
 
         if (time !== 0)
-            this.updateInterval(props)
-        this.subscribe(props)
+            this.updateInterval(time)
+        if (to && !isMe)
+            subscribe(to.id)
 
         if (newMessages && isSelected && !this.props.isSelected)
             this.timeoutId = setTimeout(markRead, 2500)
@@ -127,7 +124,7 @@ export default connect(
         return {
             isSelected: ownProps.chatId === state.ui.selectedChat,
             chat,
-            isMe: !chat.isRoom && chat.users[0] === state.ui.loggedAccount,
+            isMe: !chat.isRoom && chat.users.length === 1,
             message: lastMessage.message,
             time: lastMessage.time,
             to: state.db.users[chat.to],

@@ -11,23 +11,6 @@ import ProfileField from './ProfileField'
 
 class UserProfile extends Component {
 
-    profileAccount() {
-        const {user} = this.props
-        const {online} = user
-
-        return (
-            <div className="row">
-                <ProfileAccount user={user}/>
-                <div className="info2">
-                    <div className={`tmblr ${online
-                        ? 'online'
-                        : ''}`}/>
-                    {!online && <div className="time">5 hrs ago</div>}
-                </div>
-            </div>
-        )
-    }
-
     render() {
         const {user, close, changeAvatar, changeDescription, changePassword, isMe} = this.props
         const {avatar, description} = user
@@ -40,7 +23,7 @@ class UserProfile extends Component {
                         <div className="close" onClick={close}>+</div>
                     </div>
                     <div className="profile">
-                        {this.profileAccount()}
+                        <ProfileAccount user={user}/>
                         <ProfileField label="Avatar" value={avatar}/>
                         <ProfileField label="Description" value={description.length === 0
                             ? '<empty>'
@@ -56,7 +39,7 @@ class UserProfile extends Component {
                     <div className="close" onClick={close}>+</div>
                 </div>
                 <div className="profile">
-                    {this.profileAccount()}
+                    <ProfileAccount user={user}/>
                     <SmartInput label="Avatar" maxLength={256} value={avatar} onAccept={changeAvatar}/>
                     <SmartInput label="Description" maxLength={256} value={description} onAccept={changeDescription}/>
                     <SmartPasswordInput onAccept={changePassword}/>

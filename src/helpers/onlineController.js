@@ -1,18 +1,40 @@
-const users = {}
+import socket from '../sockets'
+import { fetchOnlineUsers } from '../actions/requests'
 
-export const subscribe = userId => {
-    users[userId] = true
+const subscribers = {}
+const lastUpdate = {}
+
+const fetchIfNeed = () => {
+    const keys = Object.keys(subscribers)
+
+    if (keys.length)
+        socket.send(fetchOnlineUsers(keys))
+
+    return keys
 }
 
-export const unsubscribe = userId => {
-    delete users[userId]
+let intervalId = setInterval(fetchIfNeed, 180000)
+let timeoutId
+
+export const subscribe = (userId, level = 0) => {
+    subscribers[userId] |= 1 << level
+
+    if (!timeoutId && (!lastUpdate[userId] || Date.now() - 180000 > lastUpdate[userId])){
+        clearInterval(intervalId)
+        timeoutId = setTimeout(() => {
+            intervalId = setInterval(fetchIfNeed, 180000)
+            timeoutId = 0
+
+            const now = Date.now()
+            const keys = fetchIfNeed()
+            keys.forEach(userId => lastUpdate[userId] = now)
+        }, 1000)
+    }
+
 }
 
-export const getUserIds = () => {
-    const userIds = []
-
-    for(let key in users)
-        userIds.push(key)
-
-    return userIds
+export const unsubscribe = (userId, level = 0) => {
+    subscribers[userId] ^= 1 << level
+    if (!subscribers[userId])
+        delete subscribers[userId]
 }

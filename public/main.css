@@ -941,6 +941,10 @@ input {
     margin-bottom: 15px;
 }
 
+.account.invite {
+    justify-content: space-between;
+}
+
 @media (max-width: 760px) {
     .content > div {
         margin-right: 5px;
