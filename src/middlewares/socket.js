@@ -56,7 +56,9 @@ export default store => next => action => {
             socket.send(fetchMessages(state.ui.selectedChat, state.ui.messagesLists[state.ui.selectedChat][0]))
             break
         case SEARCH_CHANGE:
-            socket.send(searchUsers(action.search))
+            socket.send(searchUsers(action.search, state.ui.newChatTab
+                ? ''
+                : state.ui.selectedChat))
             break
         case NEW_MESSAGE:
             if (!state.db.chats[action.chatId])

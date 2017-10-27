@@ -1,5 +1,7 @@
-//TODO: search only not-included users
 //TODO: forwarding messages
+
+//TODO: attachments
+
 //TODO: cant invite user that have already left
 //TODO: return to room
 

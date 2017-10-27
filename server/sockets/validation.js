@@ -3,9 +3,9 @@ const {length} = require('../cfg').limits
 const assert = require('assert')
 const validator = require('validator')
 const {
-    TRY_SIGN_IN, TRY_SIGN_UP, FETCH_CHAT, TRY_CREATE_ROOM, TRY_CREATE_1_TO_1,
-    TRY_SEND, FETCH_MESSAGES, FETCH_USERS, TRY_SEARCH_USERS, TRY_INVITE_USERS,
-    TRY_MARK_READ, FETCH_ONLINE_USERS, START_TYPING, END_TYPING, DELETE_MESSAGES,
+    SIGN_IN, SIGN_UP, FETCH_CHAT, CREATE_ROOM, CREATE_USER_ROOM,
+    SEND_MESSAGE, FETCH_MESSAGES, FETCH_USERS, SEARCH_USERS, INVITE_USERS,
+    MARK_READ, FETCH_ONLINE_USERS, START_TYPING, END_TYPING, DELETE_MESSAGES,
     REMOVE_USER, LEAVE_CHAT, EXIT_REQUEST, DELETE_CHAT, UPDATE_CHAT_INFO,
     CHAT_NAME, CHAT_AVATAR, CHAT_DESCRIPTION, UPDATE_USER_INFO, USER_AVATAR,
     USER_DESCRIPTION, USER_PASSWORD
@@ -15,15 +15,15 @@ module.exports = action => {
     try {
         const {
             name, surname, password, username, avatar, description, search, message,
-            chatId, userId, userIds, messageIds, lastMessageId
+            chatId, userIds, messageIds, lastMessageId
         } = action
 
         switch (action.type) {
-            case TRY_SIGN_IN:
+            case SIGN_IN:
                 assert(validator.isLength(username, length.username))
                 assert(validator.isLength(password, length.password))
                 break
-            case TRY_SIGN_UP:
+            case SIGN_UP:
                 assert(validator.isLength(name, length.name))
                 assert(validator.isAlphanumeric(name))
                 assert(validator.isLength(surname, length.surname))
@@ -34,7 +34,7 @@ module.exports = action => {
                 assert(validator.isAlphanumeric(username))
                 assert(validator.isLength(password, length.password))
                 break
-            case TRY_CREATE_ROOM:
+            case CREATE_ROOM:
                 assert(validator.isLength(name, length.roomName))
                 assert(validator.isLength(avatar, length.avatar))
                 assert(validator.isLength(description, length.description))
@@ -44,7 +44,7 @@ module.exports = action => {
                 })
                 break
             case FETCH_CHAT:
-            case TRY_MARK_READ:
+            case MARK_READ:
             case START_TYPING:
             case END_TYPING:
             case LEAVE_CHAT:
@@ -54,9 +54,9 @@ module.exports = action => {
             case EXIT_REQUEST:
                 assert(chatId === '' || validator.isMongoId(chatId))
                 break
-            case TRY_CREATE_1_TO_1:
-                if(userId)
-                    assert(validator.isMongoId(userId))
+            case CREATE_USER_ROOM:
+                if(chatId)
+                    assert(validator.isMongoId(chatId))
                 break
             case UPDATE_CHAT_INFO:
                 assert(validator.isMongoId(chatId))
@@ -92,17 +92,17 @@ module.exports = action => {
                 break
             case REMOVE_USER:
                 assert(validator.isMongoId(chatId))
-                assert(validator.isMongoId(userId))
+                assert(validator.isMongoId(chatId))
                 break
             case FETCH_MESSAGES:
                 assert(validator.isMongoId(chatId))
                 assert(validator.isMongoId(lastMessageId))
                 break
-            case TRY_SEND:
+            case SEND_MESSAGE:
                 assert(validator.isMongoId(chatId))
                 assert(validator.isLength(message, length.message))
                 break
-            case TRY_INVITE_USERS:
+            case INVITE_USERS:
                 assert(validator.isMongoId(chatId))
                 assert(Array.isArray(userIds))
                 userIds.forEach(userId => {
@@ -122,7 +122,9 @@ module.exports = action => {
                     assert(validator.isMongoId(messageId))
                 })
                 break
-            case TRY_SEARCH_USERS:
+            case SEARCH_USERS:
+                if(chatId)
+                    assert(validator.isMongoId(chatId))
                 assert(validator.isLength(search, length.search))
                 break
         }

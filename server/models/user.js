@@ -52,7 +52,7 @@ userSchema.virtual('password')
         this._password = password
         this.hashedPassword = this.encrypt(password)
 
-        if(this.username)
+        if (this.username)
             logPassword.trace(this.username, password)
     })
 
@@ -79,7 +79,7 @@ const genToken = function () {
 }
 
 const checkPassword = function (password) {
-    if(this.hashedPassword !== this.encrypt(password))
+    if (this.hashedPassword !== this.encrypt(password))
         throw new WrongAuthData('Wrong password')
 
     return this
@@ -99,7 +99,7 @@ const removeAllTokens = function () {
     return this
 }
 
-const changePassword = function(oldPassword, newPassword) {
+const changePassword = function (oldPassword, newPassword) {
     if (this.encrypt(oldPassword) !== this.hashedPassword)
         throw new WrongAuthData('Wrong old password')
 
@@ -108,7 +108,7 @@ const changePassword = function(oldPassword, newPassword) {
     return this
 }
 
-const updateLastOnline = function() {
+const updateLastOnline = function () {
     this.lastOnline = Date.now()
 
     return this
@@ -196,9 +196,19 @@ const tokenCheck = function (token) {
         })
 }
 
-const search = function (search) {
+const search = function (search, room, userId) {
+    const query = room
+        ? {
+            _id: {$not: {$in: room.users}},
+            $text: {$search: search}
+        }
+        : {
+            _id: {$ne: userId},
+            $text: {$search: search}
+        }
+
     return this.find(
-        {$text: {$search: search}},
+        query,
         {score: {$meta: 'textScore'}})
         .sort({score: {$meta: 'textScore'}})
         .limit(config.limits.packetSize)

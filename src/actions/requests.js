@@ -46,9 +46,9 @@ export const sendMessage = (tempId, chatId, message) => ({
     tempId, chatId, message
 })
 
-export const searchUsers = search => ({
+export const searchUsers = (search, chatId) => ({
     type: SEARCH_USERS,
-    search
+    search, chatId
 })
 
 export const fetchUsers = userIds => ({

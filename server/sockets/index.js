@@ -236,7 +236,10 @@ module.exports = function (server) {
                             break
                         }
                         case SEARCH_USERS: {
-                            const foundUsers = await User.search(action.search)
+                            const room = action.chatId
+                                ? await Room.get(action.chatId)
+                                : undefined
+                            const foundUsers = await User.search(action.search, room, socket.user._id)
 
                             socket.send(searchUsersSuccess(foundUsers))
                             break
