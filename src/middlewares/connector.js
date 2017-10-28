@@ -25,7 +25,7 @@ export default store => next => action => {
             break
         case NEW_MESSAGE:
             action.selectedChat = state.ui.selectedChat
-            action.userId = state.ui.loggedAccount
+            action.loggedAccount = state.ui.loggedAccount
             break
         case USER_SELECT:
             action.newChatTab = state.ui.newChatTab
@@ -34,7 +34,7 @@ export default store => next => action => {
         case FETCH_CHAT_SUCCESS:
         case FETCH_CHATS_SUCCESS:
         case CHANGE_USER_INFO_CLICK:
-            action.userId = state.ui.loggedAccount
+            action.loggedAccount = state.ui.loggedAccount
             break
         case OPEN_PROFILE_CLICK:
             if (!action.userId)

@@ -20,6 +20,7 @@ const DELETE_CHAT = 118
 const UPDATE_CHAT_INFO = 119
 const UPDATE_USER_INFO = 120
 const EXIT_REQUEST = 121
+const RETURN_BACK = 122
 
 const CHAT_NAME = 0
 const CHAT_AVATAR = 1
@@ -30,6 +31,12 @@ const USER_DESCRIPTION = 1
 const USER_PASSWORD = 2
 
 const NEW_MESSAGE = 200
+
+const NEW_MESSAGE_WITH_INVITE = 2000
+const NEW_MESSAGE_WITH_REMOVE = 2001
+const NEW_MESSAGE_WITH_LEFT = 2002
+const NEW_MESSAGE_WITH_INFO_UPDATE = 2003
+
 const FETCH_CHAT_SUCCESS = 201
 const SIGN_IN_SUCCESS = 202
 const SIGN_UP_SUCCESS = 203
@@ -68,6 +75,7 @@ module.exports = {
     LEAVE_CHAT,
     UPDATE_CHAT_INFO,
     UPDATE_USER_INFO,
+    RETURN_BACK,
 
     CHAT_NAME,
     CHAT_AVATAR,
@@ -81,19 +89,28 @@ module.exports = {
         message, chatId
     }),
 
-    newMessageWithInvite: (message, chatId, invitedUserId, invitedById) => ({
+    newMessageWithInvite: (message, chatId, userId, invitedById) => ({
         type: NEW_MESSAGE,
-        message, chatId, invitedUserId, invitedById
+        subtype: NEW_MESSAGE_WITH_INVITE,
+        message, chatId, userId, invitedById
     }),
 
-    newMessageWithRemove: (message, chatId, removedUserId) => ({
+    newMessageWithRemove: (message, chatId, userId) => ({
         type: NEW_MESSAGE,
-        message, chatId, removedUserId
+        subtype: NEW_MESSAGE_WITH_REMOVE,
+        message, chatId, userId
     }),
 
-    newMessageWithInfoUpdate: (message, chatId, changedField, value) => ({
+    newMessageWithLeft: (message, chatId) => ({
         type: NEW_MESSAGE,
-        message, chatId, changedField, value
+        subtype: NEW_MESSAGE_WITH_LEFT,
+        message, chatId
+    }),
+
+    newMessageWithInfoUpdate: (message, chatId, field, value) => ({
+        type: NEW_MESSAGE,
+        subtype: NEW_MESSAGE_WITH_INFO_UPDATE,
+        message, chatId, field, value
     }),
 
     fetchChatSuccess: chat => ({

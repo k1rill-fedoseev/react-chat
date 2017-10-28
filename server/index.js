@@ -1,9 +1,5 @@
 //TODO: forwarding messages
-
 //TODO: attachments
-
-//TODO: cant invite user that have already left
-//TODO: return to room
 
 const path = require('path')
 const express = require('express')
@@ -28,7 +24,7 @@ server.listen(PORT, () => {
     log.info(`Running server on ${PORT} port`)
 })
 
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI, {server: {auto_reconnect: true}})
 
 mongoose.connection
     .on('connected',

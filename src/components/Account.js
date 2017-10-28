@@ -193,7 +193,7 @@ class MemberAccountClass extends Component {
                     {isCreator
                         ? 'Created the chat'
                         : <span className="profile-link"
-                                onClick={openProfile}>Invited by {invitedBy.name} {invitedBy.surname}</span>}
+                                onClick={() => openProfile(invitedBy.id)}>Invited by {invitedBy.name} {invitedBy.surname}</span>}
                 </div>
                 {online && <div className="tmblr online"/>}
                 {!isCreator && isRemovable && <span className="confirm-delete" onClick={removeUser}>&#61460;</span>}
@@ -272,7 +272,7 @@ export const MemberAccount = connect(
     ,
     (dispatch, ownProps) => ({
         removeUser: () => dispatch(removeUserClick(ownProps.userId)),
-        openProfile: () => dispatch(openProfileClick())
+        openProfile: userId => dispatch(openProfileClick(userId))
     })
 )(MemberAccountClass)
 

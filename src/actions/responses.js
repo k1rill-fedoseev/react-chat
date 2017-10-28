@@ -1,5 +1,10 @@
 export const NEW_MESSAGE = 200
 
+export const NEW_MESSAGE_WITH_INVITE = 2000
+export const NEW_MESSAGE_WITH_REMOVE = 2001
+export const NEW_MESSAGE_WITH_LEFT = 2002
+export const NEW_MESSAGE_WITH_INFO_UPDATE = 2003
+
 export const FETCH_CHAT_SUCCESS = 201
 export const SIGN_IN_SUCCESS = 202
 export const SIGN_UP_SUCCESS = 203

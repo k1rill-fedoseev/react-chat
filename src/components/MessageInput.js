@@ -32,9 +32,9 @@ class MessageInput extends Component {
     }
 
     handleClick() {
-        const {send, value} = this.props
+        const {send, value, isMember} = this.props
 
-        if(value && value.length <= 1024) {
+        if(isMember && value && value.length <= 1024) {
             send(value)
             this.textarea.focus()
         }

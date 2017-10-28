@@ -19,6 +19,14 @@ const roomSchema = mongoose.Schema({
         type: ObjectId,
         ref: 'User'
     }],
+    leftUsers: [{
+        type: ObjectId,
+        ref: 'User'
+    }],
+    leftUsersInvites: [{
+        type: ObjectId,
+        ref: 'User'
+    }],
     isRoom: {
         type: Boolean,
         default: true
@@ -81,14 +89,43 @@ const addUsers = function (invitingUserId, userIds) {
 }
 
 const removeUser = function (userId) {
-    [...this.users].forEach((user, index) => {
-        if (user.toString() === userId) {
-            this.users.splice(index, 1)
-            this.invites.splice(index, 1)
+    for (let i = 0; i < this.users.length; ++i) {
+        if (this.users[i].toString() === userId) {
+            this.users.splice(i, 1)
+            this.invites.splice(i, 1)
+            return this
         }
-    })
+    }
+}
 
-    return this
+const left = function (userId) {
+    for (let i = 0; i < this.users.length; ++i) {
+        if (this.users[i].toString() === userId) {
+            this.leftUsers.push(this.users[i])
+            this.leftUsersInvites.push(this.invites[i])
+
+            this.users.splice(i, 1)
+            this.invites.splice(i, 1)
+            return this
+        }
+    }
+}
+
+const returnBack = function (userId) {
+    for (let i = 0; i < this.leftUsers.length; ++i) {
+        if (this.leftUsers[i].toString() === userId) {
+            const invitedBy = this.leftUsersInvites[i]
+
+            this.users.push(this.leftUsers[i])
+            this.invites.push(invitedBy)
+
+            this.leftUsers.splice(i, 1)
+            this.leftUsersInvites.splice(i, 1)
+            return invitedBy
+        }
+    }
+
+    throw new CheckError(`${userId} has not left ${this._id.toString()}`)
 }
 
 const existingUsersFilter = function (userIds) {
@@ -106,6 +143,8 @@ roomSchema.methods = {
     checkRemovable,
     addUsers,
     removeUser,
+    left,
+    returnBack,
     existingUsersFilter
 }
 

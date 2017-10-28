@@ -1,7 +1,7 @@
 import {
     CHANGE_CHAT_INFO_CLICK, CHANGE_USER_INFO_CLICK, CHAT_SELECT,
     CREATE_CLICK, DELETE_CHAT_CLICK, DELETE_MESSAGES_CLICK, EXIT_CLICK, INVITE_ACCEPT_CLICK, LEAVE_CHAT_CLICK,
-    LOAD_MORE_CLICK, MARK_READ_FRONTEND, MESSAGE_INPUT_CHANGE, REMOVE_USER_CLICK,
+    LOAD_MORE_CLICK, MARK_READ_FRONTEND, MESSAGE_INPUT_CHANGE, REMOVE_USER_CLICK, RETURN_BACK_CLICK,
     SEARCH_CHANGE,
     SEND_CLICK, SIGN_IN_CLICK,
     SIGN_UP_CLICK, SWITCH_MESSAGES_AND_CHAT_INFO
@@ -17,11 +17,12 @@ import {
     markRead,
     searchUsers, sendMessage,
     signIn,
-    signUp, updateChatInfo, updateUserInfo
+    signUp, updateChatInfo, updateUserInfo, returnBack
 } from '../actions/requests'
 import {
     FETCH_CHAT_SUCCESS,
-    FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE, SEARCH_USERS_SUCCESS, SIGN_IN_SUCCESS,
+    FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS, NEW_MESSAGE, NEW_MESSAGE_WITH_INVITE, SEARCH_USERS_SUCCESS,
+    SIGN_IN_SUCCESS,
     SIGN_UP_SUCCESS, START_TYPING_RESPONSE
 } from '../actions/responses'
 
@@ -29,7 +30,6 @@ export default store => next => action => {
     const state = store.getState()
     let userIds = []
     const unique = {}
-    let keys
 
     switch (action.type) {
         case INVITE_ACCEPT_CLICK:
@@ -63,13 +63,18 @@ export default store => next => action => {
         case NEW_MESSAGE:
             if (!state.db.chats[action.chatId])
                 socket.send(fetchChat(action.chatId))
-            else if (state.ui.selectedChat === action.chatId)
-                socket.send(markRead(action.chatId))
+            else {
+                if (action.subtype === NEW_MESSAGE_WITH_INVITE && state.ui.loggedAccount === action.userId)
+                    socket.send(fetchChat(action.chatId))
+
+                if (state.ui.selectedChat === action.chatId)
+                    socket.send(markRead(action.chatId))
+            }
 
             if (action.message.from && !state.db.users[action.message.from])
                 socket.send(fetchUsers([action.message.from]))
-            else if (action.invitedUserId && !state.db.users[action.invitedUserId])
-                socket.send(fetchUsers([action.invitedUserId]))
+            else if (action.subtype === NEW_MESSAGE_WITH_INVITE && !state.db.users[action.userId])
+                socket.send(fetchUsers([action.userId]))
             break
         case MARK_READ_FRONTEND:
             socket.send(markRead(state.ui.selectedChat))
@@ -98,10 +103,10 @@ export default store => next => action => {
                 if (message.from && !state.db.users[message.from])
                     unique[message.from] = true
             })
-            keys = Object.keys(unique)
+            userIds = Object.keys(unique)
 
-            if (keys.length)
-                socket.send(fetchUsers(keys))
+            if (userIds.length)
+                socket.send(fetchUsers(userIds))
             break
         case FETCH_CHAT_SUCCESS:
             if (!action.chat.isRoom)
@@ -115,10 +120,10 @@ export default store => next => action => {
                 if (message.from && !state.db.users[message.from])
                     unique[message.from] = true
             })
-            keys = Object.keys(unique)
+            userIds = Object.keys(unique)
 
-            if (keys.length)
-                socket.send(fetchUsers(keys))
+            if (userIds.length)
+                socket.send(fetchUsers(userIds))
             break
         case MESSAGE_INPUT_CHANGE:
             if (!state.ui.messagesInputs[state.ui.selectedChat] && action.value && state.db.chats[state.ui.selectedChat].isMember)
@@ -145,16 +150,21 @@ export default store => next => action => {
                     unique[userId] = true
             })
 
-            if (state.db.chats[state.ui.selectedChat].invites) {
-                Object.keys(state.db.chats[state.ui.selectedChat].invites).forEach(userId => {
-                    userId = state.db.chats[state.ui.selectedChat].invites[userId]
-                    if (!state.db.users[userId])
-                        unique[userId] = true
-                })
-                keys = Object.keys(unique)
+            const invites = state.db.chats[state.ui.selectedChat].invites
 
-                if (keys.length)
-                    socket.send(fetchUsers(keys))
+            if (invites) {
+                Object.keys(invites).forEach(key => {
+                    if(invites[key]) {
+                        const userId = invites[key]
+
+                        if (!state.db.users[userId])
+                            unique[userId] = true
+                    }
+                })
+                userIds = Object.keys(unique)
+
+                if (userIds.length)
+                    socket.send(fetchUsers(userIds))
             }
             break
         case REMOVE_USER_CLICK:
@@ -165,6 +175,9 @@ export default store => next => action => {
             break
         case DELETE_CHAT_CLICK:
             socket.send(deleteChat(state.ui.selectedChat))
+            break
+        case RETURN_BACK_CLICK:
+            socket.send(returnBack(state.ui.selectedChat))
             break
         case CHANGE_CHAT_INFO_CLICK:
             socket.send(updateChatInfo(state.ui.selectedChat, action.field, action.value))

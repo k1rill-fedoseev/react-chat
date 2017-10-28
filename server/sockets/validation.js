@@ -8,14 +8,14 @@ const {
     MARK_READ, FETCH_ONLINE_USERS, START_TYPING, END_TYPING, DELETE_MESSAGES,
     REMOVE_USER, LEAVE_CHAT, EXIT_REQUEST, DELETE_CHAT, UPDATE_CHAT_INFO,
     CHAT_NAME, CHAT_AVATAR, CHAT_DESCRIPTION, UPDATE_USER_INFO, USER_AVATAR,
-    USER_DESCRIPTION, USER_PASSWORD
+    USER_DESCRIPTION, USER_PASSWORD, RETURN_BACK
 } = require('./actions')
 
 module.exports = action => {
     try {
         const {
             name, surname, password, username, avatar, description, search, message,
-            chatId, userIds, messageIds, lastMessageId
+            chatId, userIds, messageIds, lastMessageId, userId
         } = action
 
         switch (action.type) {
@@ -91,7 +91,7 @@ module.exports = action => {
                 }
                 break
             case REMOVE_USER:
-                assert(validator.isMongoId(chatId))
+                assert(validator.isMongoId(userId))
                 assert(validator.isMongoId(chatId))
                 break
             case FETCH_MESSAGES:
@@ -126,6 +126,9 @@ module.exports = action => {
                 if(chatId)
                     assert(validator.isMongoId(chatId))
                 assert(validator.isLength(search, length.search))
+                break
+            case RETURN_BACK:
+                assert(validator.isMongoId(chatId))
                 break
         }
     }

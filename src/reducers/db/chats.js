@@ -1,6 +1,6 @@
 import {
     DELETE_CHAT_SUCCESS, FETCH_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, FETCH_MESSAGES_SUCCESS,
-    NEW_MESSAGE
+    NEW_MESSAGE, NEW_MESSAGE_WITH_INFO_UPDATE, NEW_MESSAGE_WITH_INVITE, NEW_MESSAGE_WITH_LEFT, NEW_MESSAGE_WITH_REMOVE
 } from '../../actions/responses'
 import {
     CHAT_AVATAR, CHAT_DESCRIPTION, CHAT_NAME, EXIT_CLICK, LOAD_MORE_CLICK,
@@ -17,7 +17,7 @@ export default (state = {}, action) => {
             action.chats.forEach(chat => {
                 const invites = {}
 
-                if(chat.invites) {
+                if (chat.invites) {
                     chat.invites.forEach((invite, index) => {
                         if (invite)
                             invites[chat.users[index]] = invite
@@ -26,10 +26,10 @@ export default (state = {}, action) => {
                 }
 
                 newState[chat.id] = chat
-                newState[chat.id].isMember = chat.users.includes(action.userId)
-                if(!chat.isRoom) {
+                newState[chat.id].isMember = chat.users.includes(action.loggedAccount)
+                if (!chat.isRoom) {
                     newState[chat.id].to = chat.users[0]
-                    if(action.userId === chat.users[0] && chat.users.length > 1)
+                    if (action.loggedAccount === chat.users[0] && chat.users.length > 1)
                         newState[chat.id].to = chat.users[1]
                 }
             })
@@ -41,7 +41,7 @@ export default (state = {}, action) => {
 
             newState = {...state}
 
-            if(chat.invites)
+            if (chat.invites)
                 chat.invites.forEach((invite, index) => {
                     if (invite)
                         invites[chat.users[index]] = invite
@@ -50,12 +50,12 @@ export default (state = {}, action) => {
             newState[chat.id] = {
                 ...chat,
                 invites,
-                isMember: chat.users.includes(action.userId)
+                isMember: chat.users.includes(action.loggedAccount)
             }
 
-            if(!chat.isRoom) {
+            if (!chat.isRoom) {
                 newState[chat.id].to = chat.users[0]
-                if(action.userId === chat.users[0] && chat.users.length > 1)
+                if (action.loggedAccount === chat.users[0] && chat.users.length > 1)
                     newState[chat.id].to = chat.users[1]
             }
 
@@ -78,7 +78,7 @@ export default (state = {}, action) => {
                 }
             }
         case NEW_MESSAGE:
-            if ((!action.invitedUserId && !action.removedUserId && action.changedField === undefined && action.selectedChat === action.chatId) || !state[action.chatId])
+            if ((!action.subtype && action.selectedChat === action.chatId) || !state[action.chatId])
                 return state
 
             newState = {
@@ -91,43 +91,59 @@ export default (state = {}, action) => {
                 }
             }
 
-            if (action.invitedUserId) {
-                if (action.invitedUserId === action.userId)
-                    newState[action.chatId].isMember = true
+            switch (action.subtype) {
+                case NEW_MESSAGE_WITH_INVITE:
+                    if (action.loggedAccount === action.userId) {
+                        newState[action.chatId].isMember = true
+                        newState[action.chatId].hasLeft = false
+                    }
 
-                newState[action.chatId].users = [
-                    ...newState[action.chatId].users,
-                    action.invitedUserId
-                ]
-                newState[action.chatId].invites = {
-                    ...newState[action.chatId].invites,
-                    [action.invitedUserId]: action.invitedById
-                }
-            }
-            else if (action.removedUserId) {
-                if (action.removedUserId === action.userId)
+                    newState[action.chatId].users = [
+                        ...newState[action.chatId].users,
+                        action.userId
+                    ]
+                    newState[action.chatId].invites = {
+                        ...newState[action.chatId].invites,
+                        [action.userId]: action.invitedById
+                    }
+                    break
+                case NEW_MESSAGE_WITH_REMOVE:
+                    if (action.loggedAccount === action.userId)
+                        newState[action.chatId].isMember = false
+
+                    newState[action.chatId].users = newState[action.chatId].users
+                        .filter(userId => userId !== action.userId)
+
+                    newState[action.chatId].invites = {
+                        ...newState[action.chatId].invites,
+                    }
+                    delete newState[action.chatId].invites[action.userId]
+                    break
+                case NEW_MESSAGE_WITH_LEFT:
                     newState[action.chatId].isMember = false
+                    newState[action.chatId].hasLeft = true
 
-                newState[action.chatId].users = newState[action.chatId].users
-                    .filter(userId => userId !== action.removedUserId)
+                    newState[action.chatId].users = newState[action.chatId].users
+                        .filter(userId => userId !== action.loggedAccount)
 
-                newState[action.chatId].invites = {
-                    ...newState[action.chatId].invites,
-                }
-                delete newState[action.chatId].invites[action.removedUserId]
-            }
-            else if(action.value) {
-                switch (action.changedField) {
-                    case CHAT_NAME:
-                        newState[action.chatId].name = action.value
-                        break
-                    case CHAT_AVATAR:
-                        newState[action.chatId].avatar = action.value
-                        break
-                    case CHAT_DESCRIPTION:
-                        newState[action.chatId].description = action.value
-                        break
-                }
+                    newState[action.chatId].invites = {
+                        ...newState[action.chatId].invites,
+                    }
+                    delete newState[action.chatId].invites[action.loggedAccount]
+                    break
+                case NEW_MESSAGE_WITH_INFO_UPDATE:
+                    switch (action.field) {
+                        case CHAT_NAME:
+                            newState[action.chatId].name = action.value
+                            break
+                        case CHAT_AVATAR:
+                            newState[action.chatId].avatar = action.value
+                            break
+                        case CHAT_DESCRIPTION:
+                            newState[action.chatId].description = action.value
+                            break
+                    }
+                    break
             }
 
             return newState

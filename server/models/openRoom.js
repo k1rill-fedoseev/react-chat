@@ -21,10 +21,12 @@ const openRoomSchema = mongoose.Schema({
 })
 
 const filterOpenRoom = function () {
-    const {room, newMessages} = this
-    const {isRoom, name, avatar, _id, users, invites, description} = room
+    const {room, newMessages, owner} = this
+    const {isRoom, name, avatar, _id, users, invites, description, leftUsers} = room
 
-    if (isRoom)
+    if (isRoom) {
+        const ownerId = owner.toString()
+
         return {
             name,
             id: _id.toString(),
@@ -36,8 +38,10 @@ const filterOpenRoom = function () {
             invites: invites.map(invite => invite
                 ? invite.toString()
                 : ''),
+            hasLeft: leftUsers.some(user => user.toString() === ownerId),
             isFullLoaded: true
         }
+    }
 
     return {
         id: _id.toString(),
@@ -120,8 +124,8 @@ const filter = function (openRooms) {
 
             data.forEach(row => {
                 const [openRoom, message, isFullLoaded] = row
-                const {room, newMessages} = openRoom
-                const {isRoom, name, avatar, _id, users, invites, description} = room
+                const {room, newMessages, owner} = openRoom
+                const {isRoom, name, avatar, _id, users, invites, description, leftUsers} = room
 
                 if (message) {
                     const {from, date} = message.message
@@ -138,7 +142,9 @@ const filter = function (openRooms) {
                 else
                     messages.push({})
 
-                if (isRoom)
+                if (isRoom) {
+                    const ownerId = owner.toString()
+
                     rooms.push({
                         isRoom,
                         name,
@@ -150,8 +156,10 @@ const filter = function (openRooms) {
                         invites: invites.map(invite => invite
                             ? invite.toString()
                             : ''),
+                        hasLeft: leftUsers.some(user => user.toString() === ownerId),
                         isFullLoaded
                     })
+                }
                 else
                     rooms.push({
                         isRoom,

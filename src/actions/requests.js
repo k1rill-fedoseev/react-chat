@@ -20,6 +20,7 @@ export const DELETE_CHAT = 118
 export const UPDATE_CHAT_INFO = 119
 export const UPDATE_USER_INFO = 120
 export const EXIT_REQUEST = 121
+export const RETURN_BACK = 122
 
 export const signIn = (username, password) => ({
     type: SIGN_IN,
@@ -127,5 +128,10 @@ export const updateUserInfo = (field, value, oldPassword) => ({
 
 export const exitRequest = chatId => ({
     type: EXIT_REQUEST,
+    chatId
+})
+
+export const returnBack = chatId => ({
+    type: RETURN_BACK,
     chatId
 })

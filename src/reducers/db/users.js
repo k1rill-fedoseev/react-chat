@@ -48,16 +48,16 @@ export default (state = {}, action) => {
                 case USER_AVATAR:
                     return {
                         ...state,
-                        [action.userId]: {
-                            ...state[action.userId],
+                        [action.loggedAccount]: {
+                            ...state[action.loggedAccount],
                             avatar: action.value
                         }
                     }
                 case USER_DESCRIPTION:
                     return {
                         ...state,
-                        [action.userId]: {
-                            ...state[action.userId],
+                        [action.loggedAccount]: {
+                            ...state[action.loggedAccount],
                             description: action.value
                         }
                     }

@@ -33,6 +33,7 @@ export const CHANGE_USER_INFO_CLICK = 24
 export const OPEN_PROFILE_CLICK = 25
 export const CLOSE_PROFILE_CLICK = 26
 export const EXIT_CLICK = 27
+export const RETURN_BACK_CLICK = 28
 
 export const switchClick = () => ({
     type: SWITCH_CLICK
@@ -158,4 +159,8 @@ export const closeProfileClick = () => ({
 
 export const exitClick = () => ({
     type: EXIT_CLICK
+})
+
+export const returnBackClick = () => ({
+    type: RETURN_BACK_CLICK
 })

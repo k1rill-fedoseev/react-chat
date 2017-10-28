@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { MemberAccount, SimpleMemberAccount } from './Account'
 import {
     changeChatInfoClick, CHAT_AVATAR, CHAT_DESCRIPTION, CHAT_NAME, deleteChatClick,
-    leaveChatClick
+    leaveChatClick, returnBackClick
 } from '../actions/frontend'
 import SmartInput from './SmartInput'
 import ProfileField from './ProfileField'
@@ -12,9 +12,15 @@ class ChatInfo extends Component {
 
     users() {
         const {users, invites, isMember} = this.props.chat
+        let creatorId
+
+        users.forEach(userId => {
+            if(!invites[userId])
+                creatorId = userId
+        })
 
         return users.map((userId, index) =>
-            <MemberAccount key={userId} userId={userId} creatorId={users[0]} invitedById={invites[userId]} canRemove={isMember}/>
+            <MemberAccount key={userId} userId={userId} creatorId={creatorId} invitedById={invites[userId]} canRemove={isMember}/>
         )
     }
 
@@ -27,8 +33,8 @@ class ChatInfo extends Component {
     }
 
     render() {
-        const {leave, chat, deleteChat, rename, changeAvatar, changeDescription} = this.props
-        const {isMember, name, avatar, description} = chat
+        const {leave, chat, deleteChat, returnBack, rename, changeAvatar, changeDescription} = this.props
+        const {isMember, name, avatar, description, hasLeft} = chat
 
         if (!chat.isRoom)
             return (
@@ -36,7 +42,7 @@ class ChatInfo extends Component {
                     <ul className="users">
                         {this.simpleUsers()}
                     </ul>
-                    <div className="btn delete-room" onClick={deleteChat}>Delete room</div>
+                    <div className="btn wide" onClick={deleteChat}>Delete room</div>
                 </div>
             )
 
@@ -53,8 +59,8 @@ class ChatInfo extends Component {
                     <ul className="users">
                         {this.users()}
                     </ul>
-                    <div className="btn leave" onClick={leave}>Leave room</div>
-                    <div className="btn delete-room" onClick={deleteChat}>Delete room</div>
+                    <div className="btn wide leave" onClick={leave}>Leave room</div>
+                    <div className="btn wide" onClick={deleteChat}>Delete room</div>
                 </div>
             )
 
@@ -70,7 +76,8 @@ class ChatInfo extends Component {
                 <ul className="users">
                     {this.users()}
                 </ul>
-                <div className="btn delete-room" onClick={deleteChat}>Delete room</div>
+                {hasLeft && <div className="btn wide leave" onClick={returnBack}>Return back</div>}
+                <div className="btn wide" onClick={deleteChat}>Delete room</div>
             </div>
         )
     }
@@ -84,6 +91,7 @@ export default connect(
     dispatch => ({
         leave: () => dispatch(leaveChatClick()),
         deleteChat: () => dispatch(deleteChatClick()),
+        returnBack: () => dispatch(returnBackClick()),
         rename: name => dispatch(changeChatInfoClick(CHAT_NAME, name)),
         changeAvatar: avatar => dispatch(changeChatInfoClick(CHAT_AVATAR, avatar)),
         changeDescription: description => dispatch(changeChatInfoClick(CHAT_DESCRIPTION, description))

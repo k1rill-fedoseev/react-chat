@@ -3,15 +3,16 @@
 ## Abilities
 
 * Registration ans authentication (_+cookies_)
-* Create chats and private messages
+* Create rooms and private messages
 * Send messages to your chats
-* Invite new users to chats using text search
-* Delete messages, members from chats
-* Leave rooms
+* Invite new users to rooms using text search
+* Delete messages
+* Kick members from rooms
+* Leave and return to rooms
 * See if users are online
 * See if users are typing messages
 * Single-page logic and live update
-* Update user and chat info
+* Update user and rooms info
 
 ## Used libraries
 

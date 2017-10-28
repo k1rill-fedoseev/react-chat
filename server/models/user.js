@@ -199,7 +199,10 @@ const tokenCheck = function (token) {
 const search = function (search, room, userId) {
     const query = room
         ? {
-            _id: {$not: {$in: room.users}},
+            $nor: [
+                {_id: {$in: room.users}},
+                {_id: {$in: room.leftUsers}}
+            ],
             $text: {$search: search}
         }
         : {

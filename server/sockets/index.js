@@ -3,7 +3,8 @@ const config = require('../cfg')
 const log = require('../log')('sockets')
 const stripTags = require('striptags')
 const validate = require('./validation')
-const {MyError, CheckError} = require('../models/errors')
+const {MyError} = require('../models/errors')
+const {checkUnique} = require('../helpers')
 const User = require('../models/user')
 const UserMessage = require('../models/userMessage')
 const Message = require('../models/message')
@@ -16,23 +17,12 @@ const {
     FETCH_CHAT, FETCH_USERS, FETCH_MESSAGES, SEND_MESSAGE, INVITE_USERS, MARK_READ,
     SEARCH_USERS, FETCH_ONLINE_USERS, END_TYPING, START_TYPING, DELETE_MESSAGES, REMOVE_USER,
     EXIT_REQUEST, LEAVE_CHAT, DELETE_CHAT, CHAT_NAME, CHAT_AVATAR, CHAT_DESCRIPTION, UPDATE_CHAT_INFO,
-    UPDATE_USER_INFO, USER_AVATAR, USER_DESCRIPTION, USER_PASSWORD, ERROR,
+    UPDATE_USER_INFO, USER_AVATAR, USER_DESCRIPTION, USER_PASSWORD, RETURN_BACK,
     newMessage, newMessageWithInvite, newMessageWithRemove, signInSuccess, signUpSuccess,
     fetchChatsSuccess, fetchChatSuccess, sendSuccess, fetchUsersSuccess,
     fetchMessagesSuccess, searchUsersSuccess, fetchOnlineUsersSuccess, startTypingResponse,
-    endTypingResponse, deleteChatSuccess, newMessageWithInfoUpdate, error
+    endTypingResponse, deleteChatSuccess, newMessageWithInfoUpdate, error, newMessageWithLeft
 } = require('./actions')
-
-const checkUnique = function (arr) {
-    const exists = {}
-
-    return arr.forEach(elem => {
-        if (!exists[elem])
-            exists[elem] = true
-        else
-            throw new CheckError('UserIds should be unique')
-    })
-}
 
 module.exports = function (server) {
     const io = socketIo(server)
@@ -247,7 +237,11 @@ module.exports = function (server) {
                         case INVITE_USERS: {
                             const room = await Room.get(action.chatId)
                             room.checkMember(userId)
-                            checkUnique([...action.userIds, ...room.users.map(userId => userId.toString())])
+                            checkUnique([
+                                ...action.userIds,
+                                ...room.users.map(userId => userId.toString()),
+                                ...room.leftUsers.map(userId => userId.toString())
+                            ])
 
                             const users = await User.getUsers(action.userIds)
 
@@ -348,8 +342,12 @@ module.exports = function (server) {
                             const userMessages = await Message.createMessage(room, undefined, message)
 
                             userMessages.forEach(userMessage => {
-                                io.to(userMessage.owner.toString()).send(
-                                    newMessageWithRemove(
+                                const ownerId = userMessage.owner.toString()
+
+                                io.to(ownerId).send(
+                                    (ownerId === userId
+                                        ? newMessageWithLeft
+                                        : newMessageWithRemove)(
                                         {
                                             message,
                                             id: userMessage._id,
@@ -361,7 +359,7 @@ module.exports = function (server) {
                                 )
                             })
 
-                            await room.removeUser(userId).save()
+                            await room.left(userId).save()
                             break
                         }
                         case DELETE_CHAT: {
@@ -440,6 +438,32 @@ module.exports = function (server) {
                             }
 
                             await socket.user.save()
+                            break
+                        }
+                        case RETURN_BACK: {
+                            const room = await Room.get(action.chatId)
+                            const invitedBy = room.returnBack(userId)
+                            await room.save()
+
+                            const message = `${socket.user.name} ${socket.user.surname} returned back`
+                            const userMessages = await Message.createMessage(room, undefined, message)
+
+                            userMessages.forEach(userMessage => {
+                                io.to(userMessage.owner.toString()).send(
+                                    newMessageWithInvite(
+                                        {
+                                            message,
+                                            id: userMessage._id,
+                                            time: userMessage.date.valueOf()
+                                        },
+                                        action.chatId,
+                                        userId,
+                                        invitedBy
+                                            ? invitedBy.toString()
+                                            : null
+                                    )
+                                )
+                            })
                             break
                         }
                     }
