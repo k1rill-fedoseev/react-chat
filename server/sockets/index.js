@@ -32,7 +32,7 @@ module.exports = function (server) {
             try {
                 const token = new RegExp(config.cookie.name + '=\\w*(?=;?)')
                     .exec(socket.handshake.headers.cookie)
-                if (token && token[0]) {
+                if (token && token[0] && token[0].length > 10) {
                     socket.token = token[0].slice(config.cookie.name.length + 1)
 
                     socket.user = await User.tokenCheck(socket.token)

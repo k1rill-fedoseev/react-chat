@@ -59,6 +59,9 @@ export default (state = {}, action) => {
                     newState[chat.id].to = chat.users[1]
             }
 
+            if(state[chat.id])
+                newState[chat.id].newMessages = state[chat.id].newMessages
+
             return newState
         case FETCH_MESSAGES_SUCCESS:
             if (!action.isFullLoaded)

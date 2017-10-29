@@ -12,8 +12,8 @@ class Message extends Component {
         return (
             <div className="message">
                 {sender && sender.username === 'admin'
-                    ? <div className="mes-text" dangerouslySetInnerHTML={{__html: message}}/>
-                    : <div className="mes-text">{message}</div>}
+                    ? <div className="message-body" dangerouslySetInnerHTML={{__html: message}}/>
+                    : <div className="message-body">{message}</div>}
                 <span className="delete-link" onClick={select} style={isSelected && {opacity: 1}}>+</span>
             </div>
         )
@@ -24,7 +24,7 @@ class Message extends Component {
 
         return (
             <div className="message">
-                <div className="mes-text">
+                <div className="message-body">
                     {message}
                 </div>
             </div>
@@ -52,7 +52,8 @@ class Message extends Component {
         return (
             <li className={`mes ${me
                 ? 'me'
-                : ''} ${isSelected || isTemp
+                : ''}
+                ${isSelected || isTemp
                 ? 'temp'
                 : ''}`}>
                 <Avatar src={avatar} title={`${name} ${surname}\n\n@${username}`} userId={id}/>

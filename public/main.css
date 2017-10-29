@@ -534,7 +534,7 @@ sup {
     margin: 0 0 0 25px;
 }
 
-#messages .mes:not(.system) .mes-text {
+#messages .mes:not(.system) .message-body {
     position: relative;
     background-color: white;
     box-shadow: 0 2px 10px 0 rgba(53, 152, 219, 0.2);
@@ -548,11 +548,11 @@ sup {
     line-height: 1.4;
 }
 
-#messages .mes-text {
+#messages .message-body {
     word-break: break-all;
 }
 
-#messages .mes.me .mes-text {
+#messages .mes.me .message-body {
     background-color: #3598DB;
     color: white;
 }
@@ -942,6 +942,18 @@ input {
 
 .account.invite {
     justify-content: space-between;
+}
+
+.file-input  {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #aaa;
+    display: inline-block;
+}
+
+input[type=file] {
+    display: none;
 }
 
 @media (max-width: 760px) {
