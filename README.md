@@ -5,6 +5,7 @@
 * Registration ans authentication (_+cookies_)
 * Create rooms and private messages
 * Send messages to your chats
+* Attach images to your messages
 * Invite new users to rooms using text search
 * Delete messages
 * Kick members from rooms
