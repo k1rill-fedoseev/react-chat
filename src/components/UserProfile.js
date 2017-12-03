@@ -8,12 +8,13 @@ import {
 import SmartInput from './SmartInput'
 import SmartPasswordInput from './SmartPasswordInput'
 import ProfileField from './ProfileField'
+import SmartFileInput from './SmartFileInput'
 
 class UserProfile extends Component {
 
     render() {
         const {user, close, changeAvatar, changeDescription, changePassword, isMe} = this.props
-        const {avatar, description} = user
+        const {description} = user
 
         if (!isMe)
             return (
@@ -24,7 +25,6 @@ class UserProfile extends Component {
                     </div>
                     <div className="profile">
                         <ProfileAccount user={user}/>
-                        <ProfileField label="Avatar" value={avatar}/>
                         <ProfileField label="Description" value={description.length === 0
                             ? '<empty>'
                             : description}/>
@@ -40,7 +40,7 @@ class UserProfile extends Component {
                 </div>
                 <div className="profile">
                     <ProfileAccount user={user}/>
-                    <SmartInput label="Avatar" maxLength={256} value={avatar} onAccept={changeAvatar}/>
+                    <SmartFileInput label="Avatar" onAccept={changeAvatar}/>
                     <SmartInput label="Description" maxLength={256} value={description} onAccept={changeDescription}/>
                     <SmartPasswordInput onAccept={changePassword}/>
                 </div>
@@ -56,7 +56,7 @@ export default connect(
     }),
     dispatch => ({
         close: () => dispatch(closeProfileClick()),
-        changeAvatar: value => dispatch(changeUserInfoClick(USER_AVATAR, value)),
+        changeAvatar: file => dispatch(changeUserInfoClick(USER_AVATAR, file)),
         changeDescription: value => dispatch(changeUserInfoClick(USER_DESCRIPTION, value)),
         changePassword: (value, oldPassword) => dispatch(changeUserInfoClick(USER_PASSWORD, value, oldPassword))
     })

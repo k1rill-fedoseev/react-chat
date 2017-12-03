@@ -50,7 +50,7 @@ class MessagesList extends Component {
         const {isEnd, position} = getScrollInfo(id)
 
         if (isEnd)
-            this.node.scrollTop = this.node.scrollHeight - this.node.offsetHeight
+            this.node.scrollTop = this.node.scrollHeight
         else
             this.node.scrollTop = position
     }

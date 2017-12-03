@@ -36,7 +36,7 @@ export default store => next => action => {
             socket.send(inviteUsers(state.ui.selectedChat, Object.keys(state.ui.selectedUsers)))
             break
         case SEND_CLICK:
-            socket.send(sendMessage(state.ui.tempId, state.ui.selectedChat, action.message))
+            socket.send(sendMessage(state.ui.tempId, state.ui.selectedChat, action.message, action.attachments))
             socket.send(endTyping(state.ui.selectedChat))
             break
         case CREATE_CLICK:

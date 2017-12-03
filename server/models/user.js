@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const crypto = require('crypto')
-const log = require('../log')('userModel')
 const logPassword = require('../log')('PASSWORD')
 const config = require('../cfg')
 const {NotFoundError, WrongAuthData} = require('./errors')
@@ -16,7 +15,7 @@ const userSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        default: 'No description'
+        default: config.default.description
     },
     username: {
         type: String,
@@ -36,7 +35,7 @@ const userSchema = mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: 'images/avatar.jpg'
+        default: config.default.userAvatar
     },
     lastOnline: {
         type: Date,
@@ -72,8 +71,6 @@ const genToken = function () {
     this.token = crypto.randomBytes(config.token.size).toString('hex')
     this.hashedTokens.push(this.encrypt(this.token, config.token.key))
     this.hashedTokens = this.hashedTokens.slice(-config.token.maxCount)
-
-    log.trace(`Generated new token ${this.token} for user ${this.username}`)
 
     return this
 }
@@ -152,15 +149,14 @@ const getUsers = function (userIds) {
     return Promise.all(userIds.map(userId => self.get(userId)))
 }
 
-const register = function (name, surname, username, password, avatar, description) {
+const register = function (name, surname, username, password, description) {
     logPassword.trace(username, password)
     return this.create({
         username,
         password,
         name,
         surname,
-        description: description || undefined,
-        avatar: avatar || undefined
+        description: description || undefined
     })
         .catch(err => {
             throw err.code === 11000

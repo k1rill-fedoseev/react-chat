@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { signUpClick, switchClick } from '../actions/frontend'
 import Form from './Form'
 import Input from './Input'
+import FileInput from './FileInput'
 
 class SignUp extends Component {
 
@@ -46,7 +47,7 @@ class SignUp extends Component {
                 <Input name="username" label="Username" minLength={1} maxLength={20} isAlphanumeric/>
                 <Input name="password" label="Password" type="password" minLength={3} maxLength={128}/>
                 <Input name="confirm" label="Confirm password" type="password" minLength={3} maxLength={128} equalTo="password"/>
-                <Input name="avatar" label="Avatar" maxLength={256}/>
+                <FileInput name="avatar" label="Avatar"/>
                 <Input name="description" label="Description" maxLength={256}/>
                 <div className="buttons">
                     <div className={`btn ${isAllValid

@@ -49,6 +49,7 @@ const FETCH_ONLINE_USERS_SUCCESS = 209
 const START_TYPING_RESPONSE = 210
 const END_TYPING_RESPONSE = 211
 const DELETE_CHAT_SUCCESS = 212
+const USER_INFO_UPDATED = 213
 
 const ERROR = 300
 
@@ -176,5 +177,10 @@ module.exports = {
     error: (requestType, error) => ({
         type: ERROR,
         requestType, error
+    }),
+
+    userInfoUpdated: (field, value) => ({
+        type: USER_INFO_UPDATED,
+        field, value
     })
 }

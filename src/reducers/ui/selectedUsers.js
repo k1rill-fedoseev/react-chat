@@ -15,6 +15,9 @@ export default (state = {}, action) => {
             if (action.newChatTab && !action.isRoomCreateTab)
                 return {[action.userId]: true}
 
+            if (!state[action.userId] && Object.keys(state) >= 30)
+                return state
+
             const stateCopy = {...state}
 
             if (stateCopy[action.userId])

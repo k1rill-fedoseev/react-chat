@@ -34,6 +34,8 @@ export const OPEN_PROFILE_CLICK = 25
 export const CLOSE_PROFILE_CLICK = 26
 export const EXIT_CLICK = 27
 export const RETURN_BACK_CLICK = 28
+export const ATTACH_IMAGES = 29
+export const DELETE_ATTACHMENTS = 30
 
 export const switchClick = () => ({
     type: SWITCH_CLICK
@@ -65,9 +67,9 @@ export const userSelect = userId => ({
     userId
 })
 
-export const sendClick = message => ({
+export const sendClick = (message, attachments) => ({
     type: SEND_CLICK,
-    message
+    message, attachments
 })
 
 export const createClick = (name, description, avatar) => ({
@@ -163,4 +165,13 @@ export const exitClick = () => ({
 
 export const returnBackClick = () => ({
     type: RETURN_BACK_CLICK
+})
+
+export const attachImages = images => ({
+    type: ATTACH_IMAGES,
+    images
+})
+
+export const deleteAttachments = () => ({
+    type: DELETE_ATTACHMENTS
 })

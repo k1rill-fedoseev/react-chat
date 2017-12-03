@@ -1,9 +1,9 @@
 import {
     FETCH_ONLINE_USERS_SUCCESS, FETCH_USERS_SUCCESS, SIGN_IN_SUCCESS,
-    SIGN_UP_SUCCESS
+    SIGN_UP_SUCCESS, USER_INFO_UPDATED
 } from '../../actions/responses'
 import {
-    CHANGE_USER_INFO_CLICK, EXIT_CLICK, USER_AVATAR, USER_DESCRIPTION
+    EXIT_CLICK, USER_AVATAR, USER_DESCRIPTION
 } from '../../actions/frontend'
 
 export default (state = {}, action) => {
@@ -43,7 +43,7 @@ export default (state = {}, action) => {
                     }
             })
             return newState
-        case CHANGE_USER_INFO_CLICK:
+        case USER_INFO_UPDATED:
             switch (action.field) {
                 case USER_AVATAR:
                     return {

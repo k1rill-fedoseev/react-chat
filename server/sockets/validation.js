@@ -1,5 +1,6 @@
 const log = require('../log')('validator')
-const {length} = require('../cfg').limits
+const config = require('../cfg')
+const {length} = config.limits
 const assert = require('assert')
 const validator = require('validator')
 const {
@@ -15,7 +16,8 @@ module.exports = action => {
     try {
         const {
             name, surname, password, username, avatar, description, search, message,
-            chatId, userIds, messageIds, lastMessageId, userId
+            chatId, userIds, messageIds, lastMessageId, userId, field, value, oldPassword,
+            attachments
         } = action
 
         switch (action.type) {
@@ -28,7 +30,8 @@ module.exports = action => {
                 assert(validator.isAlphanumeric(name))
                 assert(validator.isLength(surname, length.surname))
                 assert(validator.isAlphanumeric(surname))
-                assert(validator.isLength(avatar, length.avatar))
+                if (avatar)
+                    assert(avatar.length < config.limits.imageMaxSize)
                 assert(validator.isLength(description, length.description))
                 assert(validator.isLength(username, length.username))
                 assert(validator.isAlphanumeric(username))
@@ -36,7 +39,8 @@ module.exports = action => {
                 break
             case CREATE_ROOM:
                 assert(validator.isLength(name, length.roomName))
-                assert(validator.isLength(avatar, length.avatar))
+                if (avatar)
+                    assert(avatar.length < config.limits.imageMaxSize)
                 assert(validator.isLength(description, length.description))
                 assert(Array.isArray(userIds))
                 userIds.forEach(userId => {
@@ -55,36 +59,38 @@ module.exports = action => {
                 assert(chatId === '' || validator.isMongoId(chatId))
                 break
             case CREATE_USER_ROOM:
-                if(chatId)
+                if (chatId)
                     assert(validator.isMongoId(chatId))
                 break
             case UPDATE_CHAT_INFO:
                 assert(validator.isMongoId(chatId))
-                switch (action.field) {
+                switch (field) {
                     case CHAT_NAME:
-                        assert(validator.isLength(action.value, length.roomName))
+                        assert(validator.isLength(value, length.roomName))
                         break
                     case CHAT_AVATAR:
-                        assert(validator.isLength(action.value, length.avatar))
+                        if (value)
+                            assert(value.length < config.limits.imageMaxSize)
                         break
                     case CHAT_DESCRIPTION:
-                        assert(validator.isLength(action.value, length.description))
+                        assert(validator.isLength(value, length.description))
                         break
                     default:
                         assert(false)// :D
                 }
                 break
             case UPDATE_USER_INFO:
-                switch (action.field) {
+                switch (field) {
                     case USER_AVATAR:
-                        assert(validator.isLength(action.value, length.avatar))
+                        if (value)
+                            assert(value.length < config.limits.imageMaxSize)
                         break
                     case USER_DESCRIPTION:
-                        assert(validator.isLength(action.value, length.description))
+                        assert(validator.isLength(value, length.description))
                         break
                     case USER_PASSWORD:
-                        assert(validator.isLength(action.value, length.password))
-                        assert(validator.isLength(action.oldPassword, length.password))
+                        assert(validator.isLength(value, length.password))
+                        assert(validator.isLength(oldPassword, length.password))
                         break
                     default:
                         assert(false)// :D
@@ -100,7 +106,13 @@ module.exports = action => {
                 break
             case SEND_MESSAGE:
                 assert(validator.isMongoId(chatId))
-                assert(validator.isLength(message, length.message))
+                if(attachments) {
+                    assert(validator.isLength(message, {max: length.message.max}))
+                    assert(Array.isArray(attachments))
+                    assert(attachments.length <= 10)
+                }
+                else
+                    assert(validator.isLength(message, length.message))
                 break
             case INVITE_USERS:
                 assert(validator.isMongoId(chatId))
@@ -123,7 +135,7 @@ module.exports = action => {
                 })
                 break
             case SEARCH_USERS:
-                if(chatId)
+                if (chatId)
                     assert(validator.isMongoId(chatId))
                 assert(validator.isLength(search, length.search))
                 break

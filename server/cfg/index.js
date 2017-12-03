@@ -18,12 +18,19 @@ module.exports = {
             name: {min: 2, max: 16},
             roomName: {min: 1, max: 30},
             surname: {min: 2, max: 16},
-            avatar: {max: 256},
             description: {max: 256},
             message: {min: 1, max: 1024},
             search: {max: 256}
         },
+        imageMaxSize: 10485760,
         roomMaxUsers: 30,
-        packetSize: 50
+        packetSize: 50,
+        avatarWidth: 128,
+        maxImageWidth: 2048
+    },
+    default: {
+        userAvatar: 'images/avatar.jpg',
+        roomAvatar: 'images/chat.png',
+        description: 'No description'
     }
 }

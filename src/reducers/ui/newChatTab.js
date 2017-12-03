@@ -1,4 +1,4 @@
-import { CHAT_SELECT, CREATE_CLICK, NEW_CLICK } from '../../actions/frontend'
+import { CHAT_SELECT, CREATE_CLICK, EXIT_CLICK, NEW_CLICK } from '../../actions/frontend'
 
 export default (state = false, action) => {
     switch (action.type) {
@@ -6,6 +6,7 @@ export default (state = false, action) => {
             return !state
         case CHAT_SELECT:
         case CREATE_CLICK:
+        case EXIT_CLICK:
             return false
         default:
             return state

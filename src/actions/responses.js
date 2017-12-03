@@ -17,5 +17,6 @@ export const FETCH_ONLINE_USERS_SUCCESS = 209
 export const START_TYPING_RESPONSE = 210
 export const END_TYPING_RESPONSE = 211
 export const DELETE_CHAT_SUCCESS = 212
+export const USER_INFO_UPDATED = 213
 
 export const ERROR = 300

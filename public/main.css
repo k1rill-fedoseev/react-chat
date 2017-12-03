@@ -449,6 +449,7 @@ sup {
     flex-grow: 1;
     margin-left: 20px;
     height: 60px;
+    display: flex;
 }
 
 #mes-input {
@@ -465,12 +466,12 @@ sup {
     resize: none;
     outline: none;
     overflow: visible;
-    width: 100%;
+    flex-grow: 1;
 }
 
 .send-btn {
     flex-basis: 40px;
-    margin: 0 15px;
+    margin: 0 11px 0 5px;
     flex-shrink: 0;
     background: #3598DB 11px 50% url(./images/send.png) no-repeat;
     background-size: 22px;
@@ -601,7 +602,7 @@ sup {
     margin-right: 0;
 }
 
-.message .delete-link {
+.delete-link {
     position: absolute;
     color: #F44336;
     right: 0;
@@ -619,7 +620,7 @@ sup {
     right: -8px;
 }
 
-.message .delete-link:hover {
+.delete-link:hover {
     opacity: 1;
 }
 
@@ -905,6 +906,11 @@ input {
     padding: 0;
 }
 
+.smart-password-change .fa {
+    font-weight: normal;
+    cursor: pointer;
+}
+
 .smart-password-change .main label {
     left: 0;
     top: 0;
@@ -928,7 +934,7 @@ input {
     cursor: pointer;
 }
 
-.profile-account .tmblr{
+.profile-account .tmblr {
     position: absolute;
     top: 6px;
     right: 6px;
@@ -944,16 +950,61 @@ input {
     justify-content: space-between;
 }
 
-.file-input  {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #aaa;
-    display: inline-block;
+.attachments {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    line-height: 0;
 }
 
-input[type=file] {
+.photo-attachment {
+    margin: 5px 0 5px;
+}
+
+.photo-attachment:not(:last-of-type) {
+    margin-right: 5px;
+}
+
+.photo-attachment img {
+    max-width: 300px;
+    max-height: 300px;
+}
+
+.attachments-info-wrapper {
+    flex: 0 0 60px;
+    margin-left: -20px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.attachments-info {
+    background-color: #D6E3EC;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    position: relative;
+}
+
+.attachments-info-text {
+    position: relative;
+    top: 5px;
+    font-weight: bold;
+}
+
+.input .plus-user {
+    align-self: center;
+    margin: 0 0 0 5px;
+}
+
+.input .plus-user input {
     display: none;
+}
+
+.attachments-info .delete-link {
+    right: -5px;
 }
 
 @media (max-width: 760px) {

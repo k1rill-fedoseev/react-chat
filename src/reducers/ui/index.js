@@ -17,8 +17,10 @@ import userProfile from './userProfile'
 import search from './search'
 import messagesInputs from './messagesInputs'
 import newMessages from './newMessages'
+import attachments from './attachments'
 
 export default combineReducers({
+    attachments,
     error,
     inviteTab,
     isRoomCreateTab,

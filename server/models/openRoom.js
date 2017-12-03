@@ -132,6 +132,7 @@ const filter = function (openRooms) {
 
                     messages.push({
                         message: message.message.message,
+                        attachments: message.message.attachments,
                         from: from
                             ? from.toString()
                             : undefined,

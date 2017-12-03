@@ -24,7 +24,7 @@ class MainTab extends Component {
             chat, inviteTab, invite, to, isSelected,
             deleteMessages, isSwitchedToChatInfo
         } = this.props
-        const {name, isRoom, isMember} = chat
+        const {name, isRoom, isMember, users} = chat
 
         return (
             <div id="messages">
@@ -42,7 +42,7 @@ class MainTab extends Component {
                     </div>
                     <div className="right">
                         {isSelected && <span className="confirm-delete" onClick={deleteMessages}>&#61460;</span>}
-                        {!inviteTab && isRoom && isMember && <span className="plus-user" onClick={invite}>+</span>}
+                        {!inviteTab && isRoom && isMember && users.length < 30 && <span className="plus-user" onClick={invite}>+</span>}
                     </div>
                 </div>
                 {!isSwitchedToChatInfo && <MessagesList />}

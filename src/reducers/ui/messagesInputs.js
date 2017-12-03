@@ -1,4 +1,4 @@
-import { MESSAGE_INPUT_CHANGE, SEND_CLICK } from '../../actions/frontend'
+import { EXIT_CLICK, MESSAGE_INPUT_CHANGE, SEND_CLICK } from '../../actions/frontend'
 
 export default (state = {}, action) => {
     switch (action.type) {
@@ -12,6 +12,8 @@ export default (state = {}, action) => {
                 ...state,
                 [action.selectedChat]: ''
             }
+        case EXIT_CLICK:
+            return {}
         default:
             return state
     }

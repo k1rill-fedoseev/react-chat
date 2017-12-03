@@ -8,7 +8,7 @@ const roomSchema = mongoose.Schema({
     name: String,
     description: {
         type: String,
-        default: 'No description'
+        default: config.default.description
     },
     users: [{
         type: ObjectId,
@@ -42,7 +42,7 @@ const roomSchema = mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: 'images/chat.png'
+        default: config.default.roomAvatar
     }
 })
 
@@ -54,7 +54,7 @@ const checkMember = function (userId) {
 }
 
 const checkIsRoom = function () {
-    if(!this.isRoom)
+    if (!this.isRoom)
         throw new CheckError(`${this._id.toString()} is not a room`)
 
     return this
@@ -128,13 +128,11 @@ const returnBack = function (userId) {
     throw new CheckError(`${userId} has not left ${this._id.toString()}`)
 }
 
-const existingUsersFilter = function (userIds) {
-    const newUsersMap = {}
+const checkUsersCount = function (userIds) {
+    if (this.users.length + userIds.length > config.limits.roomMaxUsers)
+        throw new CheckError('Cant invite so much users')
 
-        userIds.forEach(userId => newUsersMap[userId] = true)
-        this.users.forEach(userId => delete newUsersMap[userId.toString()])
-
-        return Object.keys(newUsersMap).splice(0, config.limits.roomMaxUsers)
+    return this
 }
 
 roomSchema.methods = {
@@ -145,7 +143,7 @@ roomSchema.methods = {
     removeUser,
     left,
     returnBack,
-    existingUsersFilter
+    checkUsersCount
 }
 
 const get = function (roomId) {
@@ -162,14 +160,13 @@ const getRooms = function (userId) {
     return this.find({users: userId})
 }
 
-const createRoom = function (creatorId, name, description, avatar, userIds) {
+const createRoom = function (creatorId, name, description, userIds) {
     return this.create({
         name: name || undefined,
         description: description || undefined,
         creator: creatorId,
         users: [creatorId, ...userIds],
-        invites: [null, ...userIds.map(() => creatorId)],
-        avatar: avatar || undefined
+        invites: [null, ...userIds.map(() => creatorId)]
     })
 }
 

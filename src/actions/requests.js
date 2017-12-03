@@ -42,9 +42,9 @@ export const createUserRoom = userId => ({
     userId
 })
 
-export const sendMessage = (tempId, chatId, message) => ({
+export const sendMessage = (tempId, chatId, message, attachments) => ({
     type: SEND_MESSAGE,
-    tempId, chatId, message
+    tempId, chatId, message, attachments
 })
 
 export const searchUsers = (search, chatId) => ({

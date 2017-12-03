@@ -8,20 +8,19 @@ const messageSchema = mongoose.Schema({
         type: ObjectId,
         ref: 'User'
     },
-    message: {
-        type: String,
-        required: true
-    },
+    message: String,
+    attachments: [String],
     date: {
         type: Date,
         default: Date.now
     }
 })
 
-const createMessage = function (room, senderId, text) {
+const createMessage = function (room, senderId, text, attachments) {
     return this.create({
         from: senderId || undefined,
-        message: text
+        message: text,
+        attachments
     })
         .then(message =>
             Promise.all(

@@ -1,4 +1,8 @@
+const path = require('path')
 const socketIo = require('socket.io')
+const gm = require('gm')
+const {saveUserAvatar, createUserDir, createRoomDir, saveRoomAvatar, saveRoomPhoto} = require('../imagesStore')
+const fs = require('fs')
 const config = require('../cfg')
 const log = require('../log')('sockets')
 const stripTags = require('striptags')
@@ -21,7 +25,8 @@ const {
     newMessage, newMessageWithInvite, newMessageWithRemove, signInSuccess, signUpSuccess,
     fetchChatsSuccess, fetchChatSuccess, sendSuccess, fetchUsersSuccess,
     fetchMessagesSuccess, searchUsersSuccess, fetchOnlineUsersSuccess, startTypingResponse,
-    endTypingResponse, deleteChatSuccess, newMessageWithInfoUpdate, error, newMessageWithLeft
+    endTypingResponse, deleteChatSuccess, newMessageWithInfoUpdate, error, newMessageWithLeft,
+    userInfoUpdated
 } = require('./actions')
 
 module.exports = function (server) {
@@ -82,12 +87,18 @@ module.exports = function (server) {
                             break
                         }
                         case SIGN_UP: {
-                            const {name, surname, password, username, avatar, description} = action
+                            const {name, surname, password, username, description} = action
 
-                            const user = await User.register(name, surname, username, password, avatar, description)
-                            await user.genToken().save()
-
+                            const user = await User.register(name, surname, username, password, description)
                             userId = user._id.toString()
+
+                            await createUserDir(userId)
+
+                            if (action.avatar) {
+                                user.avatar = await saveUserAvatar(userId, action.avatar)
+                            }
+
+                            await user.genToken().save()
 
                             socket.user = user
                             socket.token = user.token
@@ -108,6 +119,7 @@ module.exports = function (server) {
                         log.error(err)
                         socket.send(error(action.type, 'Server error'))
                     }
+                    return
                 }
 
                 if (!userId)
@@ -134,20 +146,21 @@ module.exports = function (server) {
                         case CREATE_ROOM: {
                             checkUnique([userId, ...action.userIds])
                             await User.getUsers(action.userIds)
-                            const room = await Room.createRoom(userId, action.name, action.description, action.avatar, action.userIds)
+                            const room = await Room.createRoom(userId, action.name, action.description, action.userIds)
+                            const roomId = room._id.toString()
+
+                            await createRoomDir(roomId)
+
+                            if (action.avatar) {
+                                room.avatar = await saveRoomAvatar(roomId, action.avatar)
+                                await room.save()
+                            }
 
                             const userMessages = await Message.createMessage(room, undefined, config.messages.startMessage)
                             userMessages.forEach(
                                 userMessage => {
                                     io.to(userMessage.owner.toString()).send(
-                                        newMessage(
-                                            {
-                                                message: config.messages.startMessage,
-                                                id: userMessage._id,
-                                                time: userMessage.date.valueOf()
-                                            },
-                                            room._id.toString()
-                                        )
+                                        newMessage(userMessage.filter(), roomId)
                                     )
                                 }
                             )
@@ -170,14 +183,7 @@ module.exports = function (server) {
                                 const userMessages = await Message.createMessage(room, undefined, config.messages.startMessage)
                                 userMessages.forEach(userMessage => {
                                     io.to(userMessage.owner.toString()).send(
-                                        newMessage(
-                                            {
-                                                message: config.messages.startMessage,
-                                                id: userMessage._id.toString(),
-                                                time: userMessage.date.valueOf()
-                                            },
-                                            room._id.toString()
-                                        )
+                                        newMessage(userMessage.filter(), room._id.toString())
                                     )
                                 })
                             }
@@ -191,22 +197,24 @@ module.exports = function (server) {
                             const room = await Room.get(action.chatId)
                             room.checkMember(userId)
 
-                            const userMessages = await Message.createMessage(room, userId, strippedMessage)
-                            userMessages.forEach(userMessage => {
-                                const ownerId = userMessage.owner.toString()
-                                const msg = {
-                                    message: strippedMessage,
-                                    id: userMessage._id,
-                                    from: userId,
-                                    time: userMessage.date.valueOf()
+
+                            const attachments = []
+                            if (action.attachments)
+                                for (let file of action.attachments) {
+                                    attachments.push(await saveRoomPhoto(action.chatId, file))
                                 }
 
-                                socket.to(userMessage.owner.toString()).send(newMessage(msg, action.chatId))
+                            const userMessages = await Message.createMessage(room, userId, strippedMessage, attachments)
+                            userMessages.forEach(userMessage => {
+                                const ownerId = userMessage.owner.toString()
+                                const message = userMessage.filter()
+
+                                socket.to(ownerId).send(newMessage(message, action.chatId))
                                 if (ownerId === userId)
                                     socket.send(sendSuccess(
                                         action.tempId,
                                         action.chatId,
-                                        msg
+                                        message
                                     ))
                             })
                             break
@@ -236,7 +244,7 @@ module.exports = function (server) {
                         }
                         case INVITE_USERS: {
                             const room = await Room.get(action.chatId)
-                            room.checkMember(userId)
+                            room.checkMember(userId).checkUsersCount(action.userIds)
                             checkUnique([
                                 ...action.userIds,
                                 ...room.users.map(userId => userId.toString()),
@@ -247,22 +255,13 @@ module.exports = function (server) {
 
                             await room.addUsers(userId, action.userIds).save()
 
-                            for (let i = 0; i < users.length; ++i) {
-                                const message = `${socket.user.name} ${socket.user.surname} invited ${users[i].name} ${users[i].surname}`
+                            for (let user of users) {
+                                const message = `${socket.user.name} ${socket.user.surname} invited ${user.name} ${user.surname}`
 
                                 const userMessages = await Message.createMessage(room, undefined, message)
                                 userMessages.forEach(userMessage => {
                                     io.to(userMessage.owner.toString()).send(
-                                        newMessageWithInvite(
-                                            {
-                                                message: message,
-                                                id: userMessage._id.toString(),
-                                                time: userMessage.date.valueOf()
-                                            },
-                                            action.chatId,
-                                            users[i]._id.toString(),
-                                            userId
-                                        )
+                                        newMessageWithInvite(userMessage.filter(), action.chatId, user._id.toString(), userId)
                                     )
                                 })
                             }
@@ -319,15 +318,7 @@ module.exports = function (server) {
 
                             userMessages.forEach(userMessage => {
                                 io.to(userMessage.owner.toString()).send(
-                                    newMessageWithRemove(
-                                        {
-                                            message,
-                                            id: userMessage._id,
-                                            time: userMessage.date.valueOf()
-                                        },
-                                        action.chatId,
-                                        action.userId
-                                    )
+                                    newMessageWithRemove(userMessage.filter(), action.chatId, action.userId)
                                 )
                             })
 
@@ -347,15 +338,7 @@ module.exports = function (server) {
                                 io.to(ownerId).send(
                                     (ownerId === userId
                                         ? newMessageWithLeft
-                                        : newMessageWithRemove)(
-                                        {
-                                            message,
-                                            id: userMessage._id,
-                                            time: userMessage.date.valueOf()
-                                        },
-                                        action.chatId,
-                                        userId
-                                    )
+                                        : newMessageWithRemove)(userMessage.filter(), action.chatId, userId)
                                 )
                             })
 
@@ -396,8 +379,8 @@ module.exports = function (server) {
                                     room.name = action.value
                                     break
                                 case CHAT_AVATAR:
-                                    message = `${socket.user.name} ${socket.user.surname} changed avatar to ${action.value}`
-                                    room.avatar = action.value
+                                    message = `${socket.user.name} ${socket.user.surname} changed avatar`
+                                    action.value = room.avatar = await saveRoomAvatar(action.chatId, action.value)
                                     break
                                 case CHAT_DESCRIPTION:
                                     message = `${socket.user.name} ${socket.user.surname} changed description to ${action.value}`
@@ -409,16 +392,7 @@ module.exports = function (server) {
                             const userMessages = await Message.createMessage(room, undefined, message)
                             userMessages.forEach(userMessage => {
                                 io.to(userMessage.owner.toString()).send(
-                                    newMessageWithInfoUpdate(
-                                        {
-                                            message,
-                                            id: userMessage._id,
-                                            time: userMessage.date.valueOf()
-                                        },
-                                        action.chatId,
-                                        action.field,
-                                        action.value
-                                    )
+                                    newMessageWithInfoUpdate(userMessage.filter(), action.chatId, action.field, action.value)
                                 )
                             })
                             break
@@ -426,7 +400,7 @@ module.exports = function (server) {
                         case UPDATE_USER_INFO: {
                             switch (action.field) {
                                 case USER_AVATAR:
-                                    socket.user.avatar = action.value
+                                    action.value = socket.user.avatar = await saveUserAvatar(userId, action.value)
                                     break
                                 case USER_DESCRIPTION:
                                     socket.user.description = action.value
@@ -438,6 +412,7 @@ module.exports = function (server) {
                             }
 
                             await socket.user.save()
+                            io.to(userId).send(userInfoUpdated(action.field, action.value))
                             break
                         }
                         case RETURN_BACK: {
@@ -450,18 +425,9 @@ module.exports = function (server) {
 
                             userMessages.forEach(userMessage => {
                                 io.to(userMessage.owner.toString()).send(
-                                    newMessageWithInvite(
-                                        {
-                                            message,
-                                            id: userMessage._id,
-                                            time: userMessage.date.valueOf()
-                                        },
-                                        action.chatId,
-                                        userId,
-                                        invitedBy
-                                            ? invitedBy.toString()
-                                            : null
-                                    )
+                                    newMessageWithInvite(userMessage.filter(), action.chatId, userId, invitedBy
+                                        ? invitedBy.toString()
+                                        : null)
                                 )
                             })
                             break

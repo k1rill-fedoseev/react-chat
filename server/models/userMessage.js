@@ -25,6 +25,20 @@ const userMessageSchema = mongoose.Schema({
     }
 })
 
+const filterUserMessage = function () {
+    return {
+        message: this.message.message,
+        attachments: this.message.attachments,
+        time: this.date.valueOf(),
+        from: this.message.from,
+        id: this._id.toString()
+    }
+}
+
+userMessageSchema.methods = {
+    filter: filterUserMessage
+}
+
 const getPacket = async function (userId, roomId, lastMessageId) {
     const message = await this.findById(lastMessageId)
 
@@ -65,6 +79,7 @@ const getLast = async function (userId, roomId) {
 const filter = function (messages) {
     const arr = messages.map(message => ({
         message: message.message.message,
+        attachments: message.message.attachments,
         time: message.date.valueOf(),
         from: message.message.from
             ? message.message.from.toString()

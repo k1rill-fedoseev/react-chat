@@ -1,5 +1,5 @@
 import { DELETE_CHAT_SUCCESS, FETCH_CHATS_SUCCESS, NEW_MESSAGE } from '../../actions/responses'
-import { MARK_READ_FRONTEND } from '../../actions/frontend'
+import { EXIT_CLICK, MARK_READ_FRONTEND } from '../../actions/frontend'
 
 export default (state = 0, action) => {
     switch (action.type) {
@@ -14,6 +14,8 @@ export default (state = 0, action) => {
             return action.chatId === action.selectedChat ? state : state + 1
         case DELETE_CHAT_SUCCESS:
             return state - action.newMessages
+        case EXIT_CLICK:
+            return 0
         default:
             return state
     }

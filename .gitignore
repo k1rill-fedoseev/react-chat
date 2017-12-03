@@ -9,6 +9,8 @@
 # production
 /build
 
+/imagesStore
+
 logs
 package-lock.json
 /.idea

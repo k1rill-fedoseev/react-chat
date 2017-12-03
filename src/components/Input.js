@@ -12,7 +12,7 @@ export default class Input extends Component {
     componentWillMount() {
         const {value, onChange} = this.props
 
-        this.isValid = this.validate(value)
+        this.isValid = this.validate(value || '')
 
         if (this.isValid)
             onChange(value, this.isValid)
@@ -26,7 +26,7 @@ export default class Input extends Component {
     }
 
     componentWillReceiveProps(props) {
-        const isValid = this.validate(props.value, props)
+        const isValid = this.validate(props.value || '', props)
 
         if (this.isValid ^ isValid) {
             this.isValid = isValid
@@ -50,7 +50,7 @@ export default class Input extends Component {
             <label>
                 {label
                     ? `${label}:`
-                    : null} <input type={type} autoComplete="off" value={value}
+                    : null} <input type={type} autoComplete="off" value={value || ''}
                                    onChange={this.handleChange}
                                    style={{
                                        boxShadow: this.isValid

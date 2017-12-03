@@ -4,6 +4,7 @@ import { createClick, swapClick } from '../actions/frontend'
 import UserCard from './UserCard'
 import Form from './Form'
 import Input from './Input'
+import FileInput from './FileInput'
 
 class NewChatTab extends Component {
 
@@ -68,7 +69,7 @@ class NewChatTab extends Component {
                 <Form onChange={this.handleChange}>
                     {isRoomCreateTab && <Input name="name" label="Name" minLength={1} maxLength={30}/>}
                     {isRoomCreateTab && <Input name="description" label="Description" maxLength={256}/>}
-                    {isRoomCreateTab && <Input name="avatar" label="Avatar" maxlength={256}/>}
+                    {isRoomCreateTab && <FileInput name="avatar" label="Avatar"/>}
                     {!!selectedUsers.length &&
                     <label className="card-row">
                         Users: {this.userCardsList()}

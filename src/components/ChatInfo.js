@@ -7,6 +7,7 @@ import {
 } from '../actions/frontend'
 import SmartInput from './SmartInput'
 import ProfileField from './ProfileField'
+import SmartFileInput from './SmartFileInput'
 
 class ChatInfo extends Component {
 
@@ -50,9 +51,7 @@ class ChatInfo extends Component {
             return (
                 <div className="chat-info">
                     <SmartInput label="Name" minLength={1} maxLength={30} value={name} onAccept={rename}/>
-                    <SmartInput label="Avatar" maxLength={256} value={avatar === undefined
-                        ? ''
-                        : avatar} onAccept={changeAvatar}/>
+                    <SmartFileInput label="Avatar" onAccept={changeAvatar}/>
                     <SmartInput label="Description" maxLength={256} value={description === undefined
                         ? ''
                         : description} onAccept={changeDescription}/>
@@ -93,7 +92,7 @@ export default connect(
         deleteChat: () => dispatch(deleteChatClick()),
         returnBack: () => dispatch(returnBackClick()),
         rename: name => dispatch(changeChatInfoClick(CHAT_NAME, name)),
-        changeAvatar: avatar => dispatch(changeChatInfoClick(CHAT_AVATAR, avatar)),
+        changeAvatar: file => dispatch(changeChatInfoClick(CHAT_AVATAR, file)),
         changeDescription: description => dispatch(changeChatInfoClick(CHAT_DESCRIPTION, description))
     })
 )(ChatInfo)

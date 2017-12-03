@@ -11,10 +11,27 @@ class Message extends Component {
 
         return (
             <div className="message">
-                {sender && sender.username === 'admin'
-                    ? <div className="message-body" dangerouslySetInnerHTML={{__html: message}}/>
-                    : <div className="message-body">{message}</div>}
+                <div className="message-body">
+                    {sender && sender.username === 'admin'
+                        ? <div className="message-text" dangerouslySetInnerHTML={{__html: message}}/>
+                        : <div className="message-text">{message}</div>}
+                    {this.attachments()}
+                </div>
                 <span className="delete-link" onClick={select} style={isSelected && {opacity: 1}}>+</span>
+            </div>
+        )
+    }
+
+    attachments() {
+        const {message} = this.props
+        const {attachments} = message
+
+        return (
+            <div className="attachments">
+                {attachments.map((photo, index) => (
+                    <div key={index} className="photo-attachment">
+                        <img src={photo}/>
+                    </div>))}
             </div>
         )
     }
@@ -25,7 +42,7 @@ class Message extends Component {
         return (
             <div className="message">
                 <div className="message-body">
-                    {message}
+                    <div className="message-text">{message}</div>
                 </div>
             </div>
         )

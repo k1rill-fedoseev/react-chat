@@ -1,5 +1,5 @@
 //TODO: forwarding messages
-//TODO: attachments
+//TODO: full api
 
 const path = require('path')
 const express = require('express')
@@ -39,4 +39,5 @@ app.use(favicon(path.join(__dirname, '../build/favicon.ico')))
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-app.use(express.static(path.join(__dirname, '../build')))
+app.use(express.static('../build'))
+app.use(express.static('../imagesStore'))

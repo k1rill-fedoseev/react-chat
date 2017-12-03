@@ -10,7 +10,7 @@ export default class SmartInput extends Component {
 
         this.state = {
             isChanging: false,
-            value,
+            value: value,
             isValid: true
         }
 
